@@ -1,0 +1,42 @@
+# Copyright (c) 2020 SiWi Embedded Solutions. All right reserved.
+# https://www.siwi.in/
+#
+
+menu.debug=Build Type
+menu.stdio=Select STDIO Port
+
+# s20gsm board definition
+s20gsm.name=S20 GSM Board
+
+# build
+s20gsm.build.core=siwigsm
+s20gsm.build.cpu=arm9ejs
+s20gsm.build.f_cpu=260000000
+s20gsm.build.board=SIWI_S20GSM
+s20gsm.build.mcu=mt2503
+s20gsm.build.variant=s20u
+s20gsm.build.vid=0x0E8D
+s20gsm.build.pid=0x0003
+s20gsm.build.ldscript=linkerscript.ld
+s20gsm.menu.debug.Release=Release
+s20gsm.menu.debug.Release.build.build_type=
+s20gsm.menu.debug.Debug=Debug
+s20gsm.menu.debug.Debug.build.build_type=_debug
+s20gsm.menu.stdio.ttys0=Uart0 (/dev/ttyS0)
+s20gsm.menu.stdio.ttys0.build.stdio_port=/dev/ttyS0
+s20gsm.menu.stdio.ttys1=Uart1 (/dev/ttyS1)
+s20gsm.menu.stdio.ttys1.build.stdio_port=/dev/ttyS1
+s20gsm.menu.stdio.ttys2=Uart2 (/dev/ttyS2)
+s20gsm.menu.stdio.ttys2.build.stdio_port=/dev/ttyS2
+s20gsm.menu.stdio.ttyusb=USB Uart (/dev/ttyUSB0)
+s20gsm.menu.stdio.ttyusb.build.stdio_port=/dev/ttyUSB0
+
+# upload
+s20gsm.bootloader.tool=siwiflasher
+s20gsm.upload.tool=siwiflasher
+s20gsm.upload.protocol=siwiflasher
+s20gsm.upload.maximum_size=262144
+s20gsm.upload.maximum_ram_size=96256
+s20gsm.upload.speed=460800
+s20gsm.upload.require_upload_port=true
+s20gsm.upload.wait_for_upload_port=true

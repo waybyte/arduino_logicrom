@@ -1,0 +1,20 @@
+# Copyright (c) 2020 SiWi Embedded Solutions. All right reserved.
+# https://www.siwi.in/
+#
+# Siwi Flasher Core Programmer
+#
+
+siwiflasher.name=Core Flasher for SiWiGSM
+siwiflasher.program.tool=siwiflasher
+siwiflasher.program.path={runtime.tools.siwiflasher.path}
+siwiflasher.program.cmd=python "{program.path}/siwiflasher.py"
+siwiflasher.program.cmd.windows={program.path}/siwiflasher.exe
+
+# Burn bootloader pattern
+siwiflasher.program.burn_pattern="{program.cmd}" -p {serial.port} -b {upload.speed} -r
+
+# Upload sketch
+siwiflasher.program.params.quiet=
+siwiflasher.program.params.verbose=
+siwiflasher.program.pattern="{program.cmd}" -p {serial.port} -b {upload.speed} "{build.path}/{build.project_name}.bin"
+

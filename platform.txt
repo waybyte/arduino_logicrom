@@ -1,0 +1,118 @@
+# Copyright (c) 2020 SiWi Embedded Solutions. All right reserved.
+# https://www.siwi.in/
+#
+# Arduino SiWi Core and platform.
+#
+# For more info:
+# https://github.com/arduino/Arduino/wiki/Arduino-IDE-1.5---3rd-party-Hardware-specification
+
+name=SIWIGSM Arduino
+version=0.1.0
+
+# Tools
+# -----
+tools.gfh_gen.cmd=python "{build.core.path}/siwisdk/tools/GFH_Generator.py"
+tools.gfh_gen.cmd.windows={build.core.path}/siwisdk/tools/GFH_Generator.exe
+
+tools.fota_gen.cmd=python "{build.core.path}/siwisdk/tools/FOTA_Generator.py"
+tools.fota_gen.cmd.windows={build.core.path}/siwisdk/tools/FOTA_Generator.exe
+
+# compile variables
+# ----------------------
+
+compiler.warning_flags=-w
+compiler.warning_flags.none=-w
+compiler.warning_flags.default=
+compiler.warning_flags.more=-Wall
+compiler.warning_flags.all=-Wall -Wextra
+
+compiler.path={runtime.tools.gcc-arm-none-eabi.path}/bin/
+# C Compiler
+compiler.c.cmd=arm-none-eabi-gcc
+compiler.c.flags=-std=gnu11 -c -Os -g -march=armv5te -mfloat-abi=soft -fmessage-length=0 -ffunction-sections -fdata-sections -fsigned-char {compiler.warning_flags} -mthumb -mthumb-interwork -D__BUFSIZ__=512 -D__FILENAME_MAX__=256 '-DDEFAULT_STDIO_PORT="{build.stdio_port}"'
+# Linker
+compiler.c.elf.cmd=arm-none-eabi-gcc
+compiler.c.elf.flags=-march=armv5te -mthumb -mthumb-interwork -mfloat-abi=soft -Os
+# Assembler
+compiler.S.cmd=arm-none-eabi-gcc
+compiler.S.flags=-c -g -x assembler-with-cpp
+# CPP Compiler
+compiler.cpp.cmd=arm-none-eabi-g++
+compiler.cpp.flags=-std=gnu++11 -c -Os -g -march=armv5te -mfloat-abi=soft -fmessage-length=0 -ffunction-sections -fdata-sections -fsigned-char -fno-rtti -fno-exceptions -fno-use-cxa-atexit -fno-threadsafe-statics {compiler.warning_flags} -mthumb -mthumb-interwork -D__BUFSIZ__=512 -D__FILENAME_MAX__=256 '-DDEFAULT_STDIO_PORT="{build.stdio_port}"'
+# Archiver
+compiler.ar.cmd=arm-none-eabi-ar
+compiler.ar.flags=rcs
+# Elf2bin
+compiler.elf2bin.cmd=arm-none-eabi-objcopy
+compiler.elf2bin.flags=-O binary
+# Linker Flags
+compiler.ldflags= -Wl,--gc-sections,--relax -nostartfiles -nostdlib -nodefaultlibs --specs=nano.specs -u _printf_float -u _scanf_float --specs=nosys.specs
+# Size
+compiler.size.cmd=arm-none-eabi-size
+
+# This can be overridden in boards.txt
+build.extra_flags=
+
+# These can be overridden in platform.local.txt
+compiler.c.extra_flags=
+compiler.c.elf.extra_flags=
+compiler.cpp.extra_flags=
+compiler.S.extra_flags=
+compiler.ar.extra_flags=
+compiler.elf2bin.extra_flags=
+
+# Include paths
+build.flags.siwigsm="-I{build.core.path}/siwisdk/include" "-I{build.core.path}/siwisdk/include/ril"
+
+# Compile patterns
+# ---------------------
+
+## Compile c files
+recipe.c.o.pattern="{compiler.path}{compiler.c.cmd}" {compiler.c.flags} -DARDUINO={runtime.ide.version} -DARDUINO_{build.board} -DARDUINO_ARCH_{build.arch} '-DARDUINO_BSP_VERSION="{version}"' {compiler.c.extra_flags} {build.extra_flags} {build.flags.siwigsm} {includes} "{source_file}" -o "{object_file}"
+
+## Compile c++ files
+recipe.cpp.o.pattern="{compiler.path}{compiler.cpp.cmd}" {compiler.cpp.flags} -DARDUINO={runtime.ide.version} -DARDUINO_{build.board} -DARDUINO_ARCH_{build.arch} '-DARDUINO_BSP_VERSION="{version}"' {compiler.cpp.extra_flags} {build.extra_flags} {build.flags.siwigsm} {includes} "{source_file}" -o "{object_file}"
+
+## Compile S files
+recipe.S.o.pattern="{compiler.path}{compiler.S.cmd}" {compiler.S.flags} -DARDUINO={runtime.ide.version} -DARDUINO_{build.board} -DARDUINO_ARCH_{build.arch} {compiler.S.extra_flags} {build.extra_flags} {build.flags.siwigsm} {includes} "{source_file}" -o "{object_file}"
+
+## Create archives
+# archive_file_path is needed for backwards compatibility with IDE 1.6.5 or older, IDE 1.6.6 or newer overrides this value
+archive_file_path={build.path}/{archive_file}
+recipe.ar.pattern="{compiler.path}{compiler.ar.cmd}" {compiler.ar.flags} {compiler.ar.extra_flags} "{archive_file_path}" "{object_file}"
+
+## Combine gc-sections, archives, and objects
+recipe.c.combine.pattern="{compiler.path}{compiler.c.elf.cmd}" "-L{build.path}" {compiler.c.elf.flags} {compiler.c.elf.extra_flags} "-L{build.core.path}/siwisdk/lib" "-T{build.ldscript}" "-Wl,-Map,{build.path}/{build.project_name}.map" {compiler.ldflags} -o "{build.path}/{build.project_name}.elf" {object_files} -Wl,--start-group -lsiwisdk{build.build_type} -lc -lgcc -lm "{build.path}/{archive_file}" -Wl,--end-group
+
+## Create output (.bin file)
+recipe.objcopy.bin.1.pattern="{compiler.path}{compiler.elf2bin.cmd}" {compiler.elf2bin.flags} {compiler.elf2bin.extra_flags} "{build.path}/{build.project_name}.elf" "{build.path}/temp.bin"
+recipe.objcopy.bin.2.pattern="{tools.gfh_gen.cmd}" "{build.path}/temp.bin" "{build.path}/{build.project_name}.bin"
+recipe.objcopy.bin.3.pattern="{tools.fota_gen.cmd}" "{build.path}/{build.project_name}.bin" "{build.path}/fota_{build.project_name}.bin"
+
+## Save hex
+recipe.output.tmp_file={build.project_name}.bin
+recipe.output.save_file={build.project_name}.{build.variant}.bin
+
+## Compute size
+recipe.size.pattern="{compiler.path}{compiler.size.cmd}" -A -d "{build.path}/{build.project_name}.elf"
+recipe.size.regex=^(?:\.text|\.data|\.rodata|\.text.align|\.ARM.exidx|\.ARM.extab|\.ll|\.initdata)\s+(\d+).*
+recipe.size.regex.data=^(?:\.data|\.bss|\.noinit)\s+(\d+).*
+
+## sketch uploader
+tools.siwiflasher.path={runtime.tools.siwiflasher.path}
+tools.siwiflasher.cmd=python "{path}/siwiflasher.py"
+tools.siwiflasher.cmd.windows={path}/siwiflasher.exe
+
+tools.siwiflasher.upload.params.verbose=
+tools.siwiflasher.upload.params.quiet=-q
+tools.siwiflasher.upload.pattern={cmd} -p {serial.port} -b {upload.speed} "{upload.verbose}" "{build.path}/{build.project_name}.bin"
+
+## bootloader tool is the siwiflasher
+tools.siwiflasher.bootloader.params.verbose=
+tools.siwiflasher.bootloader.params.quiet=
+tools.siwiflasher.bootloader.pattern={program.burn_pattern}
+
+## dummy erase option to make tool menu work
+tools.siwiflasher.erase.params.verbose=
+tools.siwiflasher.erase.params.quiet=
+tools.siwiflasher.erase.pattern=
