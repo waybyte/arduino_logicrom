@@ -3,6 +3,7 @@
 #include <unistd.h>
 #include <sys/termios.h>
 #include <sys/ioctl.h>
+#include <string.h>
 
 #include <lib.h>
 
@@ -38,12 +39,17 @@ void HardwareSerial::begin(unsigned long baud, uint32_t config)
 	if (_port_file == NULL)
 		return;
 
+	is_stdio = !strcmp(_port_file, DEFAULT_STDIO_PORT);
+
 	if (_fd > 0)
 		close(_fd);
 
-	_fd = open(_port_file, O_RDWR | O_NONBLOCK);
-	if (_fd < 0)
-		return;
+	/* No need to init fd when stdio */
+	if (!is_stdio) {
+		_fd = open(_port_file, O_RDWR | O_NONBLOCK);
+		if (_fd < 0)
+			return;
+	}
 
 	baud = baud ? baud : B115200;
 	switch (baud) {
@@ -141,7 +147,7 @@ int HardwareSerial::read(void)
 
 size_t HardwareSerial::write(uint8_t c)
 {
-	return write_byte(_fd, &c);
+	return write_byte(is_stdio ? STDOUT_FILENO : _fd, &c);
 }
 
 void HardwareSerial::flush(void)

@@ -86,6 +86,7 @@ public:
 protected:
 	const char *_port_file;
 	int _fd;
+	bool is_stdio;
 };
 
 #if !defined(NO_GLOBAL_INSTANCES) && !defined(NO_GLOBAL_SERIAL)
