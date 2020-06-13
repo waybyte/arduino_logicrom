@@ -10,6 +10,7 @@
 #include <hw/gpio.h>
 #include <hw/adc.h>
 #include <hw/pwm.h>
+#include <hw/i2c.h>
 
 #include <ril.h>
 
