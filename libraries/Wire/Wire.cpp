@@ -19,13 +19,7 @@
  *
  * Modified 2020 by Ajay Bhargav <contact@rickeyworld.info> for SiWi
  */
-
-#include <string.h>
-#include <stdlib.h>
-#include <inttypes.h>
-#include <hw/i2c.h>
-
-#include <lib.h>
+#include "Arduino.h"
 #include "Wire.h"
 
 TwoWire::TwoWire(void) : rxBufferIndex(0), rxBufferLength(0), txAddress(0), txBufferLength(0), twiClock(TWI_CLOCK)
