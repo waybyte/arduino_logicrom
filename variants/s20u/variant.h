@@ -11,6 +11,7 @@
 #include <hw/adc.h>
 #include <hw/pwm.h>
 #include <hw/i2c.h>
+#include <hw/spi.h>
 
 #include <ril.h>
 

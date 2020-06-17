@@ -44,8 +44,8 @@ extern "C"{
 #define DISPLAY 0x1
 
 enum BitOrder {
-	LSBFIRST = 0,
-	MSBFIRST = 1
+	MSBFIRST = 0,
+	LSBFIRST = 1,
 };
 
 // moved to WInterrupts.h
