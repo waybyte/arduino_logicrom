@@ -30,7 +30,7 @@ extern "C"
 int g_ioHandles[GPIO_PIN_MAX];
 int g_ioModes[GPIO_PIN_MAX];
 
-static const int adc_channel_map[6][2] = {
+static const uint32_t adc_channel_map[6][2] = {
 	{GPIO_1, ADC_CH1},
 	{GPIO_21, ADC_CH2},
 	{GPIO_31, ADC_CH3},
@@ -39,7 +39,7 @@ static const int adc_channel_map[6][2] = {
 	{GPIO_PIN_MAX + 1, ADC_CH5},
 };
 
-static const int pwm_channel_map[2][2] = {
+static const uint32_t pwm_channel_map[2][2] = {
 	{GPIO_1, PWM_CH0},
 	{GPIO_36, PWM_CH1},
 };
