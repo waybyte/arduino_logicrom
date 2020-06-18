@@ -19,9 +19,6 @@
 #ifndef HardwareSerial_h
 #define HardwareSerial_h
 
-#include <inttypes.h>
-#include <sys/termios.h>
-
 #include "Stream.h"
 
 #define UART0		"/dev/ttyS0"

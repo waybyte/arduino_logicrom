@@ -5,7 +5,7 @@
 #include <sys/ioctl.h>
 #include <string.h>
 
-#include <lib.h>
+#include <variant.h>
 
 #include "HardwareSerial.h"
 
