@@ -90,7 +90,7 @@ int digitalRead( uint32_t ulPin )
 {
 	/* Not a GPIO */
 	if (ulPin >= GPIO_PIN_MAX)
-		return;
+		return LOW;
 
 	if (g_ioHandles[ulPin] == 0) {
 		/* Fresh IO request */
