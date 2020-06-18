@@ -692,6 +692,8 @@ void String::remove(unsigned int index){
 	remove(index, (unsigned int)-1);
 }
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wrestrict"
 void String::remove(unsigned int index, unsigned int count){
 	if (index >= len) { return; }
 	if (count <= 0) { return; }
@@ -701,6 +703,7 @@ void String::remove(unsigned int index, unsigned int count){
 	strncpy(writeTo, buffer + index + count,len - index);
 	buffer[len] = 0;
 }
+#pragma GCC diagnostic pop
 
 void String::toLowerCase(void)
 {
