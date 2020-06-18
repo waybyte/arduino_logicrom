@@ -1,6 +1,6 @@
 {
     "name": "framework-siwiduino",
     "description": "Arduino Wiring-based Framework For SiWi GSM Modules",
-    "version": "0.2.0",
+    "version": "0.3.0",
     "url": "https://github.com/siwiembedded/siwiduino"
 }
