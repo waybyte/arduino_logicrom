@@ -50,9 +50,6 @@ compiler.ldflags= -Wl,--gc-sections,--relax -nostartfiles -nostdlib -nodefaultli
 # Size
 compiler.size.cmd=arm-none-eabi-size
 
-# This can be overridden in boards.txt
-build.extra_flags=
-
 # These can be overridden in platform.local.txt
 compiler.c.extra_flags=
 compiler.c.elf.extra_flags=
@@ -82,7 +79,7 @@ archive_file_path={build.path}/{archive_file}
 recipe.ar.pattern="{compiler.path}{compiler.ar.cmd}" {compiler.ar.flags} {compiler.ar.extra_flags} "{archive_file_path}" "{object_file}"
 
 ## Combine gc-sections, archives, and objects
-recipe.c.combine.pattern="{compiler.path}{compiler.c.elf.cmd}" "-L{build.path}" {compiler.c.elf.flags} {compiler.c.elf.extra_flags} "-L{build.core.path}/siwisdk/lib" "-T{build.ldscript}" "-Wl,-Map,{build.path}/{build.project_name}.map" {compiler.ldflags} -o "{build.path}/{build.project_name}.elf" {object_files} -Wl,--start-group -lsiwisdk{build.build_type} -lc -lgcc -lm "{build.path}/{archive_file}" -Wl,--end-group
+recipe.c.combine.pattern="{compiler.path}{compiler.c.elf.cmd}" "-L{build.path}" {compiler.c.elf.flags} {compiler.c.elf.extra_flags} "-L{build.core.path}/siwisdk/lib" "-T{build.ldscript}" "-Wl,-Map,{build.path}/{build.project_name}.map" "-Wl,--defsym,platform_init=platform_{build.variant}_init" {compiler.ldflags} -o "{build.path}/{build.project_name}.elf" {object_files} -Wl,--start-group -lsiwisdk{build.build_type} -lc -lgcc -lm "{build.path}/{archive_file}" -Wl,--end-group
 
 ## Create output (.bin file)
 recipe.objcopy.bin.1.pattern="{compiler.path}{compiler.elf2bin.cmd}" {compiler.elf2bin.flags} {compiler.elf2bin.extra_flags} "{build.path}/{build.project_name}.elf" "{build.path}/temp.bin"

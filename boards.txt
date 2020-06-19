@@ -17,6 +17,7 @@ s20gsm.build.mcu=mt2503
 s20gsm.build.variant=s20u
 s20gsm.build.vid=0x0E8D
 s20gsm.build.pid=0x0003
+s20gsm.build.extra_flags=-DPLATFORM_S20U=1
 s20gsm.build.ldscript=linkerscript.ld
 s20gsm.menu.debug.Release=Release
 s20gsm.menu.debug.Release.build.build_type=
