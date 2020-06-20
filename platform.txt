@@ -101,7 +101,7 @@ tools.siwiflasher.cmd=python "{path}/siwiflasher.py"
 tools.siwiflasher.cmd.windows={path}/siwiflasher.exe
 
 tools.siwiflasher.upload.params.verbose=
-tools.siwiflasher.upload.params.quiet=-q
+tools.siwiflasher.upload.params.quiet=
 tools.siwiflasher.upload.pattern={cmd} -p {serial.port} -b {upload.speed} "{upload.verbose}" "{build.path}/{build.project_name}.bin"
 
 ## bootloader tool is the siwiflasher
