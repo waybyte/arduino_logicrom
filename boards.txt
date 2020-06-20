@@ -41,3 +41,37 @@ s20gsm.upload.maximum_ram_size=96256
 s20gsm.upload.speed=460800
 s20gsm.upload.require_upload_port=true
 s20gsm.upload.wait_for_upload_port=true
+
+# Quectel M66
+quectelm66.name=Quectel M66
+
+# build
+quectelm66.build.core=siwigsm
+quectelm66.build.cpu=arm9ejs
+quectelm66.build.f_cpu=260000000
+quectelm66.build.board=QUECTEL_M66TEA
+quectelm66.build.mcu=mt6261
+quectelm66.build.variant=m66
+quectelm66.build.extra_flags=-DPLATFORM_M66=1
+quectelm66.build.ldscript=linkerscript.ld
+quectelm66.menu.debug.Release=Release
+quectelm66.menu.debug.Release.build.build_type=
+quectelm66.menu.debug.Debug=Debug
+quectelm66.menu.debug.Debug.build.build_type=_debug
+quectelm66.menu.stdio.ttys0=Uart0 (/dev/ttyS0)
+quectelm66.menu.stdio.ttys0.build.stdio_port=/dev/ttyS0
+quectelm66.menu.stdio.ttys1=Uart1 (/dev/ttyS1)
+quectelm66.menu.stdio.ttys1.build.stdio_port=/dev/ttyS1
+quectelm66.menu.stdio.ttys2=Uart2 (/dev/ttyS2)
+quectelm66.menu.stdio.ttys2.build.stdio_port=/dev/ttyS2
+
+# upload
+quectelm66.bootloader.tool=siwiflasher
+quectelm66.upload.tool=siwiflasher
+quectelm66.upload.protocol=siwiflasher
+quectelm66.upload.maximum_size=262144
+quectelm66.upload.maximum_ram_size=96256
+quectelm66.upload.speed=460800
+quectelm66.upload.require_upload_port=true
+quectelm66.upload.wait_for_upload_port=true
+
