@@ -15,7 +15,7 @@
 HardwareSerial Serial(UART0);
 HardwareSerial Serial1(UART1);
 HardwareSerial Serial2(UART2);
-#if defined(PLATFORM_S20U)
+#if defined(PLATFORM_S20U) || defined(PLATFORM_M56)
 HardwareSerial USBSerial(USBUART);
 #endif
 HardwareSerial BTSerial(BTSPPHOST);
