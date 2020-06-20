@@ -75,3 +75,68 @@ quectelm66.upload.speed=460800
 quectelm66.upload.require_upload_port=true
 quectelm66.upload.wait_for_upload_port=true
 
+# Quectel MC60
+quectelmc60.name=Quectel MC60
+
+# build
+quectelmc60.build.core=siwigsm
+quectelmc60.build.cpu=arm9ejs
+quectelmc60.build.f_cpu=260000000
+quectelmc60.build.board=QUECTEL_MC60TEA
+quectelmc60.build.mcu=mt2503
+quectelmc60.build.variant=mc60
+quectelmc60.build.extra_flags=-DPLATFORM_MC60=1
+quectelmc60.build.ldscript=linkerscript.ld
+quectelmc60.menu.debug.Release=Release
+quectelmc60.menu.debug.Release.build.build_type=
+quectelmc60.menu.debug.Debug=Debug
+quectelmc60.menu.debug.Debug.build.build_type=_debug
+quectelmc60.menu.stdio.ttys0=Uart0 (/dev/ttyS0)
+quectelmc60.menu.stdio.ttys0.build.stdio_port=/dev/ttyS0
+quectelmc60.menu.stdio.ttys1=Uart1 (/dev/ttyS1)
+quectelmc60.menu.stdio.ttys1.build.stdio_port=/dev/ttyS1
+quectelmc60.menu.stdio.ttys2=Uart2 (/dev/ttyS2)
+quectelmc60.menu.stdio.ttys2.build.stdio_port=/dev/ttyS2
+
+# upload
+quectelmc60.bootloader.tool=siwiflasher
+quectelmc60.upload.tool=siwiflasher
+quectelmc60.upload.protocol=siwiflasher
+quectelmc60.upload.maximum_size=262144
+quectelmc60.upload.maximum_ram_size=96256
+quectelmc60.upload.speed=460800
+quectelmc60.upload.require_upload_port=true
+quectelmc60.upload.wait_for_upload_port=true
+
+# Quectel MC20
+quectelmc20.name=Quectel MC20
+
+# build
+quectelmc20.build.core=siwigsm
+quectelmc20.build.cpu=arm9ejs
+quectelmc20.build.f_cpu=260000000
+quectelmc20.build.board=QUECTEL_MC20TEA
+quectelmc20.build.mcu=mt2503
+quectelmc20.build.variant=mc60
+quectelmc20.build.extra_flags=-DPLATFORM_MC60=1
+quectelmc20.build.ldscript=linkerscript.ld
+quectelmc20.menu.debug.Release=Release
+quectelmc20.menu.debug.Release.build.build_type=
+quectelmc20.menu.debug.Debug=Debug
+quectelmc20.menu.debug.Debug.build.build_type=_debug
+quectelmc20.menu.stdio.ttys0=Uart0 (/dev/ttyS0)
+quectelmc20.menu.stdio.ttys0.build.stdio_port=/dev/ttyS0
+quectelmc20.menu.stdio.ttys1=Uart1 (/dev/ttyS1)
+quectelmc20.menu.stdio.ttys1.build.stdio_port=/dev/ttyS1
+quectelmc20.menu.stdio.ttys2=Uart2 (/dev/ttyS2)
+quectelmc20.menu.stdio.ttys2.build.stdio_port=/dev/ttyS2
+
+# upload
+quectelmc20.bootloader.tool=siwiflasher
+quectelmc20.upload.tool=siwiflasher
+quectelmc20.upload.protocol=siwiflasher
+quectelmc20.upload.maximum_size=262144
+quectelmc20.upload.maximum_ram_size=96256
+quectelmc20.upload.speed=460800
+quectelmc20.upload.require_upload_port=true
+quectelmc20.upload.wait_for_upload_port=true
