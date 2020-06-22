@@ -1,0 +1,35 @@
+#######################################
+# Syntax Coloring Map Network Library
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+Net	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+waitForRegistration		KEYWORD2
+isRegistered			KEYWORD2
+getSignalStrength		KEYWORD2
+getSimStatus			KEYWORD2
+getCreg					KEYWORD2
+getCgreg				KEYWORD2
+getOperator				KEYWORD2
+setAPN					KEYWORD2
+getAPN					KEYWORD2
+GprsEnable				KEYWORD2
+GprsDisable				KEYWORD2
+isGprsEnable			KEYWORD2
+GprsWaitForActivation	KEYWORD2
+isGprsActive			KEYWORD2
+localIP					KEYWORD2
+getIMEI					KEYWORD2
+getIMSI					KEYWORD2
+getICCID				KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################
