@@ -119,17 +119,18 @@ IPAddress NetworkClass::localIP(void)
 	return IPAddress(ip[0], ip[1], ip[2], ip[3]);
 }
 
-const char *getIMEI(void)
+const char *NetworkClass::getIMEI(void)
 {
 	return get_imei(NULL, 0);
 }
 
-const char *getIMSI(void)
+const char *NetworkClass::getIMSI(void)
 {
 	return get_imsi(NULL, 0);
 }
 
-const char *getICCID(void)
+const char *NetworkClass::getICCID(void)
 {
 	return get_ccid(NULL, 0);
 }
+
