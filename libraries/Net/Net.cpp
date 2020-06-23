@@ -134,3 +134,13 @@ const char *NetworkClass::getICCID(void)
 	return get_ccid(NULL, 0);
 }
 
+IPAddress NetworkClass::resolve(const char *domain)
+{
+	struct hostent *h = gethostbyname(domain);
+
+	if (h)
+		return IPAddress(((struct in_addr *)h->h_addr)->s_addr);
+	else
+		return IPAddress(0, 0, 0, 0);
+}
+

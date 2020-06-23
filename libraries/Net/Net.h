@@ -36,8 +36,12 @@ public:
 	const char *getIMEI(void);
 	const char *getIMSI(void);
 	const char *getICCID(void);
+
+	/* Domain name resolve */
+	IPAddress resolve(const char *domain);
 };
 
 extern NetworkClass Net;
 
 #endif /* __NET_H__ */
+
