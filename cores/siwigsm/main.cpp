@@ -38,10 +38,6 @@ static void loop_task(void *arg)
 	for (;;)
 	{
 		loop();
-
-		/* Serial Events */
-		if (serialEventRun)
-			serialEventRun();
 	}
 }
 
@@ -60,6 +56,10 @@ int main(int argc, char *argv[])
 	while (1) {
 		/* Varient specific events, if any */
 		variantEventRun();
+
+		/* Serial Events */
+		if (serialEventRun)
+			serialEventRun();
 
 		/* sleep is required for RTOS to work properly */
 		os_sleep(50);
