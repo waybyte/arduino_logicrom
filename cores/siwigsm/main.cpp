@@ -31,7 +31,7 @@ void variantEventRun() {}
 /**
  * Loop task for running loop
  */
-static void loop_task(void *arg)
+static void arduino_task(void *arg)
 {
 	setup();
 
@@ -50,7 +50,7 @@ int main(int argc, char *argv[])
 	variant_init();
 
 	/* Start Loop task */
-	os_create_task(loop_task, NULL, FALSE);
+	os_create_task(arduino_task, NULL, FALSE);
 
 	/* Main thread for running and handling events */
 	while (1) {
