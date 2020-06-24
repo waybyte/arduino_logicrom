@@ -21,7 +21,40 @@ HardwareSerial USBSerial(USBUART);
 HardwareSerial BTSerial(BTSPPHOST);
 #endif
 
-HardwareSerial::HardwareSerial(const char *port_file) : _port_file(port_file), _fd(0) {}
+void serialEvent() __attribute__((weak));
+void serialEvent1() __attribute__((weak));
+void serialEvent2() __attribute__((weak));
+#if defined(PLATFORM_S20U) || defined(PLATFORM_M56)
+void usbSerialEvent() __attribute__((weak));
+#endif
+void btSerialEvent() __attribute__((weak));
+
+void serialEventRun(void)
+{
+	if (serialEvent && Serial.available())
+		serialEvent();
+
+	if (serialEvent1 && Serial1.available())
+		serialEvent1();
+
+	if (serialEvent2 && Serial2.available())
+		serialEvent2();
+
+#if defined(PLATFORM_S20U) || defined(PLATFORM_M56)
+	if (usbSerialEvent && USBSerial.available())
+		usbSerialEvent();
+#endif
+
+	if (btSerialEvent && BTSerial.available())
+		btSerialEvent();
+}
+
+HardwareSerial::HardwareSerial(const char *port_file) : _port_file(port_file), _fd(-1)
+{
+	is_stdio = !strcmp(_port_file, DEFAULT_STDIO_PORT);
+	if (is_stdio)
+		_fd = STDOUT_FILENO;
+}
 
 extern "C" size_t read_byte(int fd, unsigned char *c)
 {
@@ -40,8 +73,6 @@ void HardwareSerial::begin(unsigned long baud, uint32_t config)
 
 	if (_port_file == NULL)
 		return;
-
-	is_stdio = !strcmp(_port_file, DEFAULT_STDIO_PORT);
 
 	if (_fd > 0)
 		close(_fd);
@@ -77,21 +108,24 @@ void HardwareSerial::begin(unsigned long baud, uint32_t config)
 	}
 
 	do {
-		ret = tcgetattr(_fd, &t);
+		ret = tcgetattr(_fd, &t_orig);
 		if (ret) {
 			debug(DBG_OFF, "Fail to get attr for %s: %d\n", _port_file, ret);
 			break;
 		}
+
+		if (!is_stdio)
+			cfmakeraw(&t);
+		else
+			memcpy(&t, &t_orig, sizeof(struct termios));
 
 		t.c_cflag &= ~(CSIZE | CSTOPB | PARENB | PARODD);
 		t.c_cflag |= config;
 		cfsetispeed(&t, baud);
 
 		ret = tcsetattr(_fd, TCSANOW, &t);
-		if (ret) {
+		if (ret)
 			debug(DBG_OFF, "Fail to set attr for %s: %d\n", _port_file, ret);
-			break;
-		}
 	} while (0);
 
 	if (ret) {
@@ -107,9 +141,11 @@ void HardwareSerial::begin(unsigned long baud)
 
 void HardwareSerial::end(void)
 {
+	tcsetattr(_fd, TCSANOW, &t_orig);
+
 	if (_fd)
 		close(_fd);
-	_fd = 0;
+	_fd = -1;
 }
 
 int HardwareSerial::available(void)
@@ -149,7 +185,7 @@ int HardwareSerial::read(void)
 
 size_t HardwareSerial::write(uint8_t c)
 {
-	return write_byte(is_stdio ? STDOUT_FILENO : _fd, &c);
+	return write_byte(_fd, &c);
 }
 
 void HardwareSerial::flush(void)

@@ -20,6 +20,7 @@
 #define HardwareSerial_h
 
 #include "Stream.h"
+#include <sys/termios.h>
 
 #define UART0		"/dev/ttyS0"
 #define UART1		"/dev/ttyS1"
@@ -84,6 +85,7 @@ protected:
 	const char *_port_file;
 	int _fd;
 	bool is_stdio;
+	struct termios t_orig;
 };
 
 #if !defined(NO_GLOBAL_INSTANCES) && !defined(NO_GLOBAL_SERIAL)
