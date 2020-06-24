@@ -156,8 +156,12 @@ int HardwareSerial::availableForWrite(void)
 
 int HardwareSerial::peek(void)
 {
-	/* TODO */
-	return -1;
+	int peek_byte;
+
+	if (ioctl(_fd, TIOCPEEK, &peek_byte) < 0)
+		return -1;
+
+	return peek_byte;
 }
 
 int HardwareSerial::read(void)
