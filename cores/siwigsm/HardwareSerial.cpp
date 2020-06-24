@@ -84,9 +84,8 @@ void HardwareSerial::begin(unsigned long baud, uint32_t config)
 			return;
 	}
 
-	baud = baud ? baud : B115200;
 	switch (baud) {
-	case 0:
+	default:
 		baud = B115200;
 		break;
 	UART_BAUDRATE_CASE(75)
