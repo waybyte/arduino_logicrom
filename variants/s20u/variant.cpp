@@ -14,14 +14,6 @@
 
 #include "Arduino.h"
 
-void serialEvent() __attribute__((weak));
-void serialEvent1() __attribute__((weak));
-
-void serialEventRun(void)
-{
-	/* TODO */
-}
-
 #ifdef __cplusplus
 extern "C"
 {
@@ -154,17 +146,8 @@ static void urc_callback(unsigned int param1, unsigned int param2)
 	}
 }
 
-/*
- * \brief Main entry point of Arduino application
- */
-int main(int argc, char *argv[])
+void variant_init(void)
 {
 	/* Initialize Siwi system task */
 	siwilib_init(DEFAULT_STDIO_PORT, urc_callback);
-
-	setup();
-	for (;;)
-	{
-		loop();
-	}
 }

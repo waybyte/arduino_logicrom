@@ -22,3 +22,46 @@
 #define ARDUINO_MAIN
 #include "Arduino.h"
 
+void variant_init() __attribute__((weak));
+void variant_init() {}
+
+void variantEventRun() __attribute__((weak));
+void variantEventRun() {}
+
+/**
+ * Loop task for running loop
+ */
+static void loop_task(void *arg)
+{
+	setup();
+
+	for (;;)
+	{
+		loop();
+
+		/* Serial Events */
+		if (serialEventRun)
+			serialEventRun();
+	}
+}
+
+/*
+ * \brief Main entry point of Arduino application
+ */
+int main(int argc, char *argv[])
+{
+	/* Variant specific initialization */
+	variant_init();
+
+	/* Start Loop task */
+	os_create_task(loop_task, NULL, FALSE);
+
+	/* Main thread for running and handling events */
+	while (1) {
+		/* Varient specific events, if any */
+		variantEventRun();
+
+		/* sleep is required for RTOS to work properly */
+		os_sleep(50);
+	}
+}
