@@ -56,16 +56,6 @@ HardwareSerial::HardwareSerial(const char *port_file) : _port_file(port_file), _
 		_fd = STDOUT_FILENO;
 }
 
-extern "C" size_t read_byte(int fd, unsigned char *c)
-{
-	return read(fd, c, 1);
-}
-
-extern "C" size_t write_byte(int fd, unsigned char *c)
-{
-	return write(fd, c, 1);
-}
-
 void HardwareSerial::begin(unsigned long baud, uint32_t config)
 {
 	struct termios t;
@@ -175,7 +165,7 @@ int HardwareSerial::read(void)
 	unsigned char c;
 	int ret;
 
-	ret = read_byte(_fd, &c);
+	ret = ::read(_fd, &c, 1);
 	if (ret <= 0)
 		return -1;
 
@@ -184,7 +174,7 @@ int HardwareSerial::read(void)
 
 size_t HardwareSerial::write(uint8_t c)
 {
-	return write_byte(_fd, &c);
+	return ::write(_fd, &c, 1);
 }
 
 void HardwareSerial::flush(void)
