@@ -1,20 +1,20 @@
-# siwiduino
-Arduino framework for SIWI GSM modules
+# LogicROM Arduino
+Arduino framework for LOGICROM
 
 # Installation
 
 ## Add Board to Arduino Board Manager
 * Open Arduino IDE
 * Go To **File** &#707; **Preferences** &#707;
-* Add URL to _Additional Board Manager URLs_: https://siwiembedded.github.io/package_siwigsm_index.json
+* Add URL to _Additional Board Manager URLs_: https://waybyte.github.io/package_logicrom_index.json
 * Click OK
 
 ## Install Board
 * Go To Arduino IDE Menu, **Tools** &#707; **Board** &#707; **Board Manager**
-* In search box enter: _siwigsm_
-* Click Install for _SIWIGSM Arduino Boards_
+* In search box enter: _logic_
+* Click Install for _LOGICROM Arduino Boards_
 
-# SIWIGSM Board Configuration
+# LOGICROM Board Configuration
 Make sure _S20 GSM Board_ is selected from Board Manager after Installation.
 
 ## Build Type
@@ -32,7 +32,7 @@ User can select standard I/O port for `printf` function from following options
 ## SIWI S20U GSM Module
 * S20U Module
 * S20 GSM development Board
-<img src="https://siwiembedded.github.io/asset/s20gsm_board.png" alt="s20 gsm board" width="50%">
+<img src="https://waybyte.github.io/asset/s20gsm_board.png" alt="s20 gsm board" width="50%">
 
 ## Quectel M66 2G GSM
 <img src="https://www.quectel.com/UploadImage/Product/20200304152709774.png" alt="Quectel M66" width="50%">
@@ -45,4 +45,3 @@ User can select standard I/O port for `printf` function from following options
 
 ## Quectel M56 GSM
 <img src="https://www.quectel.com/UploadImage/Product/20200304115535722.png" alt="Quectel M56" width="50%">
-

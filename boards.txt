@@ -1,5 +1,5 @@
-# Copyright (c) 2020 SiWi Embedded Solutions. All right reserved.
-# https://www.siwi.in/
+# Copyright (c) 2021 WAYBYTE Solutions. All right reserved.
+# https://www.waybyte.in/
 #
 
 menu.debug=Build Type
@@ -9,7 +9,7 @@ menu.stdio=Select STDIO Port
 s20gsm.name=S20 GSM Board
 
 # build
-s20gsm.build.core=siwigsm
+s20gsm.build.core=logicrom
 s20gsm.build.cpu=arm9ejs
 s20gsm.build.f_cpu=260000000
 s20gsm.build.board=SIWI_S20GSM
@@ -35,9 +35,9 @@ s20gsm.menu.stdio.ttyusb=USB Uart (/dev/ttyUSB0)
 s20gsm.menu.stdio.ttyusb.build.stdio_port=/dev/ttyUSB0
 
 # upload
-s20gsm.bootloader.tool=siwiflasher
-s20gsm.upload.tool=siwiflasher
-s20gsm.upload.protocol=siwiflasher
+s20gsm.bootloader.tool=logicromflasher
+s20gsm.upload.tool=logicromflasher
+s20gsm.upload.protocol=logicromflasher
 s20gsm.upload.maximum_size=262144
 s20gsm.upload.maximum_ram_size=96256
 s20gsm.upload.speed=460800
@@ -48,7 +48,7 @@ s20gsm.upload.wait_for_upload_port=true
 quectelm66.name=Quectel M66
 
 # build
-quectelm66.build.core=siwigsm
+quectelm66.build.core=logicrom
 quectelm66.build.cpu=arm9ejs
 quectelm66.build.f_cpu=260000000
 quectelm66.build.board=QUECTEL_M66TEA
@@ -70,9 +70,9 @@ quectelm66.menu.stdio.ttys2=Uart2 (/dev/ttyS2)
 quectelm66.menu.stdio.ttys2.build.stdio_port=/dev/ttyS2
 
 # upload
-quectelm66.bootloader.tool=siwiflasher
-quectelm66.upload.tool=siwiflasher
-quectelm66.upload.protocol=siwiflasher
+quectelm66.bootloader.tool=logicromflasher
+quectelm66.upload.tool=logicromflasher
+quectelm66.upload.protocol=logicromflasher
 quectelm66.upload.maximum_size=262144
 quectelm66.upload.maximum_ram_size=96256
 quectelm66.upload.speed=460800
@@ -83,7 +83,7 @@ quectelm66.upload.wait_for_upload_port=true
 quectelmc60.name=Quectel MC60
 
 # build
-quectelmc60.build.core=siwigsm
+quectelmc60.build.core=logicrom
 quectelmc60.build.cpu=arm9ejs
 quectelmc60.build.f_cpu=260000000
 quectelmc60.build.board=QUECTEL_MC60TEA
@@ -105,9 +105,9 @@ quectelmc60.menu.stdio.ttys2=Uart2 (/dev/ttyS2)
 quectelmc60.menu.stdio.ttys2.build.stdio_port=/dev/ttyS2
 
 # upload
-quectelmc60.bootloader.tool=siwiflasher
-quectelmc60.upload.tool=siwiflasher
-quectelmc60.upload.protocol=siwiflasher
+quectelmc60.bootloader.tool=logicromflasher
+quectelmc60.upload.tool=logicromflasher
+quectelmc60.upload.protocol=logicromflasher
 quectelmc60.upload.maximum_size=262144
 quectelmc60.upload.maximum_ram_size=96256
 quectelmc60.upload.speed=460800
@@ -118,7 +118,7 @@ quectelmc60.upload.wait_for_upload_port=true
 quectelmc20.name=Quectel MC20
 
 # build
-quectelmc20.build.core=siwigsm
+quectelmc20.build.core=logicrom
 quectelmc20.build.cpu=arm9ejs
 quectelmc20.build.f_cpu=260000000
 quectelmc20.build.board=QUECTEL_MC20TEA
@@ -140,9 +140,9 @@ quectelmc20.menu.stdio.ttys2=Uart2 (/dev/ttyS2)
 quectelmc20.menu.stdio.ttys2.build.stdio_port=/dev/ttyS2
 
 # upload
-quectelmc20.bootloader.tool=siwiflasher
-quectelmc20.upload.tool=siwiflasher
-quectelmc20.upload.protocol=siwiflasher
+quectelmc20.bootloader.tool=logicromflasher
+quectelmc20.upload.tool=logicromflasher
+quectelmc20.upload.protocol=logicromflasher
 quectelmc20.upload.maximum_size=262144
 quectelmc20.upload.maximum_ram_size=96256
 quectelmc20.upload.speed=460800
@@ -153,7 +153,7 @@ quectelmc20.upload.wait_for_upload_port=true
 quectelm56.name=Quectel M56
 
 # build
-quectelm56.build.core=siwigsm
+quectelm56.build.core=logicrom
 quectelm56.build.cpu=arm9ejs
 quectelm56.build.f_cpu=260000000
 quectelm56.build.board=QUECTEL_M56TEA
@@ -177,9 +177,9 @@ quectelm56.menu.stdio.ttyusb=USB Uart (/dev/ttyUSB0)
 quectelm56.menu.stdio.ttyusb.build.stdio_port=/dev/ttyUSB0
 
 # upload
-quectelm56.bootloader.tool=siwiflasher
-quectelm56.upload.tool=siwiflasher
-quectelm56.upload.protocol=siwiflasher
+quectelm56.bootloader.tool=logicromflasher
+quectelm56.upload.tool=logicromflasher
+quectelm56.upload.protocol=logicromflasher
 quectelm56.upload.maximum_size=262144
 quectelm56.upload.maximum_ram_size=96256
 quectelm56.upload.speed=460800

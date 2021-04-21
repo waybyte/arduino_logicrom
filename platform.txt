@@ -1,21 +1,21 @@
-# Copyright (c) 2020 SiWi Embedded Solutions. All right reserved.
-# https://www.siwi.in/
+# Copyright (c) 2021 WAYBYTE Solutions. All right reserved.
+# https://www.waybyte.in/
 #
-# Arduino SiWi Core and platform.
+# LOGICROM Arduino Core and platform.
 #
 # For more info:
 # https://github.com/arduino/Arduino/wiki/Arduino-IDE-1.5---3rd-party-Hardware-specification
 
-name=SIWIGSM Arduino
-version=0.4.0
+name=LOGICROM Arduino
+version=0.5.0
 
 # Tools
 # -----
-tools.gfh_gen.cmd=python "{build.core.path}/siwisdk/tools/GFH_Generator.py"
-tools.gfh_gen.cmd.windows={build.core.path}/siwisdk/tools/GFH_Generator.exe
+tools.gfh_gen.cmd=python "{build.core.path}/logicromsdk/tools/GFH_Generator.py"
+tools.gfh_gen.cmd.windows={build.core.path}/logicromsdk/tools/GFH_Generator.exe
 
-tools.fota_gen.cmd=python "{build.core.path}/siwisdk/tools/FOTA_Generator.py"
-tools.fota_gen.cmd.windows={build.core.path}/siwisdk/tools/FOTA_Generator.exe
+tools.fota_gen.cmd=python "{build.core.path}/logicromsdk/tools/FOTA_Generator.py"
+tools.fota_gen.cmd.windows={build.core.path}/logicromsdk/tools/FOTA_Generator.exe
 
 # compile variables
 # ----------------------
@@ -59,19 +59,19 @@ compiler.ar.extra_flags=
 compiler.elf2bin.extra_flags=
 
 # Include paths
-build.flags.siwigsm="-I{build.core.path}/siwisdk/include" "-I{build.core.path}/siwisdk/include/ril"
+build.flags.logicrom="-I{build.core.path}/logicromsdk/include" "-I{build.core.path}/logicromsdk/include/ril"
 
 # Compile patterns
 # ---------------------
 
 ## Compile c files
-recipe.c.o.pattern="{compiler.path}{compiler.c.cmd}" {compiler.c.flags} -DARDUINO={runtime.ide.version} -DARDUINO_{build.board} -DARDUINO_ARCH_{build.arch} '-DARDUINO_BSP_VERSION="{version}"' {compiler.c.extra_flags} {build.extra_flags} {build.flags.siwigsm} {includes} "{source_file}" -o "{object_file}"
+recipe.c.o.pattern="{compiler.path}{compiler.c.cmd}" {compiler.c.flags} -DARDUINO={runtime.ide.version} -DARDUINO_{build.board} -DARDUINO_ARCH_{build.arch} '-DARDUINO_BSP_VERSION="{version}"' {compiler.c.extra_flags} {build.extra_flags} {build.flags.logicrom} {includes} "{source_file}" -o "{object_file}"
 
 ## Compile c++ files
-recipe.cpp.o.pattern="{compiler.path}{compiler.cpp.cmd}" {compiler.cpp.flags} -DARDUINO={runtime.ide.version} -DARDUINO_{build.board} -DARDUINO_ARCH_{build.arch} '-DARDUINO_BSP_VERSION="{version}"' {compiler.cpp.extra_flags} {build.extra_flags} {build.flags.siwigsm} {includes} "{source_file}" -o "{object_file}"
+recipe.cpp.o.pattern="{compiler.path}{compiler.cpp.cmd}" {compiler.cpp.flags} -DARDUINO={runtime.ide.version} -DARDUINO_{build.board} -DARDUINO_ARCH_{build.arch} '-DARDUINO_BSP_VERSION="{version}"' {compiler.cpp.extra_flags} {build.extra_flags} {build.flags.logicrom} {includes} "{source_file}" -o "{object_file}"
 
 ## Compile S files
-recipe.S.o.pattern="{compiler.path}{compiler.S.cmd}" {compiler.S.flags} -DARDUINO={runtime.ide.version} -DARDUINO_{build.board} -DARDUINO_ARCH_{build.arch} {compiler.S.extra_flags} {build.extra_flags} {build.flags.siwigsm} {includes} "{source_file}" -o "{object_file}"
+recipe.S.o.pattern="{compiler.path}{compiler.S.cmd}" {compiler.S.flags} -DARDUINO={runtime.ide.version} -DARDUINO_{build.board} -DARDUINO_ARCH_{build.arch} {compiler.S.extra_flags} {build.extra_flags} {build.flags.logicrom} {includes} "{source_file}" -o "{object_file}"
 
 ## Create archives
 # archive_file_path is needed for backwards compatibility with IDE 1.6.5 or older, IDE 1.6.6 or newer overrides this value
@@ -79,7 +79,7 @@ archive_file_path={build.path}/{archive_file}
 recipe.ar.pattern="{compiler.path}{compiler.ar.cmd}" {compiler.ar.flags} {compiler.ar.extra_flags} "{archive_file_path}" "{object_file}"
 
 ## Combine gc-sections, archives, and objects
-recipe.c.combine.pattern="{compiler.path}{compiler.c.elf.cmd}" "-L{build.path}" {compiler.c.elf.flags} {compiler.c.elf.extra_flags} "-L{build.core.path}/siwisdk/lib" "-T{build.ldscript}" "-Wl,-Map,{build.path}/{build.project_name}.map" "-Wl,--defsym,platform_init=platform_{build.variant}_init" {compiler.ldflags} -o "{build.path}/{build.project_name}.elf" {object_files} -Wl,--start-group -lsiwisdk{build.build_type} -lc -lgcc -lm "{build.path}/{archive_file}" -Wl,--end-group
+recipe.c.combine.pattern="{compiler.path}{compiler.c.elf.cmd}" "-L{build.path}" {compiler.c.elf.flags} {compiler.c.elf.extra_flags} "-L{build.core.path}/logicromsdk/lib" "-T{build.ldscript}" "-Wl,-Map,{build.path}/{build.project_name}.map" "-Wl,--defsym,platform_init=platform_{build.variant}_init" {compiler.ldflags} -o "{build.path}/{build.project_name}.elf" {object_files} -Wl,--start-group -llogicrom{build.build_type} -lc -lgcc -lm "{build.path}/{archive_file}" -Wl,--end-group
 
 ## Create output (.bin file)
 recipe.objcopy.bin.1.pattern="{compiler.path}{compiler.elf2bin.cmd}" {compiler.elf2bin.flags} {compiler.elf2bin.extra_flags} "{build.path}/{build.project_name}.elf" "{build.path}/temp.bin"
@@ -96,20 +96,20 @@ recipe.size.regex=^(?:\.text|\.data|\.rodata|\.text.align|\.ARM.exidx|\.ARM.exta
 recipe.size.regex.data=^(?:\.data|\.bss|\.noinit)\s+(\d+).*
 
 ## sketch uploader
-tools.siwiflasher.path={runtime.tools.siwiflasher.path}
-tools.siwiflasher.cmd=python "{path}/siwiflasher.py"
-tools.siwiflasher.cmd.windows={path}/siwiflasher.exe
+tools.logicromflasher.path={runtime.tools.logicromflasher.path}
+tools.logicromflasher.cmd=python "{path}/logicromflasher.py"
+tools.logicromflasher.cmd.windows={path}/logicromflasher.exe
 
-tools.siwiflasher.upload.params.verbose=
-tools.siwiflasher.upload.params.quiet=
-tools.siwiflasher.upload.pattern={cmd} -p {serial.port} -b {upload.speed} "{upload.verbose}" "{build.path}/{build.project_name}.bin"
+tools.logicromflasher.upload.params.verbose=
+tools.logicromflasher.upload.params.quiet=
+tools.logicromflasher.upload.pattern={cmd} -p {serial.port} -b {upload.speed} "{upload.verbose}" "{build.path}/{build.project_name}.bin"
 
-## bootloader tool is the siwiflasher
-tools.siwiflasher.bootloader.params.verbose=
-tools.siwiflasher.bootloader.params.quiet=
-tools.siwiflasher.bootloader.pattern={program.burn_pattern}
+## bootloader tool is the logicromflasher
+tools.logicromflasher.bootloader.params.verbose=
+tools.logicromflasher.bootloader.params.quiet=
+tools.logicromflasher.bootloader.pattern={program.burn_pattern}
 
 ## dummy erase option to make tool menu work
-tools.siwiflasher.erase.params.verbose=
-tools.siwiflasher.erase.params.quiet=
-tools.siwiflasher.erase.pattern=
+tools.logicromflasher.erase.params.verbose=
+tools.logicromflasher.erase.params.quiet=
+tools.logicromflasher.erase.pattern=

@@ -1,20 +1,19 @@
-# Copyright (c) 2020 SiWi Embedded Solutions. All right reserved.
-# https://www.siwi.in/
+# Copyright (c) 2021 WAYBYTE Solutions. All right reserved.
+# https://www.waybyte.in/
 #
-# Siwi Flasher Core Programmer
+# LOGICROM Core Flasher
 #
 
-siwiflasher.name=Core Flasher for SiWiGSM
-siwiflasher.program.tool=siwiflasher
-siwiflasher.program.path={runtime.tools.siwiflasher.path}
-siwiflasher.program.cmd=python "{program.path}/siwiflasher.py"
-siwiflasher.program.cmd.windows={program.path}/siwiflasher.exe
+logicromflasher.name=LOGICROM Core Flasher
+logicromflasher.program.tool=logicromflasher
+logicromflasher.program.path={runtime.tools.logicromflasher.path}
+logicromflasher.program.cmd=python "{program.path}/logicromflasher.py"
+logicromflasher.program.cmd.windows={program.path}/logicromflasher.exe
 
 # Burn bootloader pattern
-siwiflasher.program.burn_pattern="{program.cmd}" -p {serial.port} -b {upload.speed} -r
+logicromflasher.program.burn_pattern="{program.cmd}" -p {serial.port} -b {upload.speed} -r
 
 # Upload sketch
-siwiflasher.program.params.quiet=
-siwiflasher.program.params.verbose=
-siwiflasher.program.pattern="{program.cmd}" -p {serial.port} -b {upload.speed} "{build.path}/{build.project_name}.bin"
-
+logicromflasher.program.params.quiet=
+logicromflasher.program.params.verbose=
+logicromflasher.program.pattern="{program.cmd}" -p {serial.port} -b {upload.speed} "{build.path}/{build.project_name}.bin"
