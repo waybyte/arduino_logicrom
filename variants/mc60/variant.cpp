@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2020 SiWi Embedded Solutions.  All right reserved.
+  Copyright (c) 2021 WAYBYTE Solutions.  All right reserved.
 
   This library is free software; you can redistribute it and/or
   modify it under the terms of the GNU Lesser General Public
@@ -23,15 +23,15 @@ int g_ioHandles[GPIO_PIN_MAX];
 int g_ioModes[GPIO_PIN_MAX];
 
 static const uint32_t adc_channel_map[6][2] = {
-	{GPIO_1, ADC_CH1},
-	{GPIO_27, ADC_CH2},
-	{GPIO_28, ADC_CH3},
+	{GPIO_0, ADC_CH1},
+	{GPIO_26, ADC_CH2},
+	{GPIO_27, ADC_CH3},
 	{GPIO_PIN_MAX, ADC_CH0},
 };
 
 static const uint32_t pwm_channel_map[2][2] = {
-	{GPIO_1, PWM_CH0},
-	{GPIO_32, PWM_CH1},
+	{GPIO_0, PWM_CH0},
+	{GPIO_31, PWM_CH1},
 };
 
 int pin2adc_channel(uint32_t pin)
@@ -98,7 +98,7 @@ static void urc_callback(unsigned int param1, unsigned int param2)
 	case URC_CFUN_STATE_IND:
 		break;
 	case URC_COMING_CALL_IND:
-		debug(DBG_OFF, "Incoming voice call from: %s\n", ((ST_ComingCall *)param2)->phoneNumber);
+		debug(DBG_OFF, "Incoming voice call from: %s\n", ((struct callinfo_t *)param2)->phoneNumber);
 		/* Take action here, Answer/Hang-up */
 		break;
 	case URC_CALL_STATE_IND:
@@ -146,6 +146,6 @@ static void urc_callback(unsigned int param1, unsigned int param2)
 
 void variant_init(void)
 {
-	/* Initialize Siwi system task */
-	siwilib_init(DEFAULT_STDIO_PORT, urc_callback);
+	/* Initialize LogicROM */
+	logicrom_init(DEFAULT_STDIO_PORT, urc_callback);
 }

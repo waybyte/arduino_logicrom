@@ -24,23 +24,25 @@
 
 /* Analog Pin definition */
 #define A0 GPIO_PIN_MAX
-#define A1 GPIO_1
-#define A2 GPIO_21
-#define A3 GPIO_31
-#define A4 GPIO_32
+#define A1 GPIO_0
+#define A2 GPIO_20
+#define A3 GPIO_30
+#define A4 GPIO_31
+#ifdef PLATFORM_M56
 #define A5 (GPIO_PIN_MAX + 1)
+#endif
 
 /* LED */
-#define LED_BUILTIN GPIO_1
+#define LED_BUILTIN GPIO_0
 
 /*
  * SPI Interfaces
  */
 #define SPI_INTERFACES_COUNT 1
-#define PIN_SPI_SS0 (GPIO_7)
-#define PIN_SPI_MOSI (GPIO_10)
-#define PIN_SPI_MISO (GPIO_8)
-#define PIN_SPI_SCK (GPIO_9)
+#define PIN_SPI_SS0 (GPIO_6)
+#define PIN_SPI_MOSI (GPIO_9)
+#define PIN_SPI_MISO (GPIO_7)
+#define PIN_SPI_SCK (GPIO_8)
 #define BOARD_SPI_SS0 (PIN_SPI_SS0)
 
 static const uint8_t SS = BOARD_SPI_SS0;
