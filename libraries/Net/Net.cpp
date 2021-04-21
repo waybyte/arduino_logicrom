@@ -1,5 +1,7 @@
 #include <lib.h>
 #include <network.h>
+#include <arpa/inet.h>
+#include <netdb.h>
 #include <utils.h>
 
 #include "Net.h"
