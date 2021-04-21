@@ -1,5 +1,5 @@
 /*
- * SPI Master library for SIWI GSM Modules
+ * SPI Master library for LOGICROM Platform
  * Copyright (c) 2015 Arduino LLC
  *
  * This library is free software; you can redistribute it and/or
