@@ -1,6 +1,6 @@
 {
     "name": "framework-logicromarduino",
     "description": "Arduino Wiring-based Framework For LOGICROM Platform",
-    "version": "0.5.0",
+    "version": "0.7.0",
     "url": "https://github.com/waybyte/Arduino_LogicROM"
 }
