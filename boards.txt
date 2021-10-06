@@ -18,6 +18,7 @@ s20gsm.build.variant=s20u
 s20gsm.build.vid=0x0E8D
 s20gsm.build.pid=0x0003
 s20gsm.build.extra_flags=-DPLATFORM_S20U=1
+s20gsm.build.logicromlib=logicrom
 s20gsm.build.ldscript=linkerscript.ld
 s20gsm.menu.debug.Release=Release
 s20gsm.menu.debug.Release.build.build_type=
@@ -55,6 +56,7 @@ quectelm66.build.board=QUECTEL_M66TEA
 quectelm66.build.mcu=mt6261
 quectelm66.build.variant=m66
 quectelm66.build.extra_flags=-DPLATFORM_M66=1
+quectelm66.build.logicromlib=logicrom
 quectelm66.build.ldscript=linkerscript.ld
 quectelm66.menu.debug.Release=Release
 quectelm66.menu.debug.Release.build.build_type=
@@ -90,6 +92,7 @@ quectelmc60.build.board=QUECTEL_MC60TEA
 quectelmc60.build.mcu=mt2503
 quectelmc60.build.variant=mc60
 quectelmc60.build.extra_flags=-DPLATFORM_MC60=1
+quectelmc60.build.logicromlib=logicrom
 quectelmc60.build.ldscript=linkerscript.ld
 quectelmc60.menu.debug.Release=Release
 quectelmc60.menu.debug.Release.build.build_type=
@@ -125,6 +128,7 @@ quectelmc20.build.board=QUECTEL_MC20TEA
 quectelmc20.build.mcu=mt2503
 quectelmc20.build.variant=mc60
 quectelmc20.build.extra_flags=-DPLATFORM_MC60=1
+quectelmc20.build.logicromlib=logicrom
 quectelmc20.build.ldscript=linkerscript.ld
 quectelmc20.menu.debug.Release=Release
 quectelmc20.menu.debug.Release.build.build_type=
@@ -160,6 +164,7 @@ quectelm56.build.board=QUECTEL_M56TEA
 quectelm56.build.mcu=mt6261
 quectelm56.build.variant=s20u
 quectelm56.build.extra_flags=-DPLATFORM_M56=1
+quectelm56.build.logicromlib=logicrom
 quectelm56.build.ldscript=linkerscript.ld
 quectelm56.menu.debug.Release=Release
 quectelm56.menu.debug.Release.build.build_type=
@@ -185,4 +190,3 @@ quectelm56.upload.maximum_ram_size=96256
 quectelm56.upload.speed=460800
 quectelm56.upload.require_upload_port=true
 quectelm56.upload.wait_for_upload_port=true
-
