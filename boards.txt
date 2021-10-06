@@ -44,6 +44,43 @@ n716.upload.speed=460800
 n716.upload.require_upload_port=false
 n716.upload.wait_for_upload_port=false
 
+# Neoway N58 Module definition
+n58.name=Neoway N58 LTE Cat.1 Module
+
+# build
+n58.build.core=logicrom
+n58.build.cpu=armca5
+n58.build.f_cpu=500000000
+n58.build.board=NEOWAY_N58
+n58.build.mcu=rda8910
+n58.build.variant=n58
+n58.build.vid=0x1782
+n58.build.pid=0x4D11
+n58.build.extra_flags=-DSOC_RDA8910=1 -DPLATFORM_N58=1
+n58.build.logicromlib=logicrom4g
+n58.build.ldscript=linkerscript_rda.ld
+n58.menu.debug.Release=Release
+n58.menu.debug.Release.build.build_type=
+n58.menu.debug.Debug=Debug
+n58.menu.debug.Debug.build.build_type=_debug
+n58.menu.stdio.none=None
+n58.menu.stdio.none.build.stdio_port=
+n58.menu.stdio.ttys0=Uart0 (/dev/ttyS0)
+n58.menu.stdio.ttys0.build.stdio_port=/dev/ttyS0
+n58.menu.stdio.ttys1=Uart1 (/dev/ttyS1)
+n58.menu.stdio.ttys1.build.stdio_port=/dev/ttyS1
+n58.menu.stdio.ttyusb=USB Uart (/dev/ttyUSB0)
+n58.menu.stdio.ttyusb.build.stdio_port=/dev/ttyUSB0
+
+# upload
+n58.upload.tool=logicromflasher_rda8910
+n58.upload.protocol=logicromflasher
+n58.upload.maximum_size=1048576
+n58.upload.maximum_ram_size=1048576
+n58.upload.speed=460800
+n58.upload.require_upload_port=false
+n58.upload.wait_for_upload_port=false
+
 # s20gsm board definition
 s20gsm.name=S20 GSM Board
 
