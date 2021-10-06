@@ -24,15 +24,15 @@
 #include <assert.h>
 #include "SPI.h"
 
-SPIClass::SPIClass(void) : settings(SPISettings(10000000, MSBFIRST, SPI_MODE0))
+SPIClass::SPIClass(int port) : settings(SPISettings(10000000, MSBFIRST, SPI_MODE0))
 {
+	this->port = port;
 	initialized = false;
 }
 
 void SPIClass::begin()
 {
 	init();
-	config(settings);
 }
 
 void SPIClass::init()
@@ -40,7 +40,7 @@ void SPIClass::init()
 	if (initialized)
 		return;
 
-	spi_hw_init(FALSE);
+	spi_hw_init(port, FALSE, settings.clockFreq, settings.dataMode, SPI_CSPOL_LOW);
 
 	initialized = true;
 }
@@ -51,16 +51,16 @@ void SPIClass::config(SPISettings settings)
 	{
 		this->settings = settings;
 
-		spi_hw_setclock(settings.clockFreq);
-		spi_hw_setmode(settings.dataMode);
-		spi_hw_setbyteorder(settings.bitOrder == MSBFIRST ? SPI_BYTE_MSB_FIRST : SPI_BYTE_LSB_FIRST);
+		spi_hw_setclock(port, settings.clockFreq);
+		spi_hw_setmode(port, settings.dataMode);
+		spi_hw_setbitorder(port, settings.bitOrder == MSBFIRST ? SPI_MSB_FIRST : SPI_LSB_FIRST);
 	}
 }
 
 void SPIClass::end()
 {
 	if (initialized) {
-		spi_hw_free();
+		spi_hw_free(port);
 		initialized = false;
 	}
 }
@@ -77,25 +77,25 @@ void SPIClass::endTransaction(void)
 void SPIClass::setBitOrder(BitOrder order)
 {
 	settings.bitOrder = order;
-	spi_hw_setbyteorder(order == MSBFIRST ? SPI_BYTE_MSB_FIRST : SPI_BYTE_LSB_FIRST);
+	spi_hw_setbitorder(port, order == MSBFIRST ? SPI_MSB_FIRST : SPI_LSB_FIRST);
 }
 
 void SPIClass::setDataMode(uint8_t mode)
 {
 	settings.dataMode = mode;
-	spi_hw_setmode(mode);
+	spi_hw_setmode(port, mode);
 }
 
 void SPIClass::setClockDivider(uint8_t div)
 {
-	spi_hw_setclock(SPI_MAX_SPEED / div);
+	spi_hw_setclock(port, SPI_MAX_SPEED / div);
 }
 
 byte SPIClass::transfer(uint8_t data)
 {
 	uint32_t out_byte;
 
-	spi_hw_transfer(&data, (unsigned char *)&out_byte, 1);
+	spi_hw_transfer(port, &data, (unsigned char *)&out_byte, 1);
 
 	return out_byte;
 }
@@ -137,4 +137,4 @@ void SPIClass::transfer(void *buf, size_t count)
 	}
 }
 
-SPIClass SPI = SPIClass();
+SPIClass SPI = SPIClass(SPI_PORT_0);

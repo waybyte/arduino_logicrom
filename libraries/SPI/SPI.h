@@ -104,7 +104,7 @@ const SPISettings DEFAULT_SPI_SETTINGS = SPISettings();
 class SPIClass
 {
 public:
-	SPIClass();
+	SPIClass(int port);
 
 	byte transfer(uint8_t data);
 	uint16_t transfer16(uint16_t data);
@@ -127,6 +127,7 @@ private:
 	void init();
 	void config(SPISettings settings);
 
+	int port;
 	SPISettings settings;
 	bool initialized;
 	int chip_select;
