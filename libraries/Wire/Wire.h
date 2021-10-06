@@ -26,7 +26,11 @@
 #include "Stream.h"
 #include "variant.h"
 
+#ifdef SOC_RDA8910
+#define BUFFER_LENGTH 32
+#else
 #define BUFFER_LENGTH 8
+#endif
 
 /* Uncomment following to enable debugging */
 /* #define WIRE_DEBUG */
