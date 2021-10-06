@@ -4,10 +4,10 @@
 # LOGICROM Core Flasher
 #
 
-logicromflasher.name=LOGICROM Core Flasher
+logicromflasher.name=LOGICROM Core Flasher (MT2503/MT6261)
 logicromflasher.program.tool=logicromflasher
 logicromflasher.program.path={runtime.tools.logicromflasher.path}
-logicromflasher.program.cmd=python "{program.path}/logicromflasher.py"
+logicromflasher.program.cmd=echo "ROM flashing only available on windows"
 logicromflasher.program.cmd.windows={program.path}/logicromflasher.exe
 
 # Burn bootloader pattern

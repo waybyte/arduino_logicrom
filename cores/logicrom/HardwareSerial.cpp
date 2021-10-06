@@ -15,7 +15,7 @@
 HardwareSerial Serial(UART0);
 HardwareSerial Serial1(UART1);
 HardwareSerial Serial2(UART2);
-#if defined(PLATFORM_S20U) || defined(PLATFORM_M56)
+#if defined(SOC_RDA8910) || defined(PLATFORM_S20U) || defined(PLATFORM_M56)
 HardwareSerial USBSerial(USBUART);
 #endif
 HardwareSerial BTSerial(BTSPPHOST);
@@ -24,7 +24,7 @@ HardwareSerial BTSerial(BTSPPHOST);
 void serialEvent() __attribute__((weak));
 void serialEvent1() __attribute__((weak));
 void serialEvent2() __attribute__((weak));
-#if defined(PLATFORM_S20U) || defined(PLATFORM_M56)
+#if defined(SOC_RDA8910) || defined(PLATFORM_S20U) || defined(PLATFORM_M56)
 void usbSerialEvent() __attribute__((weak));
 #endif
 void btSerialEvent() __attribute__((weak));
@@ -40,7 +40,7 @@ void serialEventRun(void)
 	if (serialEvent2 && Serial2.available())
 		serialEvent2();
 
-#if defined(PLATFORM_S20U) || defined(PLATFORM_M56)
+#if defined(SOC_RDA8910) || defined(PLATFORM_S20U) || defined(PLATFORM_M56)
 	if (usbSerialEvent && USBSerial.available())
 		usbSerialEvent();
 #endif

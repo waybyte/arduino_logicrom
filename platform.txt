@@ -17,6 +17,10 @@ tools.gfh_gen.cmd.windows={build.core.path}/logicromsdk/tools/GFH_Generator.exe
 tools.fota_gen.cmd=python "{build.core.path}/logicromsdk/tools/FOTA_Generator.py"
 tools.fota_gen.cmd.windows={build.core.path}/logicromsdk/tools/FOTA_Generator.exe
 
+tools.dtools.cmd.linux={build.core.path}/logicromsdk/tools/rda8910/linux/dtools
+tools.dtools.cmd.windows={build.core.path}/logicromsdk/tools/rda8910/win32/dtools.exe
+tools.pacgen.cmd={build.core.path}/logicromsdk/tools/rda8910/pacgen.py
+
 # compile variables
 # ----------------------
 
@@ -27,18 +31,27 @@ compiler.warning_flags.more=-Wall
 compiler.warning_flags.all=-Wall -Wextra
 
 compiler.path={runtime.tools.gcc-arm-none-eabi.path}/bin/
+# MCU specific
+compiler.mt2503.flags=-march=armv5te -mfloat-abi=soft
+compiler.mt6261.flags=-march=armv5te -mfloat-abi=soft
+compiler.rda8910.flags=-mcpu=cortex-a5 -mtune=generic-armv7-a -mfpu=neon-vfpv4 -mfloat-abi=hard -mno-unaligned-access
+
+compiler.mt2503.ldflags=--specs=nano.specs -u _printf_float -u _scanf_float --specs=nosys.specs
+compiler.mt6261.ldflags=--specs=nano.specs -u _printf_float -u _scanf_float --specs=nosys.specs
+compiler.rda8910.ldflags=
+
 # C Compiler
 compiler.c.cmd=arm-none-eabi-gcc
-compiler.c.flags=-std=gnu11 -c -Os -g -march=armv5te -mfloat-abi=soft -fmessage-length=0 -ffunction-sections -fdata-sections -fsigned-char {compiler.warning_flags} -mthumb -mthumb-interwork -D__BUFSIZ__=512 -D__FILENAME_MAX__=256 '-DDEFAULT_STDIO_PORT="{build.stdio_port}"'
+compiler.c.flags=-std=gnu11 -c -Os -g {compiler.{build.mcu}.flags} -fmessage-length=0 -ffunction-sections -fdata-sections -fsigned-char {compiler.warning_flags} -mthumb -mthumb-interwork -D__BUFSIZ__=512 -D__FILENAME_MAX__=256 '-DDEFAULT_STDIO_PORT="{build.stdio_port}"'
 # Linker
 compiler.c.elf.cmd=arm-none-eabi-gcc
-compiler.c.elf.flags=-march=armv5te -mthumb -mthumb-interwork -mfloat-abi=soft -Os
+compiler.c.elf.flags={compiler.{build.mcu}.flags} -mthumb -mthumb-interwork -Os
 # Assembler
 compiler.S.cmd=arm-none-eabi-gcc
 compiler.S.flags=-c -g -x assembler-with-cpp
 # CPP Compiler
 compiler.cpp.cmd=arm-none-eabi-g++
-compiler.cpp.flags=-std=gnu++11 -c -Os -g -march=armv5te -mfloat-abi=soft -fmessage-length=0 -ffunction-sections -fdata-sections -fsigned-char -fno-rtti -fno-exceptions -fno-use-cxa-atexit -fno-threadsafe-statics {compiler.warning_flags} -mthumb -mthumb-interwork -D__BUFSIZ__=512 -D__FILENAME_MAX__=256 '-DDEFAULT_STDIO_PORT="{build.stdio_port}"'
+compiler.cpp.flags=-std=gnu++11 -c -Os -g {compiler.{build.mcu}.flags} -fmessage-length=0 -ffunction-sections -fdata-sections -fsigned-char -fno-rtti -fno-exceptions -fno-use-cxa-atexit -fno-threadsafe-statics {compiler.warning_flags} -mthumb -mthumb-interwork -D__BUFSIZ__=512 -D__FILENAME_MAX__=256 '-DDEFAULT_STDIO_PORT="{build.stdio_port}"'
 # Archiver
 compiler.ar.cmd=arm-none-eabi-ar
 compiler.ar.flags=rcs
@@ -46,7 +59,7 @@ compiler.ar.flags=rcs
 compiler.elf2bin.cmd=arm-none-eabi-objcopy
 compiler.elf2bin.flags=-O binary
 # Linker Flags
-compiler.ldflags= -Wl,--gc-sections,--relax -nostartfiles -nostdlib -nodefaultlibs --specs=nano.specs -u _printf_float -u _scanf_float --specs=nosys.specs
+compiler.ldflags= -Wl,--gc-sections,--relax -nostartfiles -nostdlib -nodefaultlibs {compiler.{build.mcu}.ldflags}
 # Size
 compiler.size.cmd=arm-none-eabi-size
 
@@ -79,23 +92,50 @@ archive_file_path={build.path}/{archive_file}
 recipe.ar.pattern="{compiler.path}{compiler.ar.cmd}" {compiler.ar.flags} {compiler.ar.extra_flags} "{archive_file_path}" "{object_file}"
 
 ## Combine gc-sections, archives, and objects
-recipe.c.combine.pattern="{compiler.path}{compiler.c.elf.cmd}" "-L{build.path}" {compiler.c.elf.flags} {compiler.c.elf.extra_flags} "-L{build.core.path}/logicromsdk/lib" "-T{build.ldscript}" "-Wl,-Map,{build.path}/{build.project_name}.map" "-Wl,--defsym,platform_init=platform_{build.variant}_init" {compiler.ldflags} -o "{build.path}/{build.project_name}.elf" {object_files} -Wl,--start-group -llogicrom{build.build_type} -lc -lgcc -lm "{build.path}/{archive_file}" -Wl,--end-group
+recipe.c.combine.pattern="{compiler.path}{compiler.c.elf.cmd}" "-L{build.path}" {compiler.c.elf.flags} {compiler.c.elf.extra_flags} "-L{build.core.path}/logicromsdk/lib" "-T{build.ldscript}" "-Wl,-Map,{build.path}/{build.project_name}.map" "-Wl,--defsym,platform_init=platform_{build.variant}_init" {compiler.ldflags} -o "{build.path}/{build.project_name}.elf" {object_files} -Wl,--start-group -l{build.logicromlib}{build.build_type} -lc -lgcc -lm "{build.path}/{archive_file}" -Wl,--end-group
 
-## Create output (.bin file)
-recipe.objcopy.bin.1.pattern="{compiler.path}{compiler.elf2bin.cmd}" {compiler.elf2bin.flags} {compiler.elf2bin.extra_flags} "{build.path}/{build.project_name}.elf" "{build.path}/temp.bin"
-recipe.objcopy.bin.2.pattern="{tools.gfh_gen.cmd}" "{build.path}/temp.bin" "{build.path}/{build.project_name}.bin"
-recipe.objcopy.bin.3.pattern="{tools.fota_gen.cmd}" "{build.path}/{build.project_name}.bin" "{build.path}/fota_{build.project_name}.bin"
+## Create output Binary file
+## Pattern based on mcu type
+## MT2503
+mt2503.objcopy.1.pattern="{compiler.path}{compiler.elf2bin.cmd}" {compiler.elf2bin.flags} {compiler.elf2bin.extra_flags} "{build.path}/{build.project_name}.elf" "{build.path}/temp.bin"
+mt2503.objcopy.2.pattern="{tools.gfh_gen.cmd}" "{build.path}/temp.bin" "{build.path}/{build.project_name}.bin"
+mt2503.objcopy.3.pattern="{tools.fota_gen.cmd}" "{build.path}/{build.project_name}.bin" "{build.path}/fota_{build.project_name}.bin"
+mt2503.prefix=bin
+## MT6261
+mt6261.objcopy.1.pattern="{compiler.path}{compiler.elf2bin.cmd}" {compiler.elf2bin.flags} {compiler.elf2bin.extra_flags} "{build.path}/{build.project_name}.elf" "{build.path}/temp.bin"
+mt6261.objcopy.2.pattern="{tools.gfh_gen.cmd}" "{build.path}/temp.bin" "{build.path}/{build.project_name}.bin"
+mt6261.objcopy.3.pattern="{tools.fota_gen.cmd}" "{build.path}/{build.project_name}.bin" "{build.path}/fota_{build.project_name}.bin"
+mt6261.prefix=bin
+## RDA8910
+rda8910.objcopy.1.pattern="{tools.dtools.cmd}" mkappimg "{build.path}/{build.project_name}.elf" "{build.path}/{build.project_name}.img"
+rda8910.objcopy.2.pattern=python "{tools.pacgen.cmd}" cfg-init --pname "UIX8910_MODEM" --palias "{build.project_name}" --pversion "8910 MODULE" --version "BP_R1.0.0" --flashtype 1 cfg-host-fdl -a 0x8000c0 -s 0xff40 -p {build.core.path}/logicromsdk/lib/rda8910/fdl1.img cfg-fdl2 -a 0x810000 -s 0x30000 -p {build.core.path}/logicromsdk/lib/rda8910/fdl2.img cfg-nvitem -n "Calibration" -i 0xFFFFFFFF --use 1 --replace 0 --continue 0 --backup 1 cfg-nvitem -n "GSM Calibration" -i 0x26d --use 1 --replace 0 --continue 1 --backup 1 cfg-nvitem -n "LTE Calibration" -i 0x26e --use 1 --replace 0 --continue 0 --backup 1 cfg-nvitem -n "IMEI" -i 0xFFFFFFFF --use 1 --replace 0 --continue 0 --backup 1 cfg-nvitem -n "BT_Config" -i 0x191 --use 1 --replace 0 --continue 1 --backup 1 cfg-nvitem -n "Customer" -i 0x27e --use 1 --replace 0 --continue 1 --backup 1 cfg-image -i APPIMG -a 0x60230000 -s 0x100000 -p {build.path}/{build.project_name}.img pac-gen "{build.path}/{build.project_name}.pac"
+rda8910.objcopy.3.pattern="{tools.dtools.cmd}" fotacreate2 --single-pac {build.path}/{build.project_name}.pac,{build.core.path}/logicromsdk/lib/rda8910/fota8910.xml "{build.path}/fota_{build.project_name}.bin"
+rda8910.prefix=pac
+
+recipe.objcopy.bin.1.pattern={{build.mcu}.objcopy.1.pattern}
+recipe.objcopy.bin.2.pattern={{build.mcu}.objcopy.2.pattern}
+recipe.objcopy.bin.3.pattern={{build.mcu}.objcopy.3.pattern}
 
 ## Save hex
-recipe.output.tmp_file={build.project_name}.bin
-recipe.output.save_file={build.project_name}.{build.variant}.bin
+recipe.output.tmp_file={build.project_name}.{{build.mcu}.prefix}
+recipe.output.save_file={build.project_name}.{{build.mcu}.prefix}
+recipe.hooks.savehex.postsavehex.1.pattern=cp "{build.path}/fota_{build.project_name}.bin" {sketch_path}
+recipe.hooks.savehex.postsavehex.1.pattern.windows=cmd /Q /C copy "{build.path}\fota_{build.project_name}.bin" {sketch_path}
 
 ## Compute size
 recipe.size.pattern="{compiler.path}{compiler.size.cmd}" -A -d "{build.path}/{build.project_name}.elf"
-recipe.size.regex=^(?:\.text|\.data|\.rodata|\.text.align|\.ARM.exidx|\.ARM.extab|\.ll|\.initdata)\s+(\d+).*
-recipe.size.regex.data=^(?:\.data|\.bss|\.noinit)\s+(\d+).*
+recipe.size.regex=^(?:\.text|\.data|\.rodata|\.text.align|\.ARM.exidx|\.ARM.extab|\.ll|\.initdata|\.init_array|\.corestub)\s+(\d+).*
+recipe.size.regex.data=^(?:\.data|\.bss|\.noinit|\.corestub)\s+(\d+).*
 
 ## sketch uploader
+## RDA8910
+tools.logicromflasher_rda8910.path={runtime.tools.logicromflasher.path}
+tools.logicromflasher_rda8910.cmd=python "{path}/logicromflasher.py"
+
+tools.logicromflasher_rda8910.upload.params.verbose=
+tools.logicromflasher_rda8910.upload.params.quiet=
+tools.logicromflasher_rda8910.upload.pattern={cmd} -m "RDA8910" 0x8000c0 "{runtime.platform.path}/cores/{build.core}/logicromsdk/lib/rda8910/fdl1.img" 0x810000 "{runtime.platform.path}/cores/{build.core}/logicromsdk/lib/rda8910/fdl2.img" 0x60230000 "{build.path}/{build.project_name}.img"
+
 tools.logicromflasher.path={runtime.tools.logicromflasher.path}
 tools.logicromflasher.cmd=python "{path}/logicromflasher.py"
 tools.logicromflasher.cmd.windows={path}/logicromflasher.exe
