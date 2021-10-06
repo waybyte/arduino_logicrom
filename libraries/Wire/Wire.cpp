@@ -22,15 +22,16 @@
 #include "Arduino.h"
 #include "Wire.h"
 
-TwoWire::TwoWire(void) : rxBufferIndex(0), rxBufferLength(0), txAddress(0), txBufferLength(0), twiClock(TWI_CLOCK)
+TwoWire::TwoWire(int port) : rxBufferIndex(0), rxBufferLength(0), txAddress(0), txBufferLength(0), twiClock(TWI_CLOCK)
 {
+	this->port = port;
 }
 
 void TwoWire::begin(void)
 {
 	int ret;
 
-	ret = i2c_hw_init(100);
+	ret = i2c_hw_init(port, twiClock / 1000);
 #ifdef WIRE_DEBUG
 	debug(DBG_OFF, "i2c_hw_init(%d) = %d\n", twiClock / 1000, ret);
 #endif
@@ -53,14 +54,14 @@ void TwoWire::end(void)
 	if (!i2c_init_done)
 		return;
 
-	i2c_hw_free();
+	i2c_hw_free(port);
 	i2c_init_done = false;
 }
 
 void TwoWire::setClock(uint32_t frequency)
 {
 	twiClock = frequency;
-	i2c_hw_setspeed(twiClock / 1000);
+	i2c_hw_setspeed(port, twiClock / 1000);
 }
 
 uint8_t TwoWire::requestFrom(uint8_t address, uint8_t quantity, uint8_t sendStop)
@@ -81,13 +82,13 @@ uint8_t TwoWire::requestFrom(uint8_t address, uint8_t quantity, uint8_t sendStop
 
 	if (txBufferLength) {
 		/* write then read */
-		ret = i2c_hw_writeread(address, txBuffer, txBufferLength, rxBuffer, quantity);
+		ret = i2c_hw_writeread(port, address, txBuffer, txBufferLength, rxBuffer, quantity);
 #ifdef WIRE_DEBUG
 		debug(DBG_OFF, "i2c_hw_writeread(%x, %p, %d, %p, %d): %d\n", address, txBuffer, txBufferLength, rxBuffer, quantity, ret);
 #endif
 	} else {
 		/* Just read */
-		ret = i2c_hw_read(address, rxBuffer, quantity);
+		ret = i2c_hw_read(port, address, rxBuffer, quantity);
 #ifdef WIRE_DEBUG
 		debug(DBG_OFF, "i2c_hw_read(%x, %p, %d): %d\n", address, rxBuffer, quantity, ret);
 #endif
@@ -137,7 +138,7 @@ uint8_t TwoWire::endTransmission(uint8_t sendStop)
 	if (!i2c_init_done || (!sendStop && txBufferLength))
 		return 4; /* Do not support write with repeated start */
 	
-	ret = i2c_hw_write(txAddress, txBuffer, txBufferLength);
+	ret = i2c_hw_write(port, txAddress, txBuffer, txBufferLength);
 #ifdef WIRE_DEBUG
 	debug(DBG_OFF, "i2c_hw_write(%x, %p, %d) = %d\n", txAddress, txBuffer, txBufferLength, ret);
 #endif
@@ -217,4 +218,4 @@ void TwoWire::onService(void)
 	/* Nothing to do */
 }
 
-TwoWire Wire = TwoWire();
+TwoWire Wire = TwoWire(I2C_PORT_0);

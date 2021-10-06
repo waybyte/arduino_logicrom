@@ -33,7 +33,7 @@
 
 class TwoWire : public Stream {
 public:
-	TwoWire(void);
+	TwoWire(int port);
 	void begin(void);
 	void begin(uint8_t);
 	void begin(int);
@@ -66,6 +66,7 @@ public:
 
 private:
 	bool i2c_init_done = false;
+	int port;
 
 	// RX Buffer
 	uint8_t rxBuffer[BUFFER_LENGTH];
