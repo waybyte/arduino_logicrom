@@ -1,6 +1,7 @@
 #include <lib.h>
 #include <network.h>
 #include <arpa/inet.h>
+#include <modem.h>
 #include <netdb.h>
 #include <utils.h>
 
@@ -15,7 +16,7 @@ NetworkClass::~NetworkClass() {}
 bool NetworkClass::waitForRegistration(int timeout)
 {
 	while (timeout > 0) {
-		if (network_getstatus(0) == NET_STATE_GSM)
+		if (network_getstatus(0) >= NET_STATE_GSM)
 			break;
 		msleep(100);
 		timeout -= 100;
@@ -26,7 +27,7 @@ bool NetworkClass::waitForRegistration(int timeout)
 
 bool NetworkClass::isRegistered(void)
 {
-	return network_getstatus(0) == NET_STATE_GSM;
+	return network_getstatus(0) >= NET_STATE_GSM;
 }
 
 int NetworkClass::getSignalStrength(void)
@@ -35,7 +36,7 @@ int NetworkClass::getSignalStrength(void)
 
 	network_getparam(&netp);
 
-	return netp.csq;
+	return netp.signal;
 }
 
 int NetworkClass::getSimStatus(void)
@@ -67,7 +68,7 @@ int NetworkClass::getCgreg(void)
 
 const char *NetworkClass::getOperator(void)
 {
-	return ::get_operatorname(NULL, 0);
+	return md_get_operatorname((char *)NULL, 0);
 }
 
 /* APN Configuration */
@@ -100,7 +101,7 @@ bool NetworkClass::isGprsEnable(void)
 bool NetworkClass::GprsWaitForActivation(int timeout)
 {
 	while (timeout > 0) {
-		if (network_getstatus(0) == NET_STATE_GPRS)
+		if (network_isready())
 			return true;
 		msleep(100);
 		timeout -= 100;
@@ -111,7 +112,7 @@ bool NetworkClass::GprsWaitForActivation(int timeout)
 
 bool NetworkClass::isGprsActive(void)
 {
-	return network_getstatus(0) == NET_STATE_GPRS;
+	return network_isready();
 }
 
 IPAddress NetworkClass::localIP(void)
@@ -123,17 +124,17 @@ IPAddress NetworkClass::localIP(void)
 
 const char *NetworkClass::getIMEI(void)
 {
-	return get_imei(NULL, 0);
+	return md_get_imei(NULL, 0);
 }
 
 const char *NetworkClass::getIMSI(void)
 {
-	return get_imsi(NULL, 0);
+	return md_get_imsi(NULL, 0);
 }
 
 const char *NetworkClass::getICCID(void)
 {
-	return get_ccid(NULL, 0);
+	return md_get_ccid(NULL, 0);
 }
 
 IPAddress NetworkClass::resolve(const char *domain)
@@ -145,4 +146,3 @@ IPAddress NetworkClass::resolve(const char *domain)
 	else
 		return IPAddress(0, 0, 0, 0);
 }
-
