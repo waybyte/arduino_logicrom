@@ -82,7 +82,9 @@
 #define B0          0   /** Autobaud */
 #define B50         1
 #define B75         2
+#ifndef ARDUINO
 #define B110        3
+#endif
 #define B134        4
 #define B150        5
 #define B200        6
@@ -103,7 +105,9 @@
 #define B500000    20
 #define B576000    21
 #define B921600    22
+#ifndef ARDUINO
 #define B1000000   23
+#endif
 #define B1152000   24
 #define B1500000   25
 #define B2000000   26
