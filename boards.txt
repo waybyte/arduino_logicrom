@@ -118,6 +118,43 @@ ec200.upload.speed=460800
 ec200.upload.require_upload_port=false
 ec200.upload.wait_for_upload_port=false
 
+# Quectel EC600 Module definition
+ec600.name=Quectel EC600 LTE Cat.1 Module
+
+# build
+ec600.build.core=logicrom
+ec600.build.cpu=armca5
+ec600.build.f_cpu=500000000
+ec600.build.board=QUECTEL_EC600
+ec600.build.mcu=rda8910
+ec600.build.variant=ec600
+ec600.build.vid=0x1782
+ec600.build.pid=0x4D11
+ec600.build.extra_flags=-DSOC_RDA8910=1 -DPLATFORM_EC600=1
+ec600.build.logicromlib=logicrom4g
+ec600.build.ldscript=linkerscript_rda.ld
+ec600.menu.debug.Release=Release
+ec600.menu.debug.Release.build.build_type=
+ec600.menu.debug.Debug=Debug
+ec600.menu.debug.Debug.build.build_type=_debug
+ec600.menu.stdio.none=None
+ec600.menu.stdio.none.build.stdio_port=
+ec600.menu.stdio.ttys0=Uart0 (/dev/ttyS0)
+ec600.menu.stdio.ttys0.build.stdio_port=/dev/ttyS0
+ec600.menu.stdio.ttys1=Uart1 (/dev/ttyS1)
+ec600.menu.stdio.ttys1.build.stdio_port=/dev/ttyS1
+ec600.menu.stdio.ttyusb=USB Uart (/dev/ttyUSB0)
+ec600.menu.stdio.ttyusb.build.stdio_port=/dev/ttyUSB0
+
+# upload
+ec600.upload.tool=logicromflasher_rda8910
+ec600.upload.protocol=logicromflasher
+ec600.upload.maximum_size=1048576
+ec600.upload.maximum_ram_size=1048576
+ec600.upload.speed=460800
+ec600.upload.require_upload_port=false
+ec600.upload.wait_for_upload_port=false
+
 # s20gsm board definition
 s20gsm.name=S20 GSM Board
 
