@@ -122,6 +122,9 @@ public:
 	void setBitOrder(BitOrder order);
 	void setDataMode(uint8_t uc_mode);
 	void setClockDivider(uint8_t uc_div);
+#ifdef SOC_RDA8910
+	void CSControl(bool level);
+#endif
 
 private:
 	void init();

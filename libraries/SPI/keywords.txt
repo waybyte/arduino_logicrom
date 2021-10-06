@@ -22,6 +22,7 @@ usingInterrupt	KEYWORD2
 notUsingInterrupt	KEYWORD2
 beginTransaction	KEYWORD2
 endTransaction	KEYWORD2
+CSControl		KEYWORD2
 
 #######################################
 # Constants (LITERAL1)

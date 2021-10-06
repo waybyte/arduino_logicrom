@@ -137,4 +137,11 @@ void SPIClass::transfer(void *buf, size_t count)
 	}
 }
 
+#ifdef SOC_RDA8910
+void SPIClass::CSControl(bool level)
+{
+	spi_hw_cscontrol(port, level);
+}
+#endif
+
 SPIClass SPI = SPIClass(SPI_PORT_0);
