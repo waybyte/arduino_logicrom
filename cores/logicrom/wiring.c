@@ -26,12 +26,12 @@ static uint32_t irqstatus;
 
 void interrupts(void)
 {
-	irqstatus = disable_irqs();
+	irqstatus = os_enter_critical();
 }
 
 void noInterrupts(void )
 {
-	enable_irqs(irqstatus);
+	os_exit_critical(irqstatus);
 	irqstatus = 0;
 }
 

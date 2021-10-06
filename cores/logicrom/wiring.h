@@ -22,7 +22,8 @@
 extern "C" {
 #endif
 
-extern void init(void);
+void interrupts(void);
+void noInterrupts(void);
 
 #ifdef __cplusplus
 }
