@@ -22,6 +22,8 @@
 #define DEFAULT_STDIO_PORT "/dev/ttyUSB0"
 #endif
 
+#define SPI_MAX_SPEED 10000000UL
+
 /* Analog Pin definition */
 #define A0 GPIO_PIN_MAX
 #define A1 GPIO_0
