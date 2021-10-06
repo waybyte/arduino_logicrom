@@ -35,6 +35,20 @@ enum loglevel_e {
 extern "C" {
 #endif
 
+#ifndef _DOXYGEN_
+#ifndef TRUE
+#define TRUE 1
+#endif
+
+#ifndef FALSE
+#define FALSE 0
+#endif
+
+#ifndef NULL
+#define NULL ((void *)0)
+#endif
+#endif
+
 /**
  * Unsolicited response handler callback
  * @param urc_code			URC code
@@ -85,6 +99,13 @@ void system_gettz(char *tz, int size);
  * @return			Number of bytes printed
  */
 int debug(int level, const char *fmt, ...);
+
+/**
+ * Format Filesystem
+ * @param path		[in] Mount point of filesystem
+ * @return			0 on success, -ve for error
+ */
+int formatfs(const char * path);
 
 #ifdef __cplusplus
 }

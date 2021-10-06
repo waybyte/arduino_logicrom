@@ -6,8 +6,14 @@
 #ifndef INCLUDE_NETWORK_H_
 #define INCLUDE_NETWORK_H_
 
+#include <stdint.h>
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /**
- * Network status
+ * Network state
  */
 enum _net_state {
 	NET_STATE_INVALID,       /**< Network status unknown/invalid */
@@ -22,36 +28,17 @@ enum _net_state {
 /**
  * Network parameter structure
  */
-#ifdef PLATFORM_BC20
-typedef struct {
-	uint8_t csq;		/**< Signal strength RSSI value (0:-113dBm or less to 31:-55dBm or more, 99: Not detectable) */
-	uint8_t rscp;		/**< Received signal code power */
-	uint8_t rsrp;		/**< Reference signal received quality */
-	uint8_t rsrq;		/**< Reference signal received power */
-} cesq_t;
-
 struct netparam_t {
-	int simstate;		/**< SIM CPIN status @ref simstate_e */
-	int cereg;			/**< CEREG network status @ref networkstate_e */
-	int state;			/**< Internal state (for debugging) */
-	cesq_t cesq;		/**< Extended Signal quality structure */
+	uint8_t simstate;	/**< SIM CPIN status @ref simstate_e */
+	uint8_t creg;		/**< GSM status @ref networkstate_e */
+	uint8_t cgreg;		/**< EPS Network (4G/NB-Iot)/GPRS status @ref networkstate_e */
+	uint8_t state;		/**< Internal state (for debugging) */
+	uint8_t signal; 	/**< Signal level\n
+							 For GSM; RSSI Value - 0:-113dBm or less to 31:-55dBm or more,\n
+							 For 4G/NB-IoT; RSRP Value - 0:-140dBm or less to 97:-44dBm or more,\n
+							 99: Not detectable */
 	const char *apn;	/**< Currently used APN as null terminted string */
 };
-#else
-struct netparam_t {
-	int simstate;		/**< SIM CPIN status @ref simstate_e */
-	int creg;			/**< CREG GSM status @ref networkstate_e */
-	int cgreg;			/**< CGREG GPRS status @ref networkstate_e */
-	int state;			/**< Internal state (for debugging) */
-	int atgprs;			/**< Internal state of GPRS (for debugging) */
-	unsigned char csq;	/**< Signal strength RSSI value (0:-113dBm or less to 31:-55dBm or more, 99: Not detectable) */
-	const char *apn;	/**< Currently used APN as null terminted string */
-};
-#endif
-
-#ifdef __cplusplus
-extern "C" {
-#endif
 
 /**
  * Get Network parameters
@@ -108,10 +95,8 @@ int network_resetdns(void);
  */
 int network_getstatus(int sockfd);
 
-#if defined(PLATFORM_BC20) || defined(_DOXYGEN_)
 /**
- * Get status of network, if its ready or not for data transaction
- * @note This API applies to NBIoT Platforms only.
+ * Get status of network, if its ready or not for IP data transmission
  *
  * @return			returns 1 if network ready, 0 otherwise
  */
@@ -121,7 +106,6 @@ int network_isready(void);
  * Reset and restart network
  */
 void network_reset(void);
-#endif
 
 #if !defined(PLATFORM_BC20) || defined(_DOXYGEN_)
 /**
@@ -151,44 +135,25 @@ unsigned char *network_getlocalip(void);
 const char *network_getcurrapn(void);
 
 /**
- * Get module IMEI
- * @param imei_buf	[out] Buffer to store IMEI (optional, can be null)
- * @param len		[in] length of buffer
- * @return			IMEI buffer. If \a imei_buf is not provided then a Statically allocated buffer is returned, do not free.
+ * Setup Network status LED. Attach GPIO line managed by network
+ * thread for status LED.
+ * 
+ * IO Drive Logic: Positive (1 - High, 0 - Low)
+ * 
+ * LED Timings in milliseconds (On Time/Off Time):
+ * -----------------------------------------------
+ * No Network/No Sim: LED Off
+ * Searching Network: 50/500
+ * GSM/GPRS Registered: 50/1000
+ * Socket Connecting: 500/500
+ * Network Idle: 50/2000
+ * Data Sending: 100/100
+ * Unknow error: 50/50
+ * 
+ * @param gpionum	[in] GPIO Number to use
+ * @return			0 on success, negative value on error
  */
-const char *get_imei(char *imei_buf, int len);
-
-/**
- * Get IMSI value
- * @param imsi_buf	[out] Buffer to store IMSI (optional, can be null)
- * @param len		[in] length of buffer
- * @return			IMSI buffer. If \a imsi_buf is not provided then a Statically allocated buffer is returned, do not free.
- */
-const char *get_imsi(char *imsi_buf, int len);
-
-/**
- * Get SIM ICCID
- * @param ccid_buf	[out] Buffer to store CCID value (optional, can be null)
- * @param len		[in] length of buffer
- * @return			buffer containing ICCID. If \a ccid_buf is not provided then a Statically allocated buffer is returned, do not free.
- */
-const char *get_ccid(char *ccid_buf, int len);
-
-/**
- * Get current operator name
- * @param opbuf		[out] Buffer to store operator name (optional, can be null)
- * @param len		[in] length of \a opbuf
- * @return			buffer containing operator name. If \a opbuf is not provided then a Statically allocated buffer is returned, do not free.
- */
-const char *get_operatorname(char *opbuf, int len);
-
-/**
- * Get Service Provider Name from SIM card
- * @param spn_buf	[out] Buffer to store SPN (optional, can be null)
- * @param len		[in] length of \a spn_buf
- * @return			Buffer containing SPN. If \a spn_buf is not provided then a Statically allocated buffer is returned, do not free.
- */
-const char *get_simprovider(char *spn_buf, int len);
+int network_setup_statusled(int gpionum);
 
 #ifdef __cplusplus
 }

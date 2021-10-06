@@ -82,9 +82,7 @@
 #define B0          0   /** Autobaud */
 #define B50         1
 #define B75         2
-#ifndef B110
 #define B110        3
-#endif
 #define B134        4
 #define B150        5
 #define B200        6
@@ -105,9 +103,7 @@
 #define B500000    20
 #define B576000    21
 #define B921600    22
-#ifndef B1000000
 #define B1000000   23
-#endif
 #define B1152000   24
 #define B1500000   25
 #define B2000000   26
@@ -228,6 +224,17 @@ int cfsetispeed(struct termios *p, speed_t sp);
  * @return 0 when successful, -1 otherwise with errno set
  */
 int cfsetospeed(struct termios *p, speed_t sp);
+
+/**
+ * @brief Set output baud rate in the termios structure
+ *
+ * There is no effect in hardware until a subsequent call of tcsetattr().
+ *
+ * @param p input termios structure
+ * @param sp output baud rate
+ * @return 0 when successful, -1 otherwise with errno set
+ */
+int cfsetspeed(struct termios *p, speed_t sp);
 
 /**
  * @brief Wait for transmission of output

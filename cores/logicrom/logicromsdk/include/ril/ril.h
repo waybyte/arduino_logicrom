@@ -5,32 +5,15 @@
 #ifndef __RIL_H__
 #define __RIL_H__
 
-#ifndef _DOXYGEN_
-#ifndef FALSE
-#define FALSE    0
-#endif
+#include <stdint.h>
 
-#ifndef TRUE
-#define TRUE     1
-#endif
-
-#ifndef NULL
-#define NULL    ((void *) 0)
+#ifdef __cplusplus
+extern "C"
+{
 #endif
 
 #define RIL_MAX_URC_PREFIX_LEN		50	/**< Maximum allowed URC keyword length */
 #define PHONE_NUMBER_MAX_LEN		41	/**< Maximum phone number length */
-
-typedef unsigned char       u8;
-typedef signed   char       s8;
-typedef unsigned short      u16;
-typedef          short      s16;
-typedef unsigned int        u32;
-typedef          int        s32;
-typedef unsigned long long  u64;
-typedef          long long  s64;
-typedef unsigned int        ticks;
-#endif
 
 /**
  * System Initialization status
@@ -60,15 +43,17 @@ enum simstate_e {
 };
 
 /**
- * Network status
+ * Network Registration status
  */
 enum networkstate_e {
-	NW_STAT_NOT_REGISTERED = 0, /**< Not register to network */
-	NW_STAT_REGISTERED,			/**< The normal network state */
-	NW_STAT_SEARCHING,			/**< Searching network */
-	NW_STAT_REG_DENIED,			/**< The register request is denied */
-	NW_STAT_UNKNOWN,			/**< status unknown */
-	NW_STAT_REGISTERED_ROAMING	/**< Registered and Roaming state */
+	NW_STAT_NOT_REGISTERED = 0, /**< Not register and not searching */
+	NW_STAT_REGISTERED_HOME,	/**< Registered and in home network */
+	NW_STAT_SEARCHING,			/**< Not registered and Searching network */
+	NW_STAT_REG_DENIED,			/**< Registration is denied */
+	NW_STAT_UNKNOWN,			/**< Unknown registration */
+	NW_STAT_REGISTERED_ROAMING,	/**< Registered and in Roaming */
+	NW_STAT_SMSONLY_HOME,		/**< 4G LTE Only: Registered for SMS only in home network */
+	NW_STAT_SMSONLY_ROAMING,	/**< 4G LTE Only: Registered for SMS only in Roaming network */
 };
 
 /**
@@ -111,10 +96,10 @@ enum sysurc_e {
 	URC_SYS_INIT_STATE_IND,     /**< Indication for module initialization state during boot stage, parameter value as @ref sysinitstate_e */
 	URC_SIM_CARD_STATE_IND,     /**< Indication for SIM card state (state change), parameter value as @ref simstate_e */
 	URC_GSM_NW_STATE_IND,       /**< Indication for GSM network state (state change), parameter value as @ref networkstate_e */
-	URC_EGPRS_NW_STATE_IND = 3,	/**< Indication for EPS Network registration status, parameter value as @ref networkstate_e */
 	URC_GPRS_NW_STATE_IND,      /**< Indication for GPRS network state (state change), parameter value as @ref networkstate_e */
+	URC_EGPRS_NW_STATE_IND = 4,	/**< Indication for EPS Network registration status, parameter value as @ref networkstate_e */
 	URC_CFUN_STATE_IND,         /**< Indication for CFUN state, with parameters as one of @ref cfunstate_e */
-	URC_COMING_CALL_IND,        /**< Indication for coming call with parameter as @ref callinfo_t */
+	URC_COMING_CALL_IND,        /**< Indication for coming call with parameter as @ref ril_callinfo_t */
 	URC_CALL_STATE_IND,         /**< Indication for call state (state change), parameter value as @ref callstatus_e */
 	URC_NEW_SMS_IND,            /**< Indication for new short message, parameter value as index of incoming SMS */
 	URC_MODULE_VOLTAGE_IND,     /**< Indication for abnormal voltage of module supply power, parameter value as @ref vbattind_e */
@@ -152,13 +137,19 @@ enum ril_rc_e {
 };
 
 /**
+ * Incoming call type
+ */
+enum ril_calltype_e {
+	MD_VOICE_CALL_TYPE_VOICE,/**< Voice call */
+	MD_VOICE_CALL_TYPE_VIDEO /**< Video call */
+};
+
+/**
  * Incoming call phone info
  */
-struct callinfo_t {
-	s32 type; /**< Type of address with following possible values.\n
-				   129: Unknown type (ISDN format number)\n
-				   145: International number type (ISDN format) */
-	char phoneNumber[PHONE_NUMBER_MAX_LEN]; /**< Phone number as null terminated string */
+struct ril_callinfo_t {
+	int type;						   /**< Incoming call type @ref ril_calltype_e */
+	char number[PHONE_NUMBER_MAX_LEN]; /**< Phone number as null terminated string */
 };
 
 /**
@@ -175,7 +166,7 @@ typedef void (*urc_handler_f)(const char *strURC, void *reserved);
  * @param arg			User argument passed via @ref ril_send_atcommand
  * @return				RIL response return code @ref ril_resp_rc
  */
-typedef s32 (*atrsp_callback_f)(char* line, u32 len, void* arg);
+typedef int (*atrsp_callback_f)(char* line, uint32_t len, void* arg);
 
 /**
  * RIL receive core data callback function
@@ -183,11 +174,7 @@ typedef s32 (*atrsp_callback_f)(char* line, u32 len, void* arg);
  * @param dataLen		Length of incoming data
  * @param reserved		Reserved (unused)
  */
-typedef void (*ril_recvcb_f)(u8* ptrData, u32 dataLen, void* reserved);
-
-#ifdef __cplusplus
-extern "C" {
-#endif
+typedef void (*ril_recvcb_f)(uint8_t* ptrData, uint32_t dataLen, void* reserved);
 
 /**
  * Callback variable for user RIL processing function. This variable can be assigned when processing function
@@ -204,7 +191,11 @@ extern ril_recvcb_f cb_rcvCoreData;
  * @param cb			[in] processing callback function @ref atrsp_callback_f
  * @param arg			[in] User argument passed to callback function
  * @param timeout		[in] Timeout for command execution
- * @param wait			[in] Wait for RIL to be available (TRUE) or not (FALSE). If wait is false, function may return with @ref RIL_AT_BUSY
+ * @param wait			[in] Wait for RIL to be available (TRUE) or not (FALSE).
+ * 							 If wait is false, function returns immideatly if RIL is
+ * 							 unavailable.
+ * 							 If true function will wait for RIL availability until
+ * 							 timeout occurs.
  * @return				RIL return code @ref ril_rc_e
  */
 int ril_send_atcommand(const char *cmd, atrsp_callback_f cb, void *arg, unsigned int timeout, int wait);
@@ -235,10 +226,10 @@ int ril_urc_detach(const char *keyword);
 /**
  * Get exclusive access to Radio interface layer. This lock is only an advisory lock for RIL.
  * @note ril_lock() and ril_unlock() should be called from same task
- * @param wait			[in] 1 to wait for RIL to be available, 0 otherwise
+ * @param timeout		[in] Timeout value in milliseconds to wait for lock
  * @return				0 on success, -EWOULDBLOCK on error or when lock is unavailable
  */
-int ril_lock(int wait);
+int ril_lock(int timeout);
 
 /**
  * Unlock RIL layer
