@@ -5,6 +5,45 @@
 menu.debug=Build Type
 menu.stdio=Select STDIO Port
 
+# Neoway N716 Module definition
+n716.name=Neoway N716 LTE Cat.1 Module
+
+# build
+n716.build.core=logicrom
+n716.build.cpu=armca5
+n716.build.f_cpu=260000000
+n716.build.board=NEOWAY_N716
+n716.build.mcu=rda8910
+n716.build.variant=n716
+n716.build.vid=0x0E8D
+n716.build.pid=0x0003
+n716.build.extra_flags=-DSOC_RDA8910=1 -DPLATFORM_N716=1
+n716.build.logicromlib=logicrom4g
+n716.build.ldscript=linkerscript_rda.ld
+n716.menu.debug.Release=Release
+n716.menu.debug.Release.build.build_type=
+n716.menu.debug.Debug=Debug
+n716.menu.debug.Debug.build.build_type=_debug
+n716.menu.stdio.none=None
+n716.menu.stdio.none.build.stdio_port=
+n716.menu.stdio.ttys0=Uart0 (/dev/ttyS0)
+n716.menu.stdio.ttys0.build.stdio_port=/dev/ttyS0
+n716.menu.stdio.ttys1=Uart1 (/dev/ttyS1)
+n716.menu.stdio.ttys1.build.stdio_port=/dev/ttyS1
+n716.menu.stdio.ttys2=Uart2 (/dev/ttyS2)
+n716.menu.stdio.ttys2.build.stdio_port=/dev/ttyS2
+n716.menu.stdio.ttyusb=USB Uart (/dev/ttyUSB0)
+n716.menu.stdio.ttyusb.build.stdio_port=/dev/ttyUSB0
+
+# upload
+n716.upload.tool=logicromflasher_rda8910
+n716.upload.protocol=logicromflasher
+n716.upload.maximum_size=1048576
+n716.upload.maximum_ram_size=1048576
+n716.upload.speed=460800
+n716.upload.require_upload_port=false
+n716.upload.wait_for_upload_port=false
+
 # s20gsm board definition
 s20gsm.name=S20 GSM Board
 
