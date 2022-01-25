@@ -1,5 +1,5 @@
-#ifndef _VARIANT_M66_X_
-#define _VARIANT_M66_X_
+#ifndef _VARIANT_N716_X_
+#define _VARIANT_N716_X_
 
 /*
  * Headers
