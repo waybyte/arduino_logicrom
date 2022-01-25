@@ -7,7 +7,7 @@
 # https://github.com/arduino/Arduino/wiki/Arduino-IDE-1.5---3rd-party-Hardware-specification
 
 name=Logicrom Arduino
-version=0.7.0
+version=0.8.0
 
 # Tools
 # -----
