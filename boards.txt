@@ -69,6 +69,8 @@ n58.menu.stdio.ttys0=Uart0 (/dev/ttyS0)
 n58.menu.stdio.ttys0.build.stdio_port=/dev/ttyS0
 n58.menu.stdio.ttys1=Uart1 (/dev/ttyS1)
 n58.menu.stdio.ttys1.build.stdio_port=/dev/ttyS1
+n58.menu.stdio.ttys2=Uart2 (/dev/ttyS2)
+n58.menu.stdio.ttys2.build.stdio_port=/dev/ttyS2
 n58.menu.stdio.ttyusb=USB Uart (/dev/ttyUSB0)
 n58.menu.stdio.ttyusb.build.stdio_port=/dev/ttyUSB0
 
@@ -106,6 +108,8 @@ ec200u.menu.stdio.ttys0=Uart0 (/dev/ttyS0)
 ec200u.menu.stdio.ttys0.build.stdio_port=/dev/ttyS0
 ec200u.menu.stdio.ttys1=Uart1 (/dev/ttyS1)
 ec200u.menu.stdio.ttys1.build.stdio_port=/dev/ttyS1
+ec200u.menu.stdio.ttys2=Uart2 (/dev/ttyS2)
+ec200u.menu.stdio.ttys2.build.stdio_port=/dev/ttyS2
 ec200u.menu.stdio.ttyusb=USB Uart (/dev/ttyUSB0)
 ec200u.menu.stdio.ttyusb.build.stdio_port=/dev/ttyUSB0
 
@@ -143,6 +147,8 @@ ec600u.menu.stdio.ttys0=Uart0 (/dev/ttyS0)
 ec600u.menu.stdio.ttys0.build.stdio_port=/dev/ttyS0
 ec600u.menu.stdio.ttys1=Uart1 (/dev/ttyS1)
 ec600u.menu.stdio.ttys1.build.stdio_port=/dev/ttyS1
+ec600u.menu.stdio.ttys2=Uart2 (/dev/ttyS2)
+ec600u.menu.stdio.ttys2.build.stdio_port=/dev/ttyS2
 ec600u.menu.stdio.ttyusb=USB Uart (/dev/ttyUSB0)
 ec600u.menu.stdio.ttyusb.build.stdio_port=/dev/ttyUSB0
 
@@ -180,6 +186,8 @@ l610.menu.stdio.ttys0=Uart0 (/dev/ttyS0)
 l610.menu.stdio.ttys0.build.stdio_port=/dev/ttyS0
 l610.menu.stdio.ttys1=Uart1 (/dev/ttyS1)
 l610.menu.stdio.ttys1.build.stdio_port=/dev/ttyS1
+l610.menu.stdio.ttys2=Uart2 (/dev/ttyS2)
+l610.menu.stdio.ttys2.build.stdio_port=/dev/ttyS2
 l610.menu.stdio.ttyusb=USB Uart (/dev/ttyUSB0)
 l610.menu.stdio.ttyusb.build.stdio_port=/dev/ttyUSB0
 
