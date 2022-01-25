@@ -15,7 +15,7 @@
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
-  Copyright (c) 2021 WAYBYTE Solutions.  All right reserved.
+  Copyright (c) Waybyte Solutions.  All right reserved.
   Modified-By: Ajay Bhargav <ajay.bhargav@waybyte.in>
 */
 

@@ -1,12 +1,12 @@
-# Copyright (c) 2021 WAYBYTE Solutions. All right reserved.
+# Copyright (c) Waybyte Solutions. All right reserved.
 # https://www.waybyte.in/
 #
-# LOGICROM Arduino Core and platform.
+# Logicrom Arduino Core and platform.
 #
 # For more info:
 # https://github.com/arduino/Arduino/wiki/Arduino-IDE-1.5---3rd-party-Hardware-specification
 
-name=LOGICROM Arduino
+name=Logicrom Arduino
 version=0.7.0
 
 # Tools

@@ -1,10 +1,10 @@
-# Copyright (c) 2021 WAYBYTE Solutions. All right reserved.
+# Copyright (c) Waybyte Solutions. All right reserved.
 # https://www.waybyte.in/
 #
-# LOGICROM Core Flasher
+# Logicrom Core Flasher
 #
 
-logicromflasher.name=LOGICROM Core Flasher (MT2503/MT6261)
+logicromflasher.name=Logicrom Core Flasher (MT2503/MT6261)
 logicromflasher.program.tool=logicromflasher
 logicromflasher.program.path={runtime.tools.logicromflasher.path}
 logicromflasher.program.cmd=echo "ROM flashing only available on windows"

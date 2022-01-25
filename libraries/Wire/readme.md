@@ -1,4 +1,4 @@
-# I2C Library For LOGICROM Platform
+# I2C Library For Logicrom Platform
 GSM module has one I2C channel and currently driver supports master mode I2C communication upto 400Khz.
 
 ## Debugging
@@ -15,4 +15,4 @@ to
 #define WIRE_DEBUG
 ```
 
-The debug print shows information of low-level LOGICROM function calls and return values. Check errno.h for details on error codes.
+The debug print shows information of low-level Logicrom function calls and return values. Check errno.h for details on error codes.

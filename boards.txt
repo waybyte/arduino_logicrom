@@ -1,4 +1,4 @@
-# Copyright (c) 2021 WAYBYTE Solutions. All right reserved.
+# Copyright (c) Waybyte Solutions. All right reserved.
 # https://www.waybyte.in/
 #
 

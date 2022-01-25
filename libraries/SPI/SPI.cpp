@@ -1,5 +1,5 @@
 /*
- * SPI Master library for LOGICROM Platform
+ * SPI Master library for Logicrom Platform
  * Copyright (c) 2015 Arduino LLC
  *
  * This library is free software; you can redistribute it and/or
@@ -16,7 +16,7 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  * 
- * Modified by Ajay Bhargav <contact@rickeyworld.info>
+ * Modified by Ajay Bhargav <ajay.bhargav@waybyte.in>
  * 
  */
 

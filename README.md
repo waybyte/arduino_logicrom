@@ -1,5 +1,5 @@
-# LogicROM Arduino
-Arduino framework for LOGICROM
+# Logicrom Arduino
+Arduino framework for Logicrom
 
 # Installation
 
@@ -12,9 +12,9 @@ Arduino framework for LOGICROM
 ## Install Board
 * Go To Arduino IDE Menu, **Tools** &#707; **Board** &#707; **Board Manager**
 * In search box enter: _logic_
-* Click Install for _LOGICROM Arduino Boards_
+* Click Install for _Logicrom Arduino Boards_
 
-# LOGICROM Board Configuration
+# Logicrom Board Configuration
 Make sure _S20 GSM Board_ is selected from Board Manager after Installation.
 
 ## Build Type
