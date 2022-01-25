@@ -81,42 +81,42 @@ n58.upload.speed=460800
 n58.upload.require_upload_port=false
 n58.upload.wait_for_upload_port=false
 
-# Quectel EC200 Module definition
-ec200.name=Quectel EC200 LTE Cat.1 Module
+# Quectel EC200U Module definition
+ec200u.name=Quectel EC200U LTE Cat.1 Module
 
 # build
-ec200.build.core=logicrom
-ec200.build.cpu=armca5
-ec200.build.f_cpu=500000000
-ec200.build.board=QUECTEL_EC200
-ec200.build.mcu=rda8910
-ec200.build.variant=ec200
-ec200.build.vid=0x1782
-ec200.build.pid=0x4D11
-ec200.build.extra_flags=-DSOC_RDA8910=1 -DPLATFORM_EC200=1
-ec200.build.logicromlib=logicrom4g
-ec200.build.ldscript=linkerscript_rda.ld
-ec200.menu.debug.Release=Release
-ec200.menu.debug.Release.build.build_type=
-ec200.menu.debug.Debug=Debug
-ec200.menu.debug.Debug.build.build_type=_debug
-ec200.menu.stdio.none=None
-ec200.menu.stdio.none.build.stdio_port=
-ec200.menu.stdio.ttys0=Uart0 (/dev/ttyS0)
-ec200.menu.stdio.ttys0.build.stdio_port=/dev/ttyS0
-ec200.menu.stdio.ttys1=Uart1 (/dev/ttyS1)
-ec200.menu.stdio.ttys1.build.stdio_port=/dev/ttyS1
-ec200.menu.stdio.ttyusb=USB Uart (/dev/ttyUSB0)
-ec200.menu.stdio.ttyusb.build.stdio_port=/dev/ttyUSB0
+ec200u.build.core=logicrom
+ec200u.build.cpu=armca5
+ec200u.build.f_cpu=500000000
+ec200u.build.board=QUECTEL_EC200U
+ec200u.build.mcu=rda8910
+ec200u.build.variant=ec200u
+ec200u.build.vid=0x1782
+ec200u.build.pid=0x4D11
+ec200u.build.extra_flags=-DSOC_RDA8910=1 -DPLATFORM_EC200U=1
+ec200u.build.logicromlib=logicrom4g
+ec200u.build.ldscript=linkerscript_rda.ld
+ec200u.menu.debug.Release=Release
+ec200u.menu.debug.Release.build.build_type=
+ec200u.menu.debug.Debug=Debug
+ec200u.menu.debug.Debug.build.build_type=_debug
+ec200u.menu.stdio.none=None
+ec200u.menu.stdio.none.build.stdio_port=
+ec200u.menu.stdio.ttys0=Uart0 (/dev/ttyS0)
+ec200u.menu.stdio.ttys0.build.stdio_port=/dev/ttyS0
+ec200u.menu.stdio.ttys1=Uart1 (/dev/ttyS1)
+ec200u.menu.stdio.ttys1.build.stdio_port=/dev/ttyS1
+ec200u.menu.stdio.ttyusb=USB Uart (/dev/ttyUSB0)
+ec200u.menu.stdio.ttyusb.build.stdio_port=/dev/ttyUSB0
 
 # upload
-ec200.upload.tool=logicromflasher_rda8910
-ec200.upload.protocol=logicromflasher
-ec200.upload.maximum_size=1048576
-ec200.upload.maximum_ram_size=1048576
-ec200.upload.speed=460800
-ec200.upload.require_upload_port=false
-ec200.upload.wait_for_upload_port=false
+ec200u.upload.tool=logicromflasher_rda8910
+ec200u.upload.protocol=logicromflasher
+ec200u.upload.maximum_size=1048576
+ec200u.upload.maximum_ram_size=1048576
+ec200u.upload.speed=460800
+ec200u.upload.require_upload_port=false
+ec200u.upload.wait_for_upload_port=false
 
 # Quectel EC600 Module definition
 ec600.name=Quectel EC600 LTE Cat.1 Module

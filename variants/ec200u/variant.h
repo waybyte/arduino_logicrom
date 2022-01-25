@@ -1,5 +1,5 @@
-#ifndef _VARIANT_M66_X_
-#define _VARIANT_M66_X_
+#ifndef _VARIANT_EC200U_X_
+#define _VARIANT_EC200U_X_
 
 /*
  * Headers
@@ -30,7 +30,7 @@
 #define A2 GPIO_PIN_MAX + 2
 
 /* LED (NET_STATUS Pin on Module) */
-#define LED_BUILTIN GPIO_13
+#define LED_BUILTIN GPIO_22
 
 /*
  * SPI Interfaces
