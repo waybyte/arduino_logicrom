@@ -28,20 +28,43 @@ User can select standard I/O port for `printf` function from following options
 * Uart2 `/dev/ttyS2`
 * USB Uart `/dev/ttyUSB0`
 
-# Supported Platforms
-## SIWI S20U GSM Module
-* S20U Module
-* S20 GSM development Board
-<img src="https://waybyte.github.io/asset/s20gsm_board.png" alt="s20 gsm board" width="50%">
+## Resources
 
-## Quectel M66 2G GSM
-<img src="https://www.quectel.com/UploadImage/Product/20200304152709774.png" alt="Quectel M66" width="50%">
+* [Documentation](https://docs.logicrom.com) - Logicrom SDK documentation for latest version
 
-## Quectel MC60 2G GSM
-<img src="https://www.quectel.com/UploadImage/Product/20200302164806327.png" alt="Quectel MC60" width="50%">
+# Supported Modules
+## 4G LTE Cat.1 Modules
 
-## Quectel MC20 2G GSM
-<img src="https://www.quectel.com/UploadImage/Product/20200302175738828.png" alt="Quectel MC20" width="50%">
+| Module Name  | Networking | BLE[^1] | GPS | GPIO | ADC | I2C | SPI | USB | LCD | Camera |
+|--------------|------------|---------|-----|------|-----|-----|-----|-----|-----|--------|
+| Neoway N58  | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :x: | :x: |
+| Neoway N716 | :heavy_check_mark: | :heavy_check_mark: | :heavy_minus_sign: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :x: | :x: |
+| Quectel EC200U | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :x: | :x: |
+| Quectel EC600U | :heavy_check_mark: | :heavy_check_mark: | :heavy_minus_sign: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :x: | :x: |
+| Fibocom L610  | :heavy_check_mark: | :heavy_check_mark: | :heavy_minus_sign: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :x: | :x: |
 
-## Quectel M56 GSM
-<img src="https://www.quectel.com/UploadImage/Product/20200304115535722.png" alt="Quectel M56" width="50%">
+DFOTA is also supported of on above mentioned LTE modules
+
+## NB-IoT Modules[^2]
+
+| Module Name  | Networking | GPS | GPIO | ADC | I2C | SPI | USB |
+|--------------|------------|-----|------|-----|-----|-----|-----|
+| Quectel BC66 | :heavy_check_mark: | :heavy_minus_sign: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+| Quectel BC20 | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+
+## GSM Modules
+
+| Module Name  | Networking | BT | GPS | GPIO | ADC | I2C | SPI | USB | LCD[^3] |
+|--------------|------------|----|-----|------|-----|-----|-----|-----|---------|
+| Quectel M66  | :heavy_check_mark: | :heavy_check_mark: | :heavy_minus_sign: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_minus_sign: | :x: |
+| Quectel M66DS| :heavy_check_mark: | :heavy_check_mark: | :heavy_minus_sign: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_minus_sign: | :x: |
+| Quectel MC60 | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_minus_sign: | :x: |
+| Quectel MC20 | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_minus_sign: | :x: |
+| Quectel M56| :heavy_check_mark: | :heavy_check_mark: | :heavy_minus_sign: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :x: |
+| Quectel MC20U| :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :x: |
+| SIMCOM SIM868[^4]| :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :x: |
+
+[^1]: Currely only GATT Server supported and used for console purpose only.
+[^2]: Updates to come
+[^3]: LCD is work in progress.
+[^4]: Please backup calibration during first flash via Maui Meta tool (google is your friend).
