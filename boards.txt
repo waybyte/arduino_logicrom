@@ -155,6 +155,43 @@ ec600u.upload.speed=460800
 ec600u.upload.require_upload_port=false
 ec600u.upload.wait_for_upload_port=false
 
+# Fibocom L610 Module definition
+l610.name=Fibocom L610 LTE Cat.1 Module
+
+# build
+l610.build.core=logicrom
+l610.build.cpu=armca5
+l610.build.f_cpu=500000000
+l610.build.board=QUECTEL_EC200U
+l610.build.mcu=rda8910
+l610.build.variant=ec200u
+l610.build.vid=0x1782
+l610.build.pid=0x4D11
+l610.build.extra_flags=-DSOC_RDA8910=1 -DPLATFORM_L610=1
+l610.build.logicromlib=logicrom4g
+l610.build.ldscript=linkerscript_rda.ld
+l610.menu.debug.Release=Release
+l610.menu.debug.Release.build.build_type=
+l610.menu.debug.Debug=Debug
+l610.menu.debug.Debug.build.build_type=_debug
+l610.menu.stdio.none=None
+l610.menu.stdio.none.build.stdio_port=
+l610.menu.stdio.ttys0=Uart0 (/dev/ttyS0)
+l610.menu.stdio.ttys0.build.stdio_port=/dev/ttyS0
+l610.menu.stdio.ttys1=Uart1 (/dev/ttyS1)
+l610.menu.stdio.ttys1.build.stdio_port=/dev/ttyS1
+l610.menu.stdio.ttyusb=USB Uart (/dev/ttyUSB0)
+l610.menu.stdio.ttyusb.build.stdio_port=/dev/ttyUSB0
+
+# upload
+l610.upload.tool=logicromflasher_rda8910
+l610.upload.protocol=logicromflasher
+l610.upload.maximum_size=1048576
+l610.upload.maximum_ram_size=1048576
+l610.upload.speed=460800
+l610.upload.require_upload_port=false
+l610.upload.wait_for_upload_port=false
+
 # s20gsm board definition
 s20gsm.name=S20 GSM Board
 
