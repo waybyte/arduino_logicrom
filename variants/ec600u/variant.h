@@ -1,5 +1,5 @@
-#ifndef _VARIANT_M66_X_
-#define _VARIANT_M66_X_
+#ifndef _VARIANT_EC600U_X_
+#define _VARIANT_EC600U_X_
 
 /*
  * Headers
