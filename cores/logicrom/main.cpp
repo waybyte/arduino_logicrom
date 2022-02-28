@@ -139,7 +139,7 @@ int main(int argc, char *argv[])
 	variant_init();
 
 	/* Start Loop task */
-	os_create_task(arduino_task, NULL, FALSE);
+	os_task_create(arduino_task, NULL, FALSE);
 
 	/* Main thread for running and handling events */
 	while (1) {
@@ -151,6 +151,6 @@ int main(int argc, char *argv[])
 			serialEventRun();
 
 		/* sleep is required for RTOS to work properly */
-		os_sleep(50);
+		os_task_sleep(50);
 	}
 }
