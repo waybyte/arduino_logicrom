@@ -36,8 +36,8 @@ compiler.mt2503.flags=-march=armv5te -mfloat-abi=soft
 compiler.mt6261.flags=-march=armv5te -mfloat-abi=soft
 compiler.rda8910.flags=-mcpu=cortex-a5 -mtune=generic-armv7-a -mfpu=neon-vfpv4 -mfloat-abi=hard -mno-unaligned-access
 
-compiler.mt2503.ldflags=--specs=nano.specs -u _printf_float -u _scanf_float --specs=nosys.specs
-compiler.mt6261.ldflags=--specs=nano.specs -u _printf_float -u _scanf_float --specs=nosys.specs
+compiler.mt2503.ldflags=--specs=nano.specs -u _printf_float -u _scanf_float --specs=nosys.specs "-Wl,--defsym,platform_init=platform_{build.variant}_init"
+compiler.mt6261.ldflags=--specs=nano.specs -u _printf_float -u _scanf_float --specs=nosys.specs "-Wl,--defsym,platform_init=platform_{build.variant}_init"
 compiler.rda8910.ldflags=
 
 # C Compiler
@@ -92,7 +92,7 @@ archive_file_path={build.path}/{archive_file}
 recipe.ar.pattern="{compiler.path}{compiler.ar.cmd}" {compiler.ar.flags} {compiler.ar.extra_flags} "{archive_file_path}" "{object_file}"
 
 ## Combine gc-sections, archives, and objects
-recipe.c.combine.pattern="{compiler.path}{compiler.c.elf.cmd}" "-L{build.path}" {compiler.c.elf.flags} {compiler.c.elf.extra_flags} "-L{build.core.path}/logicromsdk/lib" "-T{build.ldscript}" "-Wl,-Map,{build.path}/{build.project_name}.map" "-Wl,--defsym,platform_init=platform_{build.variant}_init" {compiler.ldflags} -o "{build.path}/{build.project_name}.elf" {object_files} -Wl,--start-group -l{build.logicromlib}{build.build_type} -lc -lgcc -lm "{build.path}/{archive_file}" -Wl,--end-group
+recipe.c.combine.pattern="{compiler.path}{compiler.c.elf.cmd}" "-L{build.path}" {compiler.c.elf.flags} {compiler.c.elf.extra_flags} "-L{build.core.path}/logicromsdk/lib" "-T{build.ldscript}" "-Wl,-Map,{build.path}/{build.project_name}.map" {compiler.ldflags} -o "{build.path}/{build.project_name}.elf" {object_files} -Wl,--start-group -l{build.logicromlib}{build.build_type} -lc -lgcc -lm "{build.path}/{archive_file}" -Wl,--end-group
 
 ## Create output Binary file
 ## Pattern based on mcu type
