@@ -8,6 +8,10 @@
 
 #include <plat/def_gpio.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /**
  * GPIO Callback function prototype
  * @param handle
@@ -38,7 +42,7 @@ enum gpio_conf_e {
 	GPIO_FLAG_DEFLOW	= 0x00,	/**< Set default state to low during @ref gpio_request */
 	GPIO_FLAG_PULLUP	= 0x04,	/**< Enable weak pullup */
 	GPIO_FLAG_PULLDOWN	= 0x08,	/**< Enable weak pulldown */
-	GPIO_FLAG_PULLSTRG	= 0x10,	/**< This flag when combined with @ref GPIO_FLAG_PULLUP/@ref GPIO_FLAG_PULLDOWN enables strong pull-up/pull-down respectively. */
+	GPIO_FLAG_PULLSTRG	= 0x10,	/**< This flag when combined with @ref GPIO_FLAG_PULLUP or @ref GPIO_FLAG_PULLDOWN enables strong pull-up/pull-down respectively. */
 };
 
 /**
@@ -50,10 +54,6 @@ enum gpio_trigger_e {
 	GPIO_TRIG_HIGH,   /**< Trigger Low -> High level transition */
 	GPIO_TRIG_BOTH    /**< Trigger on change of either level */
 };
-
-#ifdef __cplusplus
-extern "C" {
-#endif
 
 /**
  * Request a GPIO
@@ -100,15 +100,17 @@ int gpio_setdir(int handle, int dir);
  * GPIO driver provide slow trigger option without debounce support to check and confirm
  * active trigger. On active trigger, callback function is called with state of gpio.
  * Triggers are only possible on gpio configured as inputs.
+ * 
  * If input level changes after first transition is detected and debounce time,
  * internal debounce timer is reset for resampling of IO state.
+ * 
  * @param handle		Handle to gpio object returned by @ref gpio_request
  * @param fn			Callback function of type @ref gpio_callback_f
  * @param trigger_time	Debounce time or trigger delay
  * @param flags			Type of trigger requested @ref gpio_trigger_e
  * @return				0 on success, negative error code on failure
  */
-int gpio_settrigger(int handle, gpio_callback_f fn, int trigger_time, int flags);
+int gpio_trigger_enable(int handle, gpio_callback_f fn, int trigger_time, int flags);
 
 /**
  * Disable GPIO trigger

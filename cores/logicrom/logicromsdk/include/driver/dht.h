@@ -2,12 +2,19 @@
  * DHT Temperature & Humidity Sensor library optimized for GSM module
  *
  * DHT Library based on Rob Tillaart's DHTlib
+ * 
  * ref: https://github.com/RobTillaart/Arduino/tree/master/libraries/DHTlib
+ * 
  * version: 0.1.29
+ * 
  */
 
 #ifndef INC_DRIVER_DHT_H
 #define INC_DRIVER_DHT_H
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define DHT_LIB_VERSION "0.1.29"
 
@@ -40,10 +47,6 @@ enum dht_err_e {
  */
 #define dht_read44(p,h,t)	dht_read(p,h,t)
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 /**
  * DHT11 Read function
  * @param iohandle		[in] GPIO pin handle returned by @ref gpio_request()
@@ -54,13 +57,12 @@ extern "C" {
 int dht_read11(int iohandle, double *humidity, double *temperature);
 
 /**
- * DHTXX Read function
- * where XX is 21,22,33,44
+ * DHTXX Read function, where XX is 21,22,33,44
+ * 
  * A macro based shorthand is also available for code readability.
- * @see dht_read21
- * @see dht_read22
- * @see dht_read33
- * @see dht_read44
+ * 
+ * @see dht_read21, dht_read22, dht_read33, dht_read44
+ * 
  * @param iohandle		[in] GPIO pin handle @ref gpio_request()
  * @param humidity		[out] Humidity value
  * @param temperature	[out] Temperature value
