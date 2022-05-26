@@ -29,7 +29,7 @@
 #define A1 GPIO_PIN_MAX + 1
 
 /* LED (Netlight Pin on Module) */
-#define LED_BUILTIN GPIO_11
+#define LED_BUILTIN GPIO_2
 
 /*
  * SPI Interfaces
