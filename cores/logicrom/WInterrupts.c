@@ -49,9 +49,11 @@ void attachInterrupt(uint32_t pin, voidFuncPtr callback, uint32_t mode)
 		return;
 	}
 
-	/* TODO: Check for fast IRQ */
-	/* Use slow scanning mode for now */
-	gpio_settrigger(g_ioHandles[pin], gpio_common_cb, 0, trigger);
+	/*
+	 * TODO: Check for fast IRQ on 2G modules
+	 * Use slow scanning mode for now
+	 */
+	gpio_trigger_enable(g_ioHandles[pin], gpio_common_cb, 0, trigger);
 	gpio_setuserdata(g_ioHandles[pin], callback);
 }
 
