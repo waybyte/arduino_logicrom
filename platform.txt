@@ -11,10 +11,10 @@ version=0.9.0
 
 # Tools
 # -----
-tools.gfh_gen.cmd=python "{build.core.path}/logicromsdk/tools/GFH_Generator.py"
+tools.gfh_gen.cmd="{runtime.tools.python3.path}/python3" -I "{build.core.path}/logicromsdk/tools/GFH_Generator.py"
 tools.gfh_gen.cmd.windows={build.core.path}/logicromsdk/tools/GFH_Generator.exe
 
-tools.fota_gen.cmd=python "{build.core.path}/logicromsdk/tools/FOTA_Generator.py"
+tools.fota_gen.cmd="{runtime.tools.python3.path}/python3" -I "{build.core.path}/logicromsdk/tools/FOTA_Generator.py"
 tools.fota_gen.cmd.windows={build.core.path}/logicromsdk/tools/FOTA_Generator.exe
 
 tools.dtools.cmd.linux={build.core.path}/logicromsdk/tools/rda8910/linux/dtools
@@ -108,7 +108,7 @@ mt6261.objcopy.3.pattern="{tools.fota_gen.cmd}" "{build.path}/{build.project_nam
 mt6261.prefix=bin
 ## RDA8910
 rda8910.objcopy.1.pattern="{tools.dtools.cmd}" mkappimg "{build.path}/{build.project_name}.elf" "{build.path}/{build.project_name}.img"
-rda8910.objcopy.2.pattern=python "{tools.pacgen.cmd}" cfg-init --pname "UIX8910_MODEM" --palias "{build.project_name}" --pversion "8910 MODULE" --version "BP_R1.0.0" --flashtype 1 cfg-host-fdl -a 0x8000c0 -s 0xff40 -p {build.core.path}/logicromsdk/lib/rda8910/fdl1.img cfg-fdl2 -a 0x810000 -s 0x30000 -p {build.core.path}/logicromsdk/lib/rda8910/fdl2.img cfg-nvitem -n "Calibration" -i 0xFFFFFFFF --use 1 --replace 0 --continue 0 --backup 1 cfg-nvitem -n "GSM Calibration" -i 0x26d --use 1 --replace 0 --continue 1 --backup 1 cfg-nvitem -n "LTE Calibration" -i 0x26e --use 1 --replace 0 --continue 0 --backup 1 cfg-nvitem -n "IMEI" -i 0xFFFFFFFF --use 1 --replace 0 --continue 0 --backup 1 cfg-nvitem -n "BT_Config" -i 0x191 --use 1 --replace 0 --continue 1 --backup 1 cfg-nvitem -n "Logicrom" -i 0x280 --use 1 --replace 0 --continue 1 --backup 1 cfg-nvitem -n "Customer" -i 0x27e --use 1 --replace 0 --continue 1 --backup 1 cfg-image -i APPIMG -a 0x60230000 -s 0x100000 -p {build.path}/{build.project_name}.img pac-gen "{build.path}/{build.project_name}.pac"
+rda8910.objcopy.2.pattern="{runtime.tools.python3.path}/python3" -I "{tools.pacgen.cmd}" cfg-init --pname "UIX8910_MODEM" --palias "{build.project_name}" --pversion "8910 MODULE" --version "BP_R1.0.0" --flashtype 1 cfg-host-fdl -a 0x8000c0 -s 0xff40 -p {build.core.path}/logicromsdk/lib/rda8910/fdl1.img cfg-fdl2 -a 0x810000 -s 0x30000 -p {build.core.path}/logicromsdk/lib/rda8910/fdl2.img cfg-nvitem -n "Calibration" -i 0xFFFFFFFF --use 1 --replace 0 --continue 0 --backup 1 cfg-nvitem -n "GSM Calibration" -i 0x26d --use 1 --replace 0 --continue 1 --backup 1 cfg-nvitem -n "LTE Calibration" -i 0x26e --use 1 --replace 0 --continue 0 --backup 1 cfg-nvitem -n "IMEI" -i 0xFFFFFFFF --use 1 --replace 0 --continue 0 --backup 1 cfg-nvitem -n "BT_Config" -i 0x191 --use 1 --replace 0 --continue 1 --backup 1 cfg-nvitem -n "Logicrom" -i 0x280 --use 1 --replace 0 --continue 1 --backup 1 cfg-nvitem -n "Customer" -i 0x27e --use 1 --replace 0 --continue 1 --backup 1 cfg-image -i APPIMG -a 0x60230000 -s 0x100000 -p {build.path}/{build.project_name}.img pac-gen "{build.path}/{build.project_name}.pac"
 rda8910.objcopy.3.pattern="{tools.dtools.cmd}" fotacreate2 --single-pac {build.path}/{build.project_name}.pac,{build.core.path}/logicromsdk/lib/rda8910/fota8910.xml "{build.path}/fota_{build.project_name}.bin"
 rda8910.prefix=pac
 
@@ -130,14 +130,14 @@ recipe.size.regex.data=^(?:\.data|\.bss|\.noinit|\.corestub)\s+(\d+).*
 ## sketch uploader
 ## RDA8910
 tools.logicromflasher_rda8910.path={runtime.tools.logicromflasher.path}
-tools.logicromflasher_rda8910.cmd=python "{path}/logicromflasher.py"
+tools.logicromflasher_rda8910.cmd="{runtime.tools.python3.path}/python3" -I "{path}/upload.py"
 
 tools.logicromflasher_rda8910.upload.params.verbose=
 tools.logicromflasher_rda8910.upload.params.quiet=
 tools.logicromflasher_rda8910.upload.pattern={cmd} -m "RDA8910" 0x8000c0 "{runtime.platform.path}/cores/{build.core}/logicromsdk/lib/rda8910/fdl1.img" 0x810000 "{runtime.platform.path}/cores/{build.core}/logicromsdk/lib/rda8910/fdl2.img" 0x60230000 "{build.path}/{build.project_name}.img"
 
 tools.logicromflasher.path={runtime.tools.logicromflasher.path}
-tools.logicromflasher.cmd=python "{path}/logicromflasher.py"
+tools.logicromflasher.cmd="{runtime.tools.python3.path}/python3" -I "{path}/upload.py"
 tools.logicromflasher.cmd.windows={path}/logicromflasher.exe
 
 tools.logicromflasher.upload.params.verbose=
