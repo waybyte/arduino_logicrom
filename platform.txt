@@ -141,7 +141,7 @@ tools.logicromflasher_rda8910.cmd="{runtime.tools.python3.path}/python3" -I "{pa
 
 tools.logicromflasher_rda8910.upload.params.verbose=
 tools.logicromflasher_rda8910.upload.params.quiet=
-tools.logicromflasher_rda8910.upload.pattern={cmd} -m "RDA8910" 0x8000c0 "{runtime.platform.path}/cores/{build.core}/logicromsdk/lib/rda8910/fdl1.img" 0x810000 "{runtime.platform.path}/cores/{build.core}/logicromsdk/lib/rda8910/fdl2.img" 0x60230000 "{build.path}/{build.project_name}.img"
+tools.logicromflasher_rda8910.upload.pattern={cmd} "RDA8910" "{runtime.platform.path}/cores/{build.core}/logicromsdk/lib/rda8910/core_config.json" "{runtime.platform.path}/cores/{build.core}/logicromsdk/lib/rda8910/fdl1.img" "{runtime.platform.path}/cores/{build.core}/logicromsdk/lib/rda8910/fdl2.img" "{build.path}/{build.project_name}.img"
 
 tools.logicromflasher.path={runtime.tools.logicromflasher.path}
 tools.logicromflasher.cmd="{runtime.tools.python3.path}/python3" -I "{path}/upload.py"
