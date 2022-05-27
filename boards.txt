@@ -161,6 +161,45 @@ ec600u.upload.speed=460800
 ec600u.upload.require_upload_port=false
 ec600u.upload.wait_for_upload_port=false
 
+# Quectel EG915U Module definition
+eg915u.name=Quectel EG915U LTE Cat.1 Module
+
+# build
+eg915u.build.core=logicrom
+eg915u.build.cpu=armca5
+eg915u.build.f_cpu=500000000
+eg915u.build.board=EG915U
+eg915u.build.mcu=rda8910
+eg915u.build.variant=eg915u
+eg915u.build.vid=0x1782
+eg915u.build.pid=0x4D11
+eg915u.build.extra_flags=-DSOC_RDA8910=1 -DPLATFORM_EG915U=1
+eg915u.build.logicromlib=logicrom4g
+eg915u.build.ldscript=linkerscript_rda.ld
+eg915u.menu.debug.Release=Release
+eg915u.menu.debug.Release.build.build_type=
+eg915u.menu.debug.Debug=Debug
+eg915u.menu.debug.Debug.build.build_type=_debug
+eg915u.menu.stdio.none=None
+eg915u.menu.stdio.none.build.stdio_port=
+eg915u.menu.stdio.ttys0=Uart0 (/dev/ttyS0)
+eg915u.menu.stdio.ttys0.build.stdio_port=/dev/ttyS0
+eg915u.menu.stdio.ttys1=Uart1 (/dev/ttyS1)
+eg915u.menu.stdio.ttys1.build.stdio_port=/dev/ttyS1
+eg915u.menu.stdio.ttys2=Uart2 (/dev/ttyS2)
+eg915u.menu.stdio.ttys2.build.stdio_port=/dev/ttyS2
+eg915u.menu.stdio.ttyusb=USB Uart (/dev/ttyUSB0)
+eg915u.menu.stdio.ttyusb.build.stdio_port=/dev/ttyUSB0
+
+# upload
+eg915u.upload.tool=logicromflasher_rda8910
+eg915u.upload.protocol=logicromflasher
+eg915u.upload.maximum_size=1048576
+eg915u.upload.maximum_ram_size=1048576
+eg915u.upload.speed=460800
+eg915u.upload.require_upload_port=false
+eg915u.upload.wait_for_upload_port=false
+
 # Fibocom L610 Module definition
 l610.name=Fibocom L610 LTE Cat.1 Module
 
