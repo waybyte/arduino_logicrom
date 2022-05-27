@@ -94,6 +94,13 @@ recipe.ar.pattern="{compiler.path}{compiler.ar.cmd}" {compiler.ar.flags} {compil
 ## Combine gc-sections, archives, and objects
 recipe.c.combine.pattern="{compiler.path}{compiler.c.elf.cmd}" "-L{build.path}" {compiler.c.elf.flags} {compiler.c.elf.extra_flags} "-L{build.core.path}/logicromsdk/lib" "-T{build.ldscript}" "-Wl,-Map,{build.path}/{build.project_name}.map" {compiler.ldflags} -o "{build.path}/{build.project_name}.elf" {object_files} -Wl,--start-group -l{build.logicromlib}{build.build_type} -lc -lgcc -lm "{build.path}/{archive_file}" -Wl,--end-group
 
+## Prelink hook
+recipe.prelink.mt2503.hook="{runtime.tools.python3.path}/python3" -I -c "print()"
+recipe.prelink.mt6261.hook="{runtime.tools.python3.path}/python3" -I -c "print()"
+recipe.prelink.rda8910.hook="{compiler.path}{compiler.c.cmd}" "-I{build.core.path}/logicromsdk/lib/rda8910" -P -x c -E "{build.core.path}/logicromsdk/lib/rda8910/app_flashimg.ld" -o "{build.path}/{build.ldscript}"
+
+recipe.hooks.linking.prelink.1.pattern={recipe.prelink.{build.mcu}.hook}
+
 ## Create output Binary file
 ## Pattern based on mcu type
 ## MT2503
