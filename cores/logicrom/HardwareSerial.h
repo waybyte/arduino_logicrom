@@ -24,7 +24,9 @@
 
 #define UART0		"/dev/ttyS0"
 #define UART1		"/dev/ttyS1"
+#ifndef PLATFORM_SIM868
 #define UART2		"/dev/ttyS2"
+#endif
 #define USBUART		"/dev/ttyUSB0"
 #define BTSPPHOST	"/dev/bthost0"
 
@@ -91,7 +93,9 @@ protected:
 #if !defined(NO_GLOBAL_INSTANCES) && !defined(NO_GLOBAL_SERIAL)
 extern HardwareSerial Serial;
 extern HardwareSerial Serial1;
+#ifndef PLATFORM_SIM868
 extern HardwareSerial Serial2;
+#endif
 extern HardwareSerial USBSerial;
 extern HardwareSerial BTSerial;
 #endif

@@ -14,8 +14,10 @@
 #if !defined(NO_GLOBAL_INSTANCES) && !defined(NO_GLOBAL_SERIAL)
 HardwareSerial Serial(UART0);
 HardwareSerial Serial1(UART1);
+#ifndef PLATFORM_SIM868
 HardwareSerial Serial2(UART2);
-#if defined(SOC_RDA8910) || defined(PLATFORM_S20U) || defined(PLATFORM_M56)
+#endif
+#if defined(SOC_RDA8910) || defined(PLATFORM_MC20U) || defined(PLATFORM_SIM868) || defined(PLATFORM_M56)
 HardwareSerial USBSerial(USBUART);
 #endif
 HardwareSerial BTSerial(BTSPPHOST);
@@ -23,8 +25,10 @@ HardwareSerial BTSerial(BTSPPHOST);
 
 void serialEvent() __attribute__((weak));
 void serialEvent1() __attribute__((weak));
+#ifndef PLATFORM_SIM868
 void serialEvent2() __attribute__((weak));
-#if defined(SOC_RDA8910) || defined(PLATFORM_S20U) || defined(PLATFORM_M56)
+#endif
+#if defined(SOC_RDA8910) || defined(PLATFORM_MC20U) || defined(PLATFORM_SIM868) || defined(PLATFORM_M56)
 void usbSerialEvent() __attribute__((weak));
 #endif
 void btSerialEvent() __attribute__((weak));
@@ -37,10 +41,12 @@ void serialEventRun(void)
 	if (serialEvent1 && Serial1.available())
 		serialEvent1();
 
+#ifndef PLATFORM_SIM868
 	if (serialEvent2 && Serial2.available())
 		serialEvent2();
+#endif
 
-#if defined(SOC_RDA8910) || defined(PLATFORM_S20U) || defined(PLATFORM_M56)
+#if defined(SOC_RDA8910) || defined(PLATFORM_MC20U) || defined(PLATFORM_SIM868) || defined(PLATFORM_M56)
 	if (usbSerialEvent && USBSerial.available())
 		usbSerialEvent();
 #endif
