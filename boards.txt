@@ -424,3 +424,41 @@ quectelm56.upload.maximum_ram_size=96256
 quectelm56.upload.speed=460800
 quectelm56.upload.require_upload_port=true
 quectelm56.upload.wait_for_upload_port=true
+
+# sim868 board definition
+sim868.name=SIMCOM SIM868 GSM Module
+
+# build
+sim868.build.core=logicrom
+sim868.build.cpu=arm9ejs
+sim868.build.f_cpu=260000000
+sim868.build.board=SIMCOM_SIM868
+sim868.build.mcu=mt2503
+sim868.build.variant=sim868
+sim868.build.vid=0x0E8D
+sim868.build.pid=0x0003
+sim868.build.extra_flags=-DPLATFORM_SIM868=1
+sim868.build.logicromlib=logicrom
+sim868.build.ldscript=linkerscript.ld
+sim868.menu.debug.Release=Release
+sim868.menu.debug.Release.build.build_type=
+sim868.menu.debug.Debug=Debug
+sim868.menu.debug.Debug.build.build_type=_debug
+sim868.menu.stdio.none=None
+sim868.menu.stdio.none.build.stdio_port=
+sim868.menu.stdio.ttys0=Uart0 (/dev/ttyS0)
+sim868.menu.stdio.ttys0.build.stdio_port=/dev/ttyS0
+sim868.menu.stdio.ttys1=Uart1 (/dev/ttyS1)
+sim868.menu.stdio.ttys1.build.stdio_port=/dev/ttyS1
+sim868.menu.stdio.ttyusb=USB Uart (/dev/ttyUSB0)
+sim868.menu.stdio.ttyusb.build.stdio_port=/dev/ttyUSB0
+
+# upload
+sim868.bootloader.tool=logicromflasher
+sim868.upload.tool=logicromflasher
+sim868.upload.protocol=logicromflasher
+sim868.upload.maximum_size=262144
+sim868.upload.maximum_ram_size=96256
+sim868.upload.speed=460800
+sim868.upload.require_upload_port=true
+sim868.upload.wait_for_upload_port=true
