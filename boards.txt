@@ -239,46 +239,6 @@ l610.upload.speed=460800
 l610.upload.require_upload_port=false
 l610.upload.wait_for_upload_port=false
 
-# s20gsm board definition
-s20gsm.name=S20 GSM Board
-
-# build
-s20gsm.build.core=logicrom
-s20gsm.build.cpu=arm9ejs
-s20gsm.build.f_cpu=260000000
-s20gsm.build.board=SIWI_S20GSM
-s20gsm.build.mcu=mt2503
-s20gsm.build.variant=s20u
-s20gsm.build.vid=0x0E8D
-s20gsm.build.pid=0x0003
-s20gsm.build.extra_flags=-DPLATFORM_S20U=1
-s20gsm.build.logicromlib=logicrom
-s20gsm.build.ldscript=linkerscript.ld
-s20gsm.menu.debug.Release=Release
-s20gsm.menu.debug.Release.build.build_type=
-s20gsm.menu.debug.Debug=Debug
-s20gsm.menu.debug.Debug.build.build_type=_debug
-s20gsm.menu.stdio.none=None
-s20gsm.menu.stdio.none.build.stdio_port=
-s20gsm.menu.stdio.ttys0=Uart0 (/dev/ttyS0)
-s20gsm.menu.stdio.ttys0.build.stdio_port=/dev/ttyS0
-s20gsm.menu.stdio.ttys1=Uart1 (/dev/ttyS1)
-s20gsm.menu.stdio.ttys1.build.stdio_port=/dev/ttyS1
-s20gsm.menu.stdio.ttys2=Uart2 (/dev/ttyS2)
-s20gsm.menu.stdio.ttys2.build.stdio_port=/dev/ttyS2
-s20gsm.menu.stdio.ttyusb=USB Uart (/dev/ttyUSB0)
-s20gsm.menu.stdio.ttyusb.build.stdio_port=/dev/ttyUSB0
-
-# upload
-s20gsm.bootloader.tool=logicromflasher
-s20gsm.upload.tool=logicromflasher
-s20gsm.upload.protocol=logicromflasher
-s20gsm.upload.maximum_size=262144
-s20gsm.upload.maximum_ram_size=96256
-s20gsm.upload.speed=460800
-s20gsm.upload.require_upload_port=true
-s20gsm.upload.wait_for_upload_port=true
-
 # Quectel M66
 quectelm66.name=Quectel M66
 
@@ -387,6 +347,46 @@ quectelmc20.upload.speed=460800
 quectelmc20.upload.require_upload_port=true
 quectelmc20.upload.wait_for_upload_port=true
 
+# mc20u board definition
+mc20u.name=Quectel MC20UCB
+
+# build
+mc20u.build.core=logicrom
+mc20u.build.cpu=arm9ejs
+mc20u.build.f_cpu=260000000
+mc20u.build.board=SIWI_S20GSM
+mc20u.build.mcu=mt2503
+mc20u.build.variant=mc20u
+mc20u.build.vid=0x0E8D
+mc20u.build.pid=0x0003
+mc20u.build.extra_flags=-DPLATFORM_MC20U=1
+mc20u.build.logicromlib=logicrom
+mc20u.build.ldscript=linkerscript.ld
+mc20u.menu.debug.Release=Release
+mc20u.menu.debug.Release.build.build_type=
+mc20u.menu.debug.Debug=Debug
+mc20u.menu.debug.Debug.build.build_type=_debug
+mc20u.menu.stdio.none=None
+mc20u.menu.stdio.none.build.stdio_port=
+mc20u.menu.stdio.ttys0=Uart0 (/dev/ttyS0)
+mc20u.menu.stdio.ttys0.build.stdio_port=/dev/ttyS0
+mc20u.menu.stdio.ttys1=Uart1 (/dev/ttyS1)
+mc20u.menu.stdio.ttys1.build.stdio_port=/dev/ttyS1
+mc20u.menu.stdio.ttys2=Uart2 (/dev/ttyS2)
+mc20u.menu.stdio.ttys2.build.stdio_port=/dev/ttyS2
+mc20u.menu.stdio.ttyusb=USB Uart (/dev/ttyUSB0)
+mc20u.menu.stdio.ttyusb.build.stdio_port=/dev/ttyUSB0
+
+# upload
+mc20u.bootloader.tool=logicromflasher
+mc20u.upload.tool=logicromflasher
+mc20u.upload.protocol=logicromflasher
+mc20u.upload.maximum_size=262144
+mc20u.upload.maximum_ram_size=96256
+mc20u.upload.speed=460800
+mc20u.upload.require_upload_port=true
+mc20u.upload.wait_for_upload_port=true
+
 # Quectel M56
 quectelm56.name=Quectel M56
 
@@ -396,7 +396,7 @@ quectelm56.build.cpu=arm9ejs
 quectelm56.build.f_cpu=260000000
 quectelm56.build.board=QUECTEL_M56TEA
 quectelm56.build.mcu=mt6261
-quectelm56.build.variant=s20u
+quectelm56.build.variant=mc20u
 quectelm56.build.extra_flags=-DPLATFORM_M56=1
 quectelm56.build.logicromlib=logicrom
 quectelm56.build.ldscript=linkerscript.ld

@@ -1,5 +1,5 @@
-#ifndef _VARIANT_S20U_X_
-#define _VARIANT_S20U_X_
+#ifndef _VARIANT_MC20U_X_
+#define _VARIANT_MC20U_X_
 
 /*
  * Headers
