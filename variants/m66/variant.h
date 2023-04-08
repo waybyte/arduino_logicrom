@@ -4,16 +4,14 @@
 /*
  * Headers
  */
-#include <lib.h>
-#include <utils.h>
-#include <os_api.h>
 #include <hw/gpio.h>
 #include <hw/adc.h>
 #include <hw/pwm.h>
-#include <hw/i2c.h>
-#include <hw/spi.h>
 
-#include <ril.h>
+#ifdef __cplusplus
+extern "C"
+{
+#endif
 
 /* Default Definitions */
 #define VARIANT_MCK 260000000
@@ -22,6 +20,8 @@
 #define DEFAULT_STDIO_PORT "/dev/ttyS0"
 #endif
 
+#define HAS_SERIAL_UART2
+
 #define SPI_MAX_SPEED 10000000UL
 
 /* Analog Pin definition */
@@ -29,6 +29,15 @@
 #define A1 GPIO_0
 #define A2 GPIO_6
 #define A3 GPIO_7
+
+#define ADC_CHANNEL_MAX 4
+#define ADC_CHANNEL_MAP {A0, ADC_CH0}, \
+						{A1, ADC_CH1}, \
+						{A2, ADC_CH2}, \
+						{A3, ADC_CH3},
+
+#define PWM_CHANNEL_MAX 1
+#define PWM_CHANNEL_MAP {GPIO_0, PWM_CH0},
 
 /* LED */
 #define LED_BUILTIN GPIO_0
@@ -47,26 +56,6 @@ static const uint8_t SS = BOARD_SPI_SS0;
 static const uint8_t MOSI = PIN_SPI_MOSI;
 static const uint8_t MISO = PIN_SPI_MISO;
 static const uint8_t SCK = PIN_SPI_SCK;
-
-/* For Variant.cpp */
-#define CHECK_MODE(pin, mode) ((g_ioModes[pin] & 0xff) == IO_MODE_##mode)
-
-enum _io_mode {
-	IO_MODE_GPIO = 1,
-	IO_MODE_ADC = 2,
-	IO_MODE_PWM = 3,
-};
-
-#ifdef __cplusplus
-extern "C"
-{
-#endif
-
-extern int g_ioHandles[GPIO_PIN_MAX];
-extern int g_ioModes[GPIO_PIN_MAX];
-
-int pin2adc_channel(uint32_t pin);
-int pin2pwm_channel(uint32_t pin);
 
 #ifdef __cplusplus
 }
