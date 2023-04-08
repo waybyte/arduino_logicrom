@@ -1,7 +1,7 @@
 /*
  * DomainResolve.ino
  * This is an example to show how to use resolve method of Net library
- * 
+ *
  * If you have any questions, please post queries on github
  */
 
@@ -10,34 +10,31 @@
 
 void setup()
 {
-	Net.waitForRegistration();
+	/* Wait for data ready! */
+	if (Net.begin())
+		printf("Data connection ready!");
+	else
+		printf("Data connection failed!");
 
 	/* Print Operator Name */
 	printf("Operator Name: %s\n", Net.getOperator());
 
-	/* Enable GPRS */
-	Net.GprsEnable();
-	/* Wait for GPRS Activation */
-	Net.GprsWaitForActivation();
-
-	/* Print GPRS status */
-	if (Net.isGprsActive())
+	/* Resolve if data connection ok */
+	if (Net.isDataReady())
 	{
-		printf("GPRS Activated\n");
 		IPAddress devip = Net.localIP();
 		printf("Device IP Address: %d.%d.%d.%d\n", devip[0], devip[1], devip[2], devip[3]);
 
 		/* Resolve google.com domain */
 		IPAddress ip = Net.resolve("google.com");
-		if (ip != IPAddress(0, 0, 0, 0)) {
+		if (ip != IPADDR_NONE)
+		{
 			printf("google.com IP Address: %d.%d.%d.%d\n", ip[0], ip[1], ip[2], ip[3]);
-		} else {
+		}
+		else
+		{
 			printf("Fail to resolve google.com\n");
 		}
-	}
-	else
-	{
-		printf("GPRS Activation failed\n");
 	}
 }
 

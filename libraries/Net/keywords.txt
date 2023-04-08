@@ -25,6 +25,11 @@ GprsDisable				KEYWORD2
 isGprsEnable			KEYWORD2
 GprsWaitForActivation	KEYWORD2
 isGprsActive			KEYWORD2
+DataEnable				KEYWORD2
+DataDisable				KEYWORD2
+isDataEnable			KEYWORD2
+waitDataReady       	KEYWORD2
+isDataReady 			KEYWORD2
 localIP					KEYWORD2
 getIMEI					KEYWORD2
 getIMSI					KEYWORD2

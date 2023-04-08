@@ -9,15 +9,45 @@
 
 NetworkClass Net;
 
-NetworkClass::NetworkClass() {}
+NetworkClass::NetworkClass():_timeout(60000) {}
 NetworkClass::~NetworkClass() {}
 
-/* System Information */
+bool NetworkClass::begin(bool data_en, uint32_t timeout, pin_size_t netled)
+{
+	if (data_en)
+		DataEnable();
+	else
+		DataDisable();
+	
+	if (netled < GPIO_PIN_MAX)
+		network_setup_statusled(netled);
+
+	_timeout = timeout;
+	
+	return data_en ? waitDataReady(_timeout) : waitForRegistration();
+}
+
+bool NetworkClass::begin(bool data_en, uint32_t timeout)
+{
+	_timeout = timeout;
+	return begin(data_en, _timeout, GPIO_PIN_MAX);
+}
+
+bool NetworkClass::begin(pin_size_t netled)
+{
+	return begin(true, _timeout, netled);
+}
+
+bool NetworkClass::begin(void)
+{
+	return begin(true, _timeout, GPIO_PIN_MAX);
+}
+
 bool NetworkClass::waitForRegistration(int timeout)
 {
 	while (timeout > 0) {
 		if (network_getstatus(0) >= NET_STATE_GSM)
-			break;
+			return true;
 		msleep(100);
 		timeout -= 100;
 	}
@@ -115,26 +145,36 @@ bool NetworkClass::isGprsActive(void)
 	return network_isready();
 }
 
+bool NetworkClass::isDataEnable(void)
+{
+	return isGprsEnable();
+}
+
+int NetworkClass::DataEnable(void)
+{
+	return GprsEnable();
+}
+
+int NetworkClass::DataDisable(void)
+{
+	return GprsDisable();
+}
+
+bool NetworkClass::waitDataReady(int timeout)
+{
+	return GprsWaitForActivation(timeout);
+}
+
+bool NetworkClass::isDataReady(void)
+{
+	return network_isready();
+}
+
 IPAddress NetworkClass::localIP(void)
 {
 	const uint8_t *ip = network_getlocalip();
 
 	return IPAddress(ip[0], ip[1], ip[2], ip[3]);
-}
-
-const char *NetworkClass::getIMEI(void)
-{
-	return md_get_imei(NULL, 0);
-}
-
-const char *NetworkClass::getIMSI(void)
-{
-	return md_get_imsi(NULL, 0);
-}
-
-const char *NetworkClass::getICCID(void)
-{
-	return md_get_ccid(NULL, 0);
 }
 
 IPAddress NetworkClass::resolve(const char *domain)

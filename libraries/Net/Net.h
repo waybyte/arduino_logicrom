@@ -1,18 +1,27 @@
 #ifndef __NET_H__
 #define __NET_H__
 
-#include <IPAddress.h>
+#include <Arduino.h>
+#include <NetClient.h>
+#include <NetClientSecure.h>
+#include <NetUdp.h>
 
 class NetworkClass
 {
 private:
 	/* data */
+	uint32_t _timeout;
 public:
 	NetworkClass();
 	~NetworkClass();
 
+	bool begin(bool data_en, uint32_t timeout, pin_size_t netled);
+	bool begin(bool data_en, uint32_t timeout);
+	bool begin(pin_size_t netled);
+	bool begin();
+
 	/* System Information */
-	bool waitForRegistration(int timeout = 30000);
+	bool waitForRegistration(int timeout = 60000);
 	bool isRegistered(void);
 	int getSignalStrength(void);
 	int getSimStatus(void);
@@ -28,14 +37,14 @@ public:
 	int GprsEnable(void);
 	int GprsDisable(void);
 	bool isGprsEnable(void);
-	bool GprsWaitForActivation(int timeout = 30000);
+	bool GprsWaitForActivation(int timeout = 60000);
 	bool isGprsActive(void);
 	IPAddress localIP(void);
-
-	/* system information */
-	const char *getIMEI(void);
-	const char *getIMSI(void);
-	const char *getICCID(void);
+	bool isDataEnable(void);
+	int DataEnable(void);
+	int DataDisable(void);
+	bool waitDataReady(int timeout = 60000);
+	bool isDataReady(void);
 
 	/* Domain name resolve */
 	IPAddress resolve(const char *domain);
