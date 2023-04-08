@@ -1,0 +1,3 @@
+[submodule "cores/logicrom/logicromsdk"]
+	path = cores/logicrom/logicromsdk
+	url = https://github.com/waybyte/logicromsdk.git
