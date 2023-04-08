@@ -28,6 +28,27 @@ void variant_init() {}
 void variantEventRun() __attribute__((weak));
 void variantEventRun() {}
 
+void onSimStateChange(int state) __attribute__((weak));
+void onSimStateChange(int state) {}
+
+void onGSMStateChange(int state) __attribute__((weak));
+void onGSMStateChange(int state) {}
+
+void onGPRSStateChange(int state) __attribute__((weak));
+void onGPRSStateChange(int state) {}
+
+void onSmsReady(void) __attribute__((weak));
+void onSmsReady(void) {}
+
+void onNewSms(int index) __attribute__((weak));
+void onNewSms(int index) {}
+
+void onIncomingCall(const char *num) __attribute__((weak));
+void onIncomingCall(const char *num) {}
+
+void onCallStateChange(int state) __attribute__((weak));
+void onCallStateChange(int state) {}
+
 /**
  * Loop task for running loop
  */
@@ -49,9 +70,11 @@ __attribute__((weak)) void urc_callback(unsigned int param1, unsigned int param2
 		if (param2 == SYS_STATE_SMSOK)
 		{
 			/* Ready for SMS */
+			onSmsReady();
 		}
 		break;
 	case URC_SIM_CARD_STATE_IND:
+		onSimStateChange(param2);
 		switch (param2)
 		{
 		case SIM_STAT_NOT_INSERTED:
@@ -75,16 +98,22 @@ __attribute__((weak)) void urc_callback(unsigned int param1, unsigned int param2
 		break;
 	case URC_GSM_NW_STATE_IND:
 		debug(DBG_OFF, "SYSTEM: GSM NW State: %d\n", param2);
+		onGSMStateChange(param2);
 		break;
 	case URC_GPRS_NW_STATE_IND:
+		onGPRSStateChange(param2);
 		break;
 	case URC_CFUN_STATE_IND:
 		break;
-	case URC_COMING_CALL_IND:
-		debug(DBG_OFF, "Incoming voice call from: %s\n", ((struct ril_callinfo_t *)param2)->number);
+	case URC_COMING_CALL_IND: {
+		struct ril_callinfo_t *callinfo = (struct ril_callinfo_t *)param2;
+		debug(DBG_OFF, "Incoming voice call from: %s\n", callinfo->number);
 		/* Take action here, Answer/Hang-up */
+		onIncomingCall(callinfo->number);
 		break;
+	}
 	case URC_CALL_STATE_IND:
+		onCallStateChange(param2);
 		switch (param2)
 		{
 		case CALL_STATE_BUSY:
@@ -106,6 +135,7 @@ __attribute__((weak)) void urc_callback(unsigned int param1, unsigned int param2
 	case URC_NEW_SMS_IND:
 		debug(DBG_OFF, "SMS: New SMS (%d)\n", param2);
 		/* Handle New SMS */
+		onNewSms(param2);
 		break;
 	case URC_MODULE_VOLTAGE_IND:
 		debug(DBG_INFO, "VBatt Voltage: %d\n", param2);
@@ -139,7 +169,7 @@ int main(int argc, char *argv[])
 	variant_init();
 
 	/* Start Loop task */
-	os_task_create(arduino_task, NULL, FALSE);
+	os_task_create(arduino_task, "Arduino", NULL, FALSE);
 
 	/* Main thread for running and handling events */
 	while (1) {

@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2014 Arduino.  All right reserved.
+  Copyright (c) 2016 Arduino LLC.  All right reserved.
 
   This library is free software; you can redistribute it and/or
   modify it under the terms of the GNU Lesser General Public
@@ -16,37 +16,32 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-extern "C" {
-  #include "stdlib.h"
-  #include "stdint.h"
-}
+#pragma once
 
-void randomSeed( uint32_t dwSeed )
+#include <inttypes.h>
+#include "Stream.h"
+
+namespace arduino {
+
+class HardwareI2C : public Stream
 {
-  if ( dwSeed != 0 )
-  {
-    srand( dwSeed ) ;
-  }
+  public:
+    virtual void begin() = 0;
+    virtual void begin(uint8_t address) = 0;
+    virtual void end() = 0;
+
+    virtual void setClock(uint32_t freq) = 0;
+  
+    virtual void beginTransmission(uint8_t address) = 0;
+    virtual uint8_t endTransmission(bool stopBit) = 0;
+    virtual uint8_t endTransmission(void) = 0;
+
+    virtual size_t requestFrom(uint8_t address, size_t len, bool stopBit) = 0;
+    virtual size_t requestFrom(uint8_t address, size_t len) = 0;
+
+    virtual void onReceive(void(*)(int)) = 0;
+    virtual void onRequest(void(*)(void)) = 0;
+};
+
 }
 
-long random( long howbig )
-{
-  if ( howbig == 0 )
-  {
-    return 0 ;
-  }
-
-  return rand() % howbig;
-}
-
-long random( long howsmall, long howbig )
-{
-  if (howsmall >= howbig)
-  {
-    return howsmall;
-  }
-
-  long diff = howbig - howsmall;
-
-  return random(diff) + howsmall;
-}

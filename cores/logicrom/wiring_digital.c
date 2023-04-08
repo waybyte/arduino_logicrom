@@ -17,16 +17,21 @@
 */
 
 #include "Arduino.h"
+#include "wiring_private.h"
 
-void pinMode( uint32_t ulPin, uint32_t ulMode )
+#ifdef __cplusplus
+ extern "C" {
+#endif
+
+void pinMode( pin_size_t pin, PinMode mode )
 {
-	int flags;
+	int flags, handle;
 
 	/* Not a GPIO */
-	if (ulPin >= GPIO_PIN_MAX)
+	if (!io_pinvalid(pin))
 		return;
 
-	switch (ulMode) {
+	switch (mode) {
 	case INPUT:
 		flags = GPIO_FLAG_INPUT;
 		break;
@@ -43,64 +48,74 @@ void pinMode( uint32_t ulPin, uint32_t ulMode )
 		return;
 	}
 
-	if (g_ioHandles[ulPin] == 0)
-	{
+	handle = io_gethandle(pin);
+	if (!handle) {
 		/* Fresh IO request */
-		g_ioHandles[ulPin] = gpio_request(ulPin, flags);
-	}
-	else
-	{
+		handle = gpio_request(pin, flags);
+		io_sethandle(pin, handle);
+	} else {
 		/* Just configure gpio */
-		gpio_setdir(g_ioHandles[ulPin], flags);
+		gpio_setdir(handle, flags);
 	}
-	g_ioModes[ulPin] = (ulMode << 8) | IO_MODE_GPIO;
+	if (handle)
+		io_setmode(pin, (mode << 8) | IO_MODE_GPIO);
 }
 
-void digitalWrite( uint32_t ulPin, uint32_t ulVal )
+void digitalWrite( pin_size_t pin, PinStatus value )
 {
-	int flags, mode;
+	int flags, mode, handle;
 
 	/* Not a GPIO */
-	if (ulPin >= GPIO_PIN_MAX)
+	if (!io_pinvalid(pin))
 		return;
 
-	mode = (g_ioModes[ulPin] >> 8) & 0xff;
+	mode = (io_getmode(pin) >> 8) & 0xff;
 
 	if ((mode == INPUT) || (mode == INPUT_PULLUP)) {
 		flags = GPIO_FLAG_INPUT;
-		if (ulVal == HIGH)
+		if (value == HIGH)
 			flags |= GPIO_FLAG_PULLUP;
 	} else {
 		flags = GPIO_FLAG_OUTPUT;
-		flags |= (ulVal == HIGH) ? GPIO_FLAG_DEFHIGH : GPIO_FLAG_DEFLOW;
+		flags |= (value == HIGH) ? GPIO_FLAG_DEFHIGH : GPIO_FLAG_DEFLOW;
 	}
 
-	if (g_ioHandles[ulPin] == 0) {
+	handle = io_gethandle(pin);
+	if (!handle) {
 		/* Fresh IO request */
-		g_ioHandles[ulPin] = gpio_request(ulPin, flags);
+		handle = gpio_request(pin, flags);
+		io_sethandle(pin, handle);
 	} else {
 		if (mode == OUTPUT)
-			gpio_write(g_ioHandles[ulPin], ulVal);
+			gpio_write(handle, value);
 		else
-			gpio_setdir(g_ioHandles[ulPin], flags);
+			gpio_setdir(handle, flags);
 	}
 }
 
-int digitalRead( uint32_t ulPin )
+PinStatus digitalRead( pin_size_t pin )
 {
+	int handle;
+
 	/* Not a GPIO */
-	if (ulPin >= GPIO_PIN_MAX)
+	if (!io_pinvalid(pin))
 		return LOW;
 
-	if (g_ioHandles[ulPin] == 0) {
+	handle = io_gethandle(pin);
+	if (!handle) {
 		/* Fresh IO request */
-		g_ioHandles[ulPin] = gpio_request(ulPin, GPIO_FLAG_INPUT | GPIO_FLAG_PULLUP);
-		g_ioModes[ulPin] = (INPUT_PULLUP << 8) | IO_MODE_GPIO;
+		handle = gpio_request(pin, GPIO_FLAG_INPUT | GPIO_FLAG_PULLUP);
+		io_sethandle(pin, handle);
+		io_setmode(pin, (INPUT_PULLUP << 8) | IO_MODE_GPIO);
 	}
 
-	if (gpio_read(g_ioHandles[ulPin]))
+	if (gpio_read(handle))
 		return HIGH;
 
 	return LOW;
 }
+
+#ifdef __cplusplus
+}
+#endif
 

@@ -16,63 +16,32 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-#include "itoa.h"
 #include <string.h>
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-/* reverse:  reverse string s in place */
 /*
-static void reverse( char s[] )
-{
-  int i, j ;
-  char c ;
+ core_esp8266_noniso.c - nonstandard (but usefull) conversion functions
 
-  for ( i = 0, j = strlen(s)-1 ; i < j ; i++, j-- )
-  {
-    c = s[i] ;
-    s[i] = s[j] ;
-    s[j] = c ;
-  }
-}
+ Copyright (c) 2014 Ivan Grokhotkov. All rights reserved.
+ 
+ applies to lltoa and ulltoa
 */
-
-/* itoa:  convert n to characters in s */
-/*
-extern void itoa( int n, char s[] )
-{
-  int i, sign ;
-
-  if ( (sign = n) < 0 )  // record sign
-  {
-    n = -n;          // make n positive
-  }
-
-  i = 0;
-  do
-  {       // generate digits in reverse order
-    s[i++] = n % 10 + '0';   // get next digit
-  } while ((n /= 10) > 0) ;     // delete it
-
-  if (sign < 0 )
-  {
-    s[i++] = '-';
-  }
-
-  s[i] = '\0';
-
-  reverse( s ) ;
-}
-*/
-
-extern char* itoa( int value, char *string, int radix )
-{
-  return ltoa( value, string, radix ) ;
+static void reverse(char* begin, char* end) {
+    char *is = begin;
+    char *ie = end - 1;
+    while(is < ie) {
+        char tmp = *ie;
+        *ie = *is;
+        *is = tmp;
+        ++is;
+        --ie;
+    }
 }
 
-extern char* ltoa( long value, char *string, int radix )
+char* ltoa( long value, char *string, int radix )
 {
   char tmp[33];
   char *tp = tmp;
@@ -122,12 +91,7 @@ extern char* ltoa( long value, char *string, int radix )
   return string;
 }
 
-extern char* utoa( unsigned int value, char *string, int radix )
-{
-  return ultoa( value, string, radix ) ;
-}
-
-extern char* ultoa( unsigned long value, char *string, int radix )
+char* ultoa( unsigned long value, char *string, int radix )
 {
   char tmp[33];
   char *tp = tmp;
@@ -163,6 +127,62 @@ extern char* ultoa( unsigned long value, char *string, int radix )
   *sp = 0;
 
   return string;
+}
+
+char* itoa( int value, char *string, int radix )
+{
+  return ltoa( value, string, radix ) ;
+}
+
+char* utoa( unsigned int value, char *string, int radix )
+{
+  return ultoa( value, string, radix ) ;
+}
+
+char* ulltoa (unsigned long long val, char* result, int base) {
+    if(base < 2 || base > 16) {
+        *result = 0;
+        return result;
+    }
+
+    char* out = result;
+    unsigned long long quotient = val;
+
+    do {
+        const unsigned long long tmp = quotient / base;
+        *out = "0123456789abcdef"[quotient - (tmp * base)];
+        ++out;
+        quotient = tmp;
+    } while(quotient);
+
+    reverse(result, out);
+    *out = 0;
+    return result;
+}
+
+char* lltoa (long long val, char* result, int base) {
+    if(base < 2 || base > 16) {
+        *result = 0;
+        return result;
+    }
+
+    char* out = result;
+    long long quotient = val > 0 ? val : -val;
+
+    do {
+        const long long tmp = quotient / base;
+        *out = "0123456789abcdef"[quotient - (tmp * base)];
+        ++out;
+        quotient = tmp;
+    } while(quotient);
+
+    // Apply negative sign
+    if(val < 0)
+        *out++ = '-';
+
+    reverse(result, out);
+    *out = 0;
+    return result;
 }
 
 #ifdef __cplusplus

@@ -5,33 +5,37 @@
 #include <sys/ioctl.h>
 #include <string.h>
 
-#include <variant.h>
-
-#include "HardwareSerial.h"
+#include <Arduino.h>
 
 #define UART_BAUDRATE_CASE(x)		case x: baud = B##x; break;
+
+namespace arduino {
 
 #if !defined(NO_GLOBAL_INSTANCES) && !defined(NO_GLOBAL_SERIAL)
 HardwareSerial Serial(UART0);
 HardwareSerial Serial1(UART1);
-#ifndef PLATFORM_SIM868
+#ifdef HAS_SERIAL_UART2
 HardwareSerial Serial2(UART2);
 #endif
-#if defined(SOC_RDA8910) || defined(PLATFORM_MC20U) || defined(PLATFORM_SIM868) || defined(PLATFORM_M56)
+#ifdef HAS_USB_SERIAL
 HardwareSerial USBSerial(USBUART);
 #endif
+#ifdef HAS_BT_SERIAL
 HardwareSerial BTSerial(BTSPPHOST);
+#endif
 #endif
 
 void serialEvent() __attribute__((weak));
 void serialEvent1() __attribute__((weak));
-#ifndef PLATFORM_SIM868
+#ifdef HAS_SERIAL_UART2
 void serialEvent2() __attribute__((weak));
 #endif
-#if defined(SOC_RDA8910) || defined(PLATFORM_MC20U) || defined(PLATFORM_SIM868) || defined(PLATFORM_M56)
+#ifdef HAS_USB_SERIAL
 void usbSerialEvent() __attribute__((weak));
 #endif
+#ifdef HAS_BT_SERIAL
 void btSerialEvent() __attribute__((weak));
+#endif
 
 void serialEventRun(void)
 {
@@ -41,18 +45,20 @@ void serialEventRun(void)
 	if (serialEvent1 && Serial1.available())
 		serialEvent1();
 
-#ifndef PLATFORM_SIM868
+#ifdef HAS_SERIAL_UART2
 	if (serialEvent2 && Serial2.available())
 		serialEvent2();
 #endif
 
-#if defined(SOC_RDA8910) || defined(PLATFORM_MC20U) || defined(PLATFORM_SIM868) || defined(PLATFORM_M56)
+#ifdef HAS_USB_SERIAL
 	if (usbSerialEvent && USBSerial.available())
 		usbSerialEvent();
 #endif
 
+#ifdef HAS_BT_SERIAL
 	if (btSerialEvent && BTSerial.available())
 		btSerialEvent();
+#endif
 }
 
 HardwareSerial::HardwareSerial(const char *port_file) : _port_file(port_file), _fd(-1)
@@ -70,11 +76,11 @@ void HardwareSerial::begin(unsigned long baud, uint32_t config)
 	if (_port_file == NULL)
 		return;
 
-	if (_fd > 0)
-		close(_fd);
-
 	/* No need to init fd when stdio */
 	if (!is_stdio) {
+		if (_fd > 0)
+			close(_fd);
+
 		_fd = open(_port_file, O_RDWR | O_NONBLOCK);
 		if (_fd < 0)
 			return;
@@ -116,14 +122,14 @@ void HardwareSerial::begin(unsigned long baud, uint32_t config)
 
 		t.c_cflag &= ~(CSIZE | CSTOPB | PARENB | PARODD);
 		t.c_cflag |= config;
-		cfsetispeed(&t, baud);
+		cfsetspeed(&t, baud);
 
 		ret = tcsetattr(_fd, TCSANOW, &t);
 		if (ret)
 			debug(DBG_OFF, "Fail to set attr for %s: %d\n", _port_file, ret);
 	} while (0);
 
-	if (ret) {
+	if (ret && !is_stdio) {
 		close(_fd);
 		_fd = 0;
 	}
@@ -138,7 +144,7 @@ void HardwareSerial::end(void)
 {
 	tcsetattr(_fd, TCSANOW, &t_orig);
 
-	if (_fd)
+	if (!is_stdio && _fd > 0)
 		close(_fd);
 	_fd = -1;
 }
@@ -190,4 +196,6 @@ size_t HardwareSerial::write(uint8_t c)
 void HardwareSerial::flush(void)
 {
 	tcdrain(_fd);
+}
+
 }
