@@ -1,5 +1,5 @@
 # Copyright (c) Waybyte Solutions. All right reserved.
-# https://www.waybyte.in/
+# https://waybyte.in/
 #
 
 menu.debug=Build Type
@@ -462,3 +462,406 @@ sim868.upload.maximum_ram_size=96256
 sim868.upload.speed=460800
 sim868.upload.require_upload_port=true
 sim868.upload.wait_for_upload_port=true
+
+## ASR160x Boards
+#################
+
+# SIMCOM A7670C Module
+a7670.name=SIMCOM A7670C (ASR1601) LTE Cat.1 Module
+
+# build
+a7670.build.core=logicrom
+a7670.build.cpu=armv7r
+a7670.build.f_cpu=416000000
+a7670.build.board=A7670C
+a7670.build.mcu=asr1601
+a7670.build.variant=asr160x
+a7670.build.vid=0x2ECC
+a7670.build.pid=0x3015
+a7670.build.flashsz=16M
+a7670.build.extra_flags=-DSOC_ASR160X=1 -DSOC_ASR1601=1 -DPLATFORM_A7670=1
+a7670.build.logicromlib=logicromasr
+a7670.build.ldscript=linkerscript_asr.ld
+a7670.menu.debug.Release=Release
+a7670.menu.debug.Release.build.build_type=
+a7670.menu.debug.Debug=Debug
+a7670.menu.debug.Debug.build.build_type=_debug
+a7670.menu.stdio.none=None
+a7670.menu.stdio.none.build.stdio_port=
+a7670.menu.stdio.ttys0=Uart0 (/dev/ttyS0)
+a7670.menu.stdio.ttys0.build.stdio_port=/dev/ttyS0
+a7670.menu.stdio.ttys1=Uart1 (/dev/ttyS1)
+a7670.menu.stdio.ttys1.build.stdio_port=/dev/ttyS1
+a7670.menu.stdio.ttys2=Uart2 (/dev/ttyS2)
+a7670.menu.stdio.ttys2.build.stdio_port=/dev/ttyS2
+a7670.menu.stdio.ttyusb=USB Uart (/dev/ttyUSB0)
+a7670.menu.stdio.ttyusb.build.stdio_port=/dev/ttyUSB0
+
+# upload
+a7670.upload.tool=logicromflasher_asr160x
+a7670.upload.protocol=logicromflasher
+a7670.upload.maximum_size=1048576
+a7670.upload.maximum_ram_size=524288
+a7670.upload.speed=460800
+a7670.upload.require_upload_port=false
+a7670.upload.wait_for_upload_port=false
+
+# Quectel EC100N Module
+ec100n.name=Quectel EC100N (ASR1603) LTE Cat.1 Module
+
+# build
+ec100n.build.core=logicrom
+ec100n.build.cpu=armv7r
+ec100n.build.f_cpu=416000000
+ec100n.build.board=EC100N
+ec100n.build.mcu=asr1603
+ec100n.build.variant=asr160x
+ec100n.build.vid=0x2ECC
+ec100n.build.pid=0x3015
+ec100n.build.flashsz=16M
+ec100n.build.extra_flags=-DSOC_ASR160X=1 -DSOC_ASR1603=1 -DPLATFORM_EC100N=1
+ec100n.build.logicromlib=logicromasr
+ec100n.build.ldscript=linkerscript_asr.ld
+ec100n.menu.debug.Release=Release
+ec100n.menu.debug.Release.build.build_type=
+ec100n.menu.debug.Debug=Debug
+ec100n.menu.debug.Debug.build.build_type=_debug
+ec100n.menu.stdio.none=None
+ec100n.menu.stdio.none.build.stdio_port=
+ec100n.menu.stdio.ttys0=Uart0 (/dev/ttyS0)
+ec100n.menu.stdio.ttys0.build.stdio_port=/dev/ttyS0
+ec100n.menu.stdio.ttys1=Uart1 (/dev/ttyS1)
+ec100n.menu.stdio.ttys1.build.stdio_port=/dev/ttyS1
+ec100n.menu.stdio.ttys2=Uart2 (/dev/ttyS2)
+ec100n.menu.stdio.ttys2.build.stdio_port=/dev/ttyS2
+ec100n.menu.stdio.ttyusb=USB Uart (/dev/ttyUSB0)
+ec100n.menu.stdio.ttyusb.build.stdio_port=/dev/ttyUSB0
+
+# upload
+ec100n.upload.tool=logicromflasher_asr160x
+ec100n.upload.protocol=logicromflasher
+ec100n.upload.maximum_size=1048576
+ec100n.upload.maximum_ram_size=524288
+ec100n.upload.speed=460800
+ec100n.upload.require_upload_port=false
+ec100n.upload.wait_for_upload_port=false
+
+# Quectel EC100S Module
+ec100s.name=Quectel EC100S (ASR1601) LTE Cat.1 Module
+
+# build
+ec100s.build.core=logicrom
+ec100s.build.cpu=armv7r
+ec100s.build.f_cpu=416000000
+ec100s.build.board=EC100S
+ec100s.build.mcu=asr1601
+ec100s.build.variant=asr160x
+ec100s.build.vid=0x2ECC
+ec100s.build.pid=0x3015
+ec100s.build.flashsz=16M
+ec100s.build.extra_flags=-DSOC_ASR160X=1 -DSOC_ASR1601=1 -DPLATFORM_EC100S=1
+ec100s.build.logicromlib=logicromasr
+ec100s.build.ldscript=linkerscript_asr.ld
+ec100s.menu.debug.Release=Release
+ec100s.menu.debug.Release.build.build_type=
+ec100s.menu.debug.Debug=Debug
+ec100s.menu.debug.Debug.build.build_type=_debug
+ec100s.menu.stdio.none=None
+ec100s.menu.stdio.none.build.stdio_port=
+ec100s.menu.stdio.ttys0=Uart0 (/dev/ttyS0)
+ec100s.menu.stdio.ttys0.build.stdio_port=/dev/ttyS0
+ec100s.menu.stdio.ttys1=Uart1 (/dev/ttyS1)
+ec100s.menu.stdio.ttys1.build.stdio_port=/dev/ttyS1
+ec100s.menu.stdio.ttys2=Uart2 (/dev/ttyS2)
+ec100s.menu.stdio.ttys2.build.stdio_port=/dev/ttyS2
+ec100s.menu.stdio.ttyusb=USB Uart (/dev/ttyUSB0)
+ec100s.menu.stdio.ttyusb.build.stdio_port=/dev/ttyUSB0
+
+# upload
+ec100s.upload.tool=logicromflasher_asr160x
+ec100s.upload.protocol=logicromflasher
+ec100s.upload.maximum_size=1048576
+ec100s.upload.maximum_ram_size=524288
+ec100s.upload.speed=460800
+ec100s.upload.require_upload_port=false
+ec100s.upload.wait_for_upload_port=false
+
+# Quectel EC100Y Module
+ec100s.name=Quectel EC100Y (ASR1601) LTE Cat.1 Module
+
+# build
+ec100s.build.core=logicrom
+ec100s.build.cpu=armv7r
+ec100s.build.f_cpu=416000000
+ec100s.build.board=EC100Y
+ec100s.build.mcu=asr1601
+ec100s.build.variant=asr160x
+ec100s.build.vid=0x2ECC
+ec100s.build.pid=0x3015
+ec100s.build.flashsz=16M
+ec100s.build.extra_flags=-DSOC_ASR160X=1 -DSOC_ASR1601=1 -DPLATFORM_EC100Y=1
+ec100s.build.logicromlib=logicromasr
+ec100s.build.ldscript=linkerscript_asr.ld
+ec100s.menu.debug.Release=Release
+ec100s.menu.debug.Release.build.build_type=
+ec100s.menu.debug.Debug=Debug
+ec100s.menu.debug.Debug.build.build_type=_debug
+ec100s.menu.stdio.none=None
+ec100s.menu.stdio.none.build.stdio_port=
+ec100s.menu.stdio.ttys0=Uart0 (/dev/ttyS0)
+ec100s.menu.stdio.ttys0.build.stdio_port=/dev/ttyS0
+ec100s.menu.stdio.ttys1=Uart1 (/dev/ttyS1)
+ec100s.menu.stdio.ttys1.build.stdio_port=/dev/ttyS1
+ec100s.menu.stdio.ttys2=Uart2 (/dev/ttyS2)
+ec100s.menu.stdio.ttys2.build.stdio_port=/dev/ttyS2
+ec100s.menu.stdio.ttyusb=USB Uart (/dev/ttyUSB0)
+ec100s.menu.stdio.ttyusb.build.stdio_port=/dev/ttyUSB0
+
+# upload
+ec100s.upload.tool=logicromflasher_asr160x
+ec100s.upload.protocol=logicromflasher
+ec100s.upload.maximum_size=1048576
+ec100s.upload.maximum_ram_size=524288
+ec100s.upload.speed=460800
+ec100s.upload.require_upload_port=false
+ec100s.upload.wait_for_upload_port=false
+
+# Quectel EC200N Module definition
+ec200n.name=Quectel EC200N (ASR1603) LTE Cat.1 Module
+
+# build
+ec200n.build.core=logicrom
+ec200n.build.cpu=armv7r
+ec200n.build.f_cpu=416000000
+ec200n.build.board=EC200N
+ec200n.build.mcu=asr1603
+ec200n.build.variant=asr160x
+ec200n.build.vid=0x2ECC
+ec200n.build.pid=0x3015
+ec200n.build.flashsz=8M
+ec200n.build.extra_flags=-DSOC_ASR160X=1 -DSOC_ASR1603=1 -DPLATFORM_EC200N=1
+ec200n.build.logicromlib=logicromasr
+ec200n.build.ldscript=linkerscript_asr.ld
+ec200n.menu.debug.Release=Release
+ec200n.menu.debug.Release.build.build_type=
+ec200n.menu.debug.Debug=Debug
+ec200n.menu.debug.Debug.build.build_type=_debug
+ec200n.menu.stdio.none=None
+ec200n.menu.stdio.none.build.stdio_port=
+ec200n.menu.stdio.ttys0=Uart0 (/dev/ttyS0)
+ec200n.menu.stdio.ttys0.build.stdio_port=/dev/ttyS0
+ec200n.menu.stdio.ttys1=Uart1 (/dev/ttyS1)
+ec200n.menu.stdio.ttys1.build.stdio_port=/dev/ttyS1
+ec200n.menu.stdio.ttys2=Uart2 (/dev/ttyS2)
+ec200n.menu.stdio.ttys2.build.stdio_port=/dev/ttyS2
+ec200n.menu.stdio.ttyusb=USB Uart (/dev/ttyUSB0)
+ec200n.menu.stdio.ttyusb.build.stdio_port=/dev/ttyUSB0
+
+# upload
+ec200n.upload.tool=logicromflasher_asr160x
+ec200n.upload.protocol=logicromflasher
+ec200n.upload.maximum_size=524288
+ec200n.upload.maximum_ram_size=524288
+ec200n.upload.speed=460800
+ec200n.upload.require_upload_port=false
+ec200n.upload.wait_for_upload_port=false
+
+# Quectel EC200S Module definition
+ec200s.name=Quectel EC200S (ASR1601) LTE Cat.1 Module
+
+# build
+ec200s.build.core=logicrom
+ec200s.build.cpu=armv7r
+ec200s.build.f_cpu=416000000
+ec200s.build.board=EC200S
+ec200s.build.mcu=asr1601
+ec200s.build.variant=asr160x
+ec200s.build.vid=0x2ECC
+ec200s.build.pid=0x3015
+ec200s.build.flashsz=16M
+ec200s.build.extra_flags=-DSOC_ASR160X=1 -DSOC_ASR1601=1 -DPLATFORM_EC200S=1
+ec200s.build.logicromlib=logicromasr
+ec200s.build.ldscript=linkerscript_asr.ld
+ec200s.menu.debug.Release=Release
+ec200s.menu.debug.Release.build.build_type=
+ec200s.menu.debug.Debug=Debug
+ec200s.menu.debug.Debug.build.build_type=_debug
+ec200s.menu.stdio.none=None
+ec200s.menu.stdio.none.build.stdio_port=
+ec200s.menu.stdio.ttys0=Uart0 (/dev/ttyS0)
+ec200s.menu.stdio.ttys0.build.stdio_port=/dev/ttyS0
+ec200s.menu.stdio.ttys1=Uart1 (/dev/ttyS1)
+ec200s.menu.stdio.ttys1.build.stdio_port=/dev/ttyS1
+ec200s.menu.stdio.ttys2=Uart2 (/dev/ttyS2)
+ec200s.menu.stdio.ttys2.build.stdio_port=/dev/ttyS2
+ec200s.menu.stdio.ttyusb=USB Uart (/dev/ttyUSB0)
+ec200s.menu.stdio.ttyusb.build.stdio_port=/dev/ttyUSB0
+
+# upload
+ec200s.upload.tool=logicromflasher_asr160x
+ec200s.upload.protocol=logicromflasher
+ec200s.upload.maximum_size=1048576
+ec200s.upload.maximum_ram_size=524288
+ec200s.upload.speed=460800
+ec200s.upload.require_upload_port=false
+ec200s.upload.wait_for_upload_port=false
+
+# Quectel EC600N Module definition
+ec600n.name=Quectel EC600N (ASR1603) LTE Cat.1 Module
+
+# build
+ec600n.build.core=logicrom
+ec600n.build.cpu=armv7r
+ec600n.build.f_cpu=416000000
+ec600n.build.board=EC600N
+ec600n.build.mcu=asr1603
+ec600n.build.variant=asr160x
+ec600n.build.vid=0x2ECC
+ec600n.build.pid=0x3015
+ec600n.build.flashsz=16M
+ec600n.build.extra_flags=-DSOC_ASR160X=1 -DSOC_ASR1603=1 -DPLATFORM_EC600N=1
+ec600n.build.logicromlib=logicromasr
+ec600n.build.ldscript=linkerscript_asr.ld
+ec600n.menu.debug.Release=Release
+ec600n.menu.debug.Release.build.build_type=
+ec600n.menu.debug.Debug=Debug
+ec600n.menu.debug.Debug.build.build_type=_debug
+ec600n.menu.stdio.none=None
+ec600n.menu.stdio.none.build.stdio_port=
+ec600n.menu.stdio.ttys0=Uart0 (/dev/ttyS0)
+ec600n.menu.stdio.ttys0.build.stdio_port=/dev/ttyS0
+ec600n.menu.stdio.ttys1=Uart1 (/dev/ttyS1)
+ec600n.menu.stdio.ttys1.build.stdio_port=/dev/ttyS1
+ec600n.menu.stdio.ttys2=Uart2 (/dev/ttyS2)
+ec600n.menu.stdio.ttys2.build.stdio_port=/dev/ttyS2
+ec600n.menu.stdio.ttyusb=USB Uart (/dev/ttyUSB0)
+ec600n.menu.stdio.ttyusb.build.stdio_port=/dev/ttyUSB0
+
+# upload
+ec600n.upload.tool=logicromflasher_asr160x
+ec600n.upload.protocol=logicromflasher
+ec600n.upload.maximum_size=1048576
+ec600n.upload.maximum_ram_size=524288
+ec600n.upload.speed=460800
+ec600n.upload.require_upload_port=false
+ec600n.upload.wait_for_upload_port=false
+
+# Quectel EC600S Module definition
+ec600s.name=Quectel EC600S (ASR1601) LTE Cat.1 Module
+
+# build
+ec600s.build.core=logicrom
+ec600s.build.cpu=armv7r
+ec600s.build.f_cpu=416000000
+ec600s.build.board=EC600S
+ec600s.build.mcu=asr1601
+ec600s.build.variant=asr160x
+ec600s.build.vid=0x2ECC
+ec600s.build.pid=0x3015
+ec600s.build.flashsz=16M
+ec600s.build.extra_flags=-DSOC_ASR160X=1 -DSOC_ASR1603=1 -DPLATFORM_EC600S=1
+ec600s.build.logicromlib=logicromasr
+ec600s.build.ldscript=linkerscript_asr.ld
+ec600s.menu.debug.Release=Release
+ec600s.menu.debug.Release.build.build_type=
+ec600s.menu.debug.Debug=Debug
+ec600s.menu.debug.Debug.build.build_type=_debug
+ec600s.menu.stdio.none=None
+ec600s.menu.stdio.none.build.stdio_port=
+ec600s.menu.stdio.ttys0=Uart0 (/dev/ttyS0)
+ec600s.menu.stdio.ttys0.build.stdio_port=/dev/ttyS0
+ec600s.menu.stdio.ttys1=Uart1 (/dev/ttyS1)
+ec600s.menu.stdio.ttys1.build.stdio_port=/dev/ttyS1
+ec600s.menu.stdio.ttys2=Uart2 (/dev/ttyS2)
+ec600s.menu.stdio.ttys2.build.stdio_port=/dev/ttyS2
+ec600s.menu.stdio.ttyusb=USB Uart (/dev/ttyUSB0)
+ec600s.menu.stdio.ttyusb.build.stdio_port=/dev/ttyUSB0
+
+# upload
+ec600s.upload.tool=logicromflasher_asr160x
+ec600s.upload.protocol=logicromflasher
+ec600s.upload.maximum_size=1048576
+ec600s.upload.maximum_ram_size=524288
+ec600s.upload.speed=460800
+ec600s.upload.require_upload_port=false
+ec600s.upload.wait_for_upload_port=false
+
+# Quectel EG912Y Module definition
+eg912y.name=Quectel EG912Y (ASR1603) LTE Cat.1 Module
+
+# build
+eg912y.build.core=logicrom
+eg912y.build.cpu=armv7r
+eg912y.build.f_cpu=416000000
+eg912y.build.board=EG912Y
+eg912y.build.mcu=asr1603
+eg912y.build.variant=asr160x
+eg912y.build.vid=0x2ECC
+eg912y.build.pid=0x3015
+eg912y.build.flashsz=8M
+eg912y.build.extra_flags=-DSOC_ASR160X=1 -DSOC_ASR1603=1 -DPLATFORM_EG912Y=1
+eg912y.build.logicromlib=logicromasr
+eg912y.build.ldscript=linkerscript_asr.ld
+eg912y.menu.debug.Release=Release
+eg912y.menu.debug.Release.build.build_type=
+eg912y.menu.debug.Debug=Debug
+eg912y.menu.debug.Debug.build.build_type=_debug
+eg912y.menu.stdio.none=None
+eg912y.menu.stdio.none.build.stdio_port=
+eg912y.menu.stdio.ttys0=Uart0 (/dev/ttyS0)
+eg912y.menu.stdio.ttys0.build.stdio_port=/dev/ttyS0
+eg912y.menu.stdio.ttys1=Uart1 (/dev/ttyS1)
+eg912y.menu.stdio.ttys1.build.stdio_port=/dev/ttyS1
+eg912y.menu.stdio.ttys2=Uart2 (/dev/ttyS2)
+eg912y.menu.stdio.ttys2.build.stdio_port=/dev/ttyS2
+eg912y.menu.stdio.ttyusb=USB Uart (/dev/ttyUSB0)
+eg912y.menu.stdio.ttyusb.build.stdio_port=/dev/ttyUSB0
+
+# upload
+eg912y.upload.tool=logicromflasher_asr160x
+eg912y.upload.protocol=logicromflasher
+eg912y.upload.maximum_size=524288
+eg912y.upload.maximum_ram_size=524288
+eg912y.upload.speed=460800
+eg912y.upload.require_upload_port=false
+eg912y.upload.wait_for_upload_port=false
+
+# Quectel EG915N Module definition
+eg915n.name=Quectel EG915N (ASR1603) LTE Cat.1 Module
+
+# build
+eg915n.build.core=logicrom
+eg915n.build.cpu=armv7r
+eg915n.build.f_cpu=416000000
+eg915n.build.board=EG915N
+eg915n.build.mcu=asr1603
+eg915n.build.variant=asr160x
+eg915n.build.vid=0x2ECC
+eg915n.build.pid=0x3015
+eg915n.build.flashsz=16M
+eg915n.build.extra_flags=-DSOC_ASR160X=1 -DSOC_ASR1603=1 -DPLATFORM_EG915N=1
+eg915n.build.logicromlib=logicromasr
+eg915n.build.ldscript=linkerscript_asr.ld
+eg915n.menu.debug.Release=Release
+eg915n.menu.debug.Release.build.build_type=
+eg915n.menu.debug.Debug=Debug
+eg915n.menu.debug.Debug.build.build_type=_debug
+eg915n.menu.stdio.none=None
+eg915n.menu.stdio.none.build.stdio_port=
+eg915n.menu.stdio.ttys0=Uart0 (/dev/ttyS0)
+eg915n.menu.stdio.ttys0.build.stdio_port=/dev/ttyS0
+eg915n.menu.stdio.ttys1=Uart1 (/dev/ttyS1)
+eg915n.menu.stdio.ttys1.build.stdio_port=/dev/ttyS1
+eg915n.menu.stdio.ttys2=Uart2 (/dev/ttyS2)
+eg915n.menu.stdio.ttys2.build.stdio_port=/dev/ttyS2
+eg915n.menu.stdio.ttyusb=USB Uart (/dev/ttyUSB0)
+eg915n.menu.stdio.ttyusb.build.stdio_port=/dev/ttyUSB0
+
+# upload
+eg915n.upload.tool=logicromflasher_asr160x
+eg915n.upload.protocol=logicromflasher
+eg915n.upload.maximum_size=524288
+eg915n.upload.maximum_ram_size=524288
+eg915n.upload.speed=460800
+eg915n.upload.require_upload_port=false
+eg915n.upload.wait_for_upload_port=false
