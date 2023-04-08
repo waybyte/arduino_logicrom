@@ -697,36 +697,6 @@ uint16_t NetClient::remotePort() const
     return remotePort(fd());
 }
 
-#if 0 /* TODO */
-IPAddress NetClient::localIP(int fd) const
-{
-    struct sockaddr_storage addr;
-    socklen_t len = sizeof addr;
-    getsockname(fd, (struct sockaddr *)&addr, &len);
-    struct sockaddr_in *s = (struct sockaddr_in *)&addr;
-    return IPAddress((uint32_t)(s->sin_addr.s_addr));
-}
-
-uint16_t NetClient::localPort(int fd) const
-{
-    struct sockaddr_storage addr;
-    socklen_t len = sizeof addr;
-    getsockname(fd, (struct sockaddr *)&addr, &len);
-    struct sockaddr_in *s = (struct sockaddr_in *)&addr;
-    return ntohs(s->sin_port);
-}
-
-IPAddress NetClient::localIP() const
-{
-    return localIP(fd());
-}
-
-uint16_t NetClient::localPort() const
-{
-    return localPort(fd());
-}
-#endif
-
 bool NetClient::operator==(const NetClient &rhs)
 {
     return clientSocketHandle == rhs.clientSocketHandle && remotePort() == rhs.remotePort() && remoteIP() == rhs.remoteIP();

@@ -39,7 +39,6 @@ public:
 	bool isGprsEnable(void);
 	bool GprsWaitForActivation(int timeout = 60000);
 	bool isGprsActive(void);
-	IPAddress localIP(void);
 	bool isDataEnable(void);
 	int DataEnable(void);
 	int DataDisable(void);

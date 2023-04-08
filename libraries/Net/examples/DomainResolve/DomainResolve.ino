@@ -22,9 +22,6 @@ void setup()
 	/* Resolve if data connection ok */
 	if (Net.isDataReady())
 	{
-		IPAddress devip = Net.localIP();
-		printf("Device IP Address: %d.%d.%d.%d\n", devip[0], devip[1], devip[2], devip[3]);
-
 		/* Resolve google.com domain */
 		IPAddress ip = Net.resolve("google.com");
 		if (ip != IPADDR_NONE)

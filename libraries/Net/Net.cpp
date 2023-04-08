@@ -170,13 +170,6 @@ bool NetworkClass::isDataReady(void)
 	return network_isready();
 }
 
-IPAddress NetworkClass::localIP(void)
-{
-	const uint8_t *ip = network_getlocalip();
-
-	return IPAddress(ip[0], ip[1], ip[2], ip[3]);
-}
-
 IPAddress NetworkClass::resolve(const char *domain)
 {
 	struct hostent *h = gethostbyname(domain);

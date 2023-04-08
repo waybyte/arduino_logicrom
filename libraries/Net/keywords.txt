@@ -30,10 +30,6 @@ DataDisable				KEYWORD2
 isDataEnable			KEYWORD2
 waitDataReady       	KEYWORD2
 isDataReady 			KEYWORD2
-localIP					KEYWORD2
-getIMEI					KEYWORD2
-getIMSI					KEYWORD2
-getICCID				KEYWORD2
 
 #######################################
 # Constants (LITERAL1)
