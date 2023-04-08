@@ -27,6 +27,11 @@ void onCallStateChange(int state)
     }
 }
 
+void setup()
+{
+    Serial.begin(115200);
+}
+
 void loop()
 {
 	/* Rest of code */
