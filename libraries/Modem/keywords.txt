@@ -1,0 +1,30 @@
+#######################################
+# Syntax Coloring Map Network Library
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+Net	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+enableAirplaneMode      KEYWORD2
+disableAirplaneMode     KEYWORD2
+getIMEI                 KEYWORD2
+getIMSI                 KEYWORD2
+getICCID				KEYWORD2
+smsRead                 KEYWORD2
+smsSend                 KEYWORD2
+smsDelete               KEYWORD2
+smsDeleteAll            KEYWORD2
+callDial                KEYWORD2
+callAnswer              KEYWORD2
+callHangup              KEYWORD2
+getLBSInformation       KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################
