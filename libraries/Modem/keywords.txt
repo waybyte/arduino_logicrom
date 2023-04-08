@@ -6,7 +6,7 @@
 # Datatypes (KEYWORD1)
 #######################################
 
-Net	KEYWORD1
+Modem	KEYWORD1
 
 #######################################
 # Methods and Functions (KEYWORD2)
