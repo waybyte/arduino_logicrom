@@ -1,5 +1,5 @@
 # Copyright (c) Waybyte Solutions. All right reserved.
-# https://www.waybyte.in/
+# https://waybyte.in/
 #
 # Logicrom Arduino Core and platform.
 #
@@ -7,7 +7,7 @@
 # https://github.com/arduino/Arduino/wiki/Arduino-IDE-1.5---3rd-party-Hardware-specification
 
 name=Logicrom Arduino
-version=0.9.3
+version=0.9.4
 
 # Tools
 # -----
@@ -20,6 +20,8 @@ tools.fota_gen.cmd.windows={build.core.path}/logicromsdk/tools/FOTA_Generator.ex
 tools.dtools.cmd.linux={build.core.path}/logicromsdk/tools/rda8910/linux/dtools
 tools.dtools.cmd.windows={build.core.path}/logicromsdk/tools/rda8910/win32/dtools.exe
 tools.pacgen.cmd={build.core.path}/logicromsdk/tools/rda8910/pacgen.py
+
+tools.asrutils.cmd={runtime.platform.path}/scripts/asrutils.py
 
 # compile variables
 # ----------------------
@@ -35,16 +37,20 @@ compiler.path={runtime.tools.gcc-arm-none-eabi.path}/bin/
 compiler.mt2503.flags=-march=armv5te -mfloat-abi=soft
 compiler.mt6261.flags=-march=armv5te -mfloat-abi=soft
 compiler.rda8910.flags=-mcpu=cortex-a5 -mtune=generic-armv7-a -mfpu=neon-vfpv4 -mfloat-abi=hard -mno-unaligned-access
+compiler.asr1601.flags=-mcpu=cortex-r4 -march=armv7-r -mfloat-abi=soft -mno-unaligned-access
+compiler.asr1603.flags=-mcpu=cortex-r4 -march=armv7-r -mfloat-abi=soft -mno-unaligned-access
 
-compiler.mt2503.ldflags=--specs=nano.specs -u _printf_float -u _scanf_float --specs=nosys.specs "-Wl,--defsym,platform_init=platform_{build.variant}_init"
-compiler.mt6261.ldflags=--specs=nano.specs -u _printf_float -u _scanf_float --specs=nosys.specs "-Wl,--defsym,platform_init=platform_{build.variant}_init"
-compiler.rda8910.ldflags=
+compiler.mt2503.ldflags=--specs=nano.specs -u _printf_float -u _scanf_float --specs=nosys.specs "-Wl,--defsym,platform_init=platform_{build.variant}_init" -L{build.core.path}/logicromsdk/lib/mtk
+compiler.mt6261.ldflags=--specs=nano.specs -u _printf_float -u _scanf_float --specs=nosys.specs "-Wl,--defsym,platform_init=platform_{build.variant}_init" -L{build.core.path}/logicromsdk/lib/mtk
+compiler.rda8910.ldflags=-L{build.core.path}/logicromsdk/lib/rda8910
+compiler.asr1601.ldflags=-L{build.core.path}/logicromsdk/lib/asr160x
+compiler.asr1603.ldflags=-L{build.core.path}/logicromsdk/lib/asr160x
 
 # C Compiler
 compiler.c.cmd=arm-none-eabi-gcc
 compiler.c.flags=-std=gnu11 -c -Os -g {compiler.{build.mcu}.flags} -fmessage-length=0 -ffunction-sections -fdata-sections -fsigned-char {compiler.warning_flags} -mthumb -mthumb-interwork -D__BUFSIZ__=512 -D__FILENAME_MAX__=256 '-DDEFAULT_STDIO_PORT="{build.stdio_port}"'
 # Linker
-compiler.c.elf.cmd=arm-none-eabi-gcc
+compiler.c.elf.cmd=arm-none-eabi-g++
 compiler.c.elf.flags={compiler.{build.mcu}.flags} -mthumb -mthumb-interwork -Os
 # Assembler
 compiler.S.cmd=arm-none-eabi-gcc
@@ -98,6 +104,8 @@ recipe.c.combine.pattern="{compiler.path}{compiler.c.elf.cmd}" "-L{build.path}" 
 recipe.prelink.mt2503.hook="{runtime.tools.python3.path}/python3" -I -c "print()"
 recipe.prelink.mt6261.hook="{runtime.tools.python3.path}/python3" -I -c "print()"
 recipe.prelink.rda8910.hook="{compiler.path}{compiler.c.cmd}" "-I{build.core.path}/logicromsdk/lib/rda8910" -P -x c -E "{build.core.path}/logicromsdk/lib/rda8910/app_flashimg.ld" -o "{build.path}/{build.ldscript}"
+recipe.prelink.asr1601.hook="{compiler.path}{compiler.c.cmd}" "-I{build.core.path}/logicromsdk/lib/asr160x" -P -x c -E -DFLASHSZ_{build.flashsz}=1 "{build.core.path}/logicromsdk/lib/asr160x/app_linker.ld" -o "{build.path}/{build.ldscript}"
+recipe.prelink.asr1603.hook="{compiler.path}{compiler.c.cmd}" "-I{build.core.path}/logicromsdk/lib/asr160x" -P -x c -E -DFLASHSZ_{build.flashsz}=1 "{build.core.path}/logicromsdk/lib/asr160x/app_linker.ld" -o "{build.path}/{build.ldscript}"
 
 recipe.hooks.linking.prelink.1.pattern={recipe.prelink.{build.mcu}.hook}
 
@@ -118,6 +126,15 @@ rda8910.objcopy.1.pattern="{tools.dtools.cmd}" mkappimg "{build.path}/{build.pro
 rda8910.objcopy.2.pattern="{runtime.tools.python3.path}/python3" -I "{tools.pacgen.cmd}" cfg-init --pname "UIX8910_MODEM" --palias "{build.project_name}" --pversion "8910 MODULE" --version "BP_R1.0.0" --flashtype 1 cfg-host-fdl -a 0x8000c0 -s 0xff40 -p {build.core.path}/logicromsdk/lib/rda8910/fdl1.img cfg-fdl2 -a 0x810000 -s 0x30000 -p {build.core.path}/logicromsdk/lib/rda8910/fdl2.img cfg-nvitem -n "Calibration" -i 0xFFFFFFFF --use 1 --replace 0 --continue 0 --backup 1 cfg-nvitem -n "GSM Calibration" -i 0x26d --use 1 --replace 0 --continue 1 --backup 1 cfg-nvitem -n "LTE Calibration" -i 0x26e --use 1 --replace 0 --continue 0 --backup 1 cfg-nvitem -n "IMEI" -i 0xFFFFFFFF --use 1 --replace 0 --continue 0 --backup 1 cfg-nvitem -n "BT_Config" -i 0x191 --use 1 --replace 0 --continue 1 --backup 1 cfg-nvitem -n "Logicrom" -i 0x280 --use 1 --replace 0 --continue 1 --backup 1 cfg-nvitem -n "Customer" -i 0x27e --use 1 --replace 0 --continue 1 --backup 1 cfg-image -i APPIMG -a 0x60230000 -s 0x100000 -p {build.path}/{build.project_name}.img pac-gen "{build.path}/{build.project_name}.pac"
 rda8910.objcopy.3.pattern="{tools.dtools.cmd}" fotacreate2 --single-pac {build.path}/{build.project_name}.pac,{build.core.path}/logicromsdk/lib/rda8910/fota8910.xml "{build.path}/fota_{build.project_name}.bin"
 rda8910.prefix=pac
+## ASR160x
+asr1601.objcopy.1.pattern="{compiler.path}{compiler.elf2bin.cmd}" {compiler.elf2bin.flags} {compiler.elf2bin.extra_flags} "{build.path}/{build.project_name}.elf" "{build.path}/{build.project_name}.img"
+asr1601.objcopy.2.pattern="{runtime.tools.python3.path}/python3" -I "{tools.asrutils.cmd}" genzip {build.mcu} {build.flashsz} {build.core.path}/logicromsdk/lib/asr160x/pack {build.path}/{build.project_name}.img "{build.path}/{build.project_name}.zip"
+asr1601.objcopy.3.pattern="{runtime.tools.python3.path}/python3" -I "{tools.asrutils.cmd}" genfota {build.path}/{build.project_name}.img "{build.path}/fota_{build.project_name}.bin"
+asr1601.prefix=zip
+asr1603.objcopy.1.pattern="{compiler.path}{compiler.elf2bin.cmd}" {compiler.elf2bin.flags} {compiler.elf2bin.extra_flags} "{build.path}/{build.project_name}.elf" "{build.path}/{build.project_name}.img"
+asr1603.objcopy.2.pattern="{runtime.tools.python3.path}/python3" -I "{tools.asrutils.cmd}" genzip {build.mcu} {build.flashsz} {build.core.path}/logicromsdk/lib/asr160x/pack {build.path}/{build.project_name}.img "{build.path}/{build.project_name}.zip"
+asr1603.objcopy.3.pattern="{runtime.tools.python3.path}/python3" -I "{tools.asrutils.cmd}" genfota {build.path}/{build.project_name}.img "{build.path}/fota_{build.project_name}.bin"
+asr1603.prefix=zip
 
 recipe.objcopy.bin.1.pattern={{build.mcu}.objcopy.1.pattern}
 recipe.objcopy.bin.2.pattern={{build.mcu}.objcopy.2.pattern}
@@ -143,6 +160,15 @@ tools.logicromflasher_rda8910.upload.params.verbose=
 tools.logicromflasher_rda8910.upload.params.quiet=
 tools.logicromflasher_rda8910.upload.pattern={cmd} "RDA8910" "{runtime.platform.path}/cores/{build.core}/logicromsdk/lib/rda8910/core_config.json" "{runtime.platform.path}/cores/{build.core}/logicromsdk/lib/rda8910/fdl1.img" "{runtime.platform.path}/cores/{build.core}/logicromsdk/lib/rda8910/fdl2.img" "{build.path}/{build.project_name}.img"
 
+## ASR160x
+tools.logicromflasher_asr160x.path={runtime.tools.logicromflasher.path}
+tools.logicromflasher_asr160x.cmd="{runtime.tools.python3.path}/python3" -I "{path}/upload.py"
+
+tools.logicromflasher_asr160x.upload.params.verbose=
+tools.logicromflasher_asr160x.upload.params.quiet=
+tools.logicromflasher_asr160x.upload.pattern={cmd} -m {build.mcu} "{build.path}/{build.project_name}.zip"
+
+## MTK
 tools.logicromflasher.path={runtime.tools.logicromflasher.path}
 tools.logicromflasher.cmd="{runtime.tools.python3.path}/python3" -I "{path}/upload.py"
 tools.logicromflasher.cmd.windows={path}/logicromflasher.exe
