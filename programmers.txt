@@ -1,5 +1,5 @@
 # Copyright (c) Waybyte Solutions. All right reserved.
-# https://www.waybyte.in/
+# https://waybyte.in/
 #
 # Logicrom Core Flasher
 #

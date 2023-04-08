@@ -1,6 +1,17 @@
 {
     "name": "framework-logicromarduino",
+    "version": "0.9.4",
     "description": "Arduino Wiring-based Framework For Logicrom Wireless IoT Platform",
-    "version": "0.9.3",
-    "url": "https://github.com/waybyte/arduino_logicrom"
+    "keywords": [
+        "framework", "arduino", "logicrom", "4G LTE",
+        "quectel", "simcom", "neoway", "fibocom", "aithinker",
+        "mt6261", "MT2503", "MT2625", "rda8910", "rda8955",
+        "asr1601", "asr1603"
+    ],
+    "homepage": "https://waybyte.in/products/logicrom",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/waybyte/arduino_logicrom"
+    }
 }
