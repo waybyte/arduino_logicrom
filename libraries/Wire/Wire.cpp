@@ -22,6 +22,10 @@
 #include "Arduino.h"
 #include "Wire.h"
 
+#ifndef I2C_DEFAULT_PORT
+#define I2C_DEFAULT_PORT I2C_PORT_0
+#endif
+
 TwoWire::TwoWire(int port) : rxBufferIndex(0), rxBufferLength(0), txAddress(0), txBufferLength(0), twiClock(TWI_CLOCK)
 {
 	this->port = port;
@@ -218,4 +222,4 @@ void TwoWire::onService(void)
 	/* Nothing to do */
 }
 
-TwoWire Wire = TwoWire(I2C_PORT_0);
+TwoWire Wire = TwoWire(I2C_DEFAULT_PORT);
