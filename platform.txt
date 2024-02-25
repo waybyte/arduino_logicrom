@@ -11,6 +11,9 @@ version=0.9.4
 
 # Tools
 # -----
+tools.arm.path={runtime.tools.gcc-arm-none-eabi.path}/bin/
+tools.mips.path={runtime.tools.gcc-mips-elf.path}/bin/
+
 tools.gfh_gen.cmd="{runtime.tools.python3.path}/python3" -I "{build.core.path}/logicromsdk/tools/GFH_Generator.py"
 tools.gfh_gen.cmd.windows={build.core.path}/logicromsdk/tools/GFH_Generator.exe
 
@@ -22,6 +25,10 @@ tools.dtools.cmd.windows={build.core.path}/logicromsdk/tools/rda8910/win32/dtool
 tools.pacgen.cmd={build.core.path}/logicromsdk/tools/rda8910/pacgen.py
 
 tools.asrutils.cmd={runtime.platform.path}/scripts/asrutils.py
+tools.rdautils.cmd={runtime.platform.path}/scripts/rdautils.py
+
+tools.rdagenfota.cmd.linux={build.core.path}/logicromsdk/tools/rda8955/linux/genfota
+tools.rdagenfota.cmd.windows={build.core.path}/logicromsdk/tools/rda8955/win32/genfota.exe
 
 # compile variables
 # ----------------------
@@ -32,42 +39,57 @@ compiler.warning_flags.default=
 compiler.warning_flags.more=-Wall
 compiler.warning_flags.all=-Wall -Wextra
 
-compiler.path={runtime.tools.gcc-arm-none-eabi.path}/bin/
+compiler.path={tools.{build.cpu}.path}
+
 # MCU specific
+compiler.arm.prefix=arm-none-eabi-
+compiler.mips.prefix=mips-elf-
+
+compiler.arm.flags=-mthumb -mthumb-interwork
+compiler.mips.flags=
+
+compiler.arm.cstd=-std=gnu11
+compiler.mips.cstd=-std=gnu99
+
+compiler.arm.cppstd=-std=gnu++11
+compiler.mips.cppstd=-std=gnu++98
+
 compiler.mt2503.flags=-march=armv5te -mfloat-abi=soft
 compiler.mt6261.flags=-march=armv5te -mfloat-abi=soft
 compiler.rda8910.flags=-mcpu=cortex-a5 -mtune=generic-armv7-a -mfpu=neon-vfpv4 -mfloat-abi=hard -mno-unaligned-access
 compiler.asr1601.flags=-mcpu=cortex-r4 -march=armv7-r -mfloat-abi=soft -mno-unaligned-access
 compiler.asr1603.flags=-mcpu=cortex-r4 -march=armv7-r -mfloat-abi=soft -mno-unaligned-access
+compiler.rda8955.flags=-march=xcpu -mtune=xcpu -Wa,-march=xcpu,-mtune=xcpu -mips16 -minterlink-mips16 -msoft-float -mexplicit-relocs -mmemcpy -mmips-tfile -DEL -EL -G0 -ffixed-t3 -ffixed-t4 -ffixed-t5 -ffixed-t6 -ffixed-t7 -ffixed-s2 -ffixed-s3 -ffixed-s4 -ffixed-s5 -ffixed-s6 -ffixed-s7 -ffixed-fp
 
 compiler.mt2503.ldflags=--specs=nano.specs -u _printf_float -u _scanf_float --specs=nosys.specs "-Wl,--defsym,platform_init=platform_{build.variant}_init" -L{build.core.path}/logicromsdk/lib/mtk
 compiler.mt6261.ldflags=--specs=nano.specs -u _printf_float -u _scanf_float --specs=nosys.specs "-Wl,--defsym,platform_init=platform_{build.variant}_init" -L{build.core.path}/logicromsdk/lib/mtk
 compiler.rda8910.ldflags=-L{build.core.path}/logicromsdk/lib/rda8910
 compiler.asr1601.ldflags=-L{build.core.path}/logicromsdk/lib/asr160x
 compiler.asr1603.ldflags=-L{build.core.path}/logicromsdk/lib/asr160x
+compiler.rda8955.ldflags=-L{build.core.path}/logicromsdk/lib/rda8955
 
 # C Compiler
-compiler.c.cmd=arm-none-eabi-gcc
-compiler.c.flags=-std=gnu11 -c -Os -g {compiler.{build.mcu}.flags} -fmessage-length=0 -ffunction-sections -fdata-sections -fsigned-char {compiler.warning_flags} -mthumb -mthumb-interwork -D__BUFSIZ__=512 -D__FILENAME_MAX__=256 '-DDEFAULT_STDIO_PORT="{build.stdio_port}"'
+compiler.c.cmd={compiler.{build.cpu}.prefix}gcc
+compiler.c.flags={compiler.{build.cpu}.cstd} -c -Os -g {compiler.{build.mcu}.flags} {compiler.{build.cpu}.flags} -fmessage-length=0 -ffunction-sections -fdata-sections -fsigned-char {compiler.warning_flags} -D__BUFSIZ__=512 -D__FILENAME_MAX__=256 '-DDEFAULT_STDIO_PORT="{build.stdio_port}"'
 # Linker
-compiler.c.elf.cmd=arm-none-eabi-g++
-compiler.c.elf.flags={compiler.{build.mcu}.flags} -mthumb -mthumb-interwork -Os
+compiler.c.elf.cmd={compiler.{build.cpu}.prefix}g++
+compiler.c.elf.flags={compiler.{build.mcu}.flags} -Os
 # Assembler
-compiler.S.cmd=arm-none-eabi-gcc
+compiler.S.cmd={compiler.{build.cpu}.prefix}gcc
 compiler.S.flags=-c -g -x assembler-with-cpp
 # CPP Compiler
-compiler.cpp.cmd=arm-none-eabi-g++
-compiler.cpp.flags=-std=gnu++11 -c -Os -g {compiler.{build.mcu}.flags} -fmessage-length=0 -ffunction-sections -fdata-sections -fsigned-char -fno-rtti -fno-exceptions -fno-use-cxa-atexit -fno-threadsafe-statics {compiler.warning_flags} -mthumb -mthumb-interwork -D__BUFSIZ__=512 -D__FILENAME_MAX__=256 '-DDEFAULT_STDIO_PORT="{build.stdio_port}"'
+compiler.cpp.cmd={compiler.{build.cpu}.prefix}g++
+compiler.cpp.flags={compiler.{build.cpu}.cppstd} -c -Os -g {compiler.{build.mcu}.flags} {compiler.{build.cpu}.flags} -fmessage-length=0 -ffunction-sections -fdata-sections -fsigned-char -fno-rtti -fno-exceptions -fno-use-cxa-atexit -fno-threadsafe-statics {compiler.warning_flags} -D__BUFSIZ__=512 -D__FILENAME_MAX__=256 '-DDEFAULT_STDIO_PORT="{build.stdio_port}"'
 # Archiver
-compiler.ar.cmd=arm-none-eabi-ar
+compiler.ar.cmd={compiler.{build.cpu}.prefix}ar
 compiler.ar.flags=rcs
 # Elf2bin
-compiler.elf2bin.cmd=arm-none-eabi-objcopy
+compiler.elf2bin.cmd={compiler.{build.cpu}.prefix}objcopy
 compiler.elf2bin.flags=-O binary
 # Linker Flags
 compiler.ldflags= -Wl,--gc-sections,--relax -nostartfiles -nostdlib -nodefaultlibs {compiler.{build.mcu}.ldflags}
 # Size
-compiler.size.cmd=arm-none-eabi-size
+compiler.size.cmd={compiler.{build.cpu}.prefix}size
 
 # These can be overridden in platform.local.txt
 compiler.c.extra_flags=
@@ -106,6 +128,7 @@ recipe.prelink.mt6261.hook="{runtime.tools.python3.path}/python3" -I -c "print()
 recipe.prelink.rda8910.hook="{compiler.path}{compiler.c.cmd}" "-I{build.core.path}/logicromsdk/lib/rda8910" -P -x c -E "{build.core.path}/logicromsdk/lib/rda8910/app_flashimg.ld" -o "{build.path}/{build.ldscript}"
 recipe.prelink.asr1601.hook="{compiler.path}{compiler.c.cmd}" "-I{build.core.path}/logicromsdk/lib/asr160x" -P -x c -E -DFLASHSZ_{build.flashsz}=1 "{build.core.path}/logicromsdk/lib/asr160x/app_linker.ld" -o "{build.path}/{build.ldscript}"
 recipe.prelink.asr1603.hook="{compiler.path}{compiler.c.cmd}" "-I{build.core.path}/logicromsdk/lib/asr160x" -P -x c -E -DFLASHSZ_{build.flashsz}=1 "{build.core.path}/logicromsdk/lib/asr160x/app_linker.ld" -o "{build.path}/{build.ldscript}"
+recipe.prelink.rda8955.hook="{compiler.path}{compiler.c.cmd}" "-I{build.core.path}/logicromsdk/lib/rda8955" -P -x c -E "{build.core.path}/logicromsdk/lib/rda8955/linkerscript.ld" -o "{build.path}/{build.ldscript}"
 
 recipe.hooks.linking.prelink.1.pattern={recipe.prelink.{build.mcu}.hook}
 
@@ -127,14 +150,19 @@ rda8910.objcopy.2.pattern="{runtime.tools.python3.path}/python3" -I "{tools.pacg
 rda8910.objcopy.3.pattern="{tools.dtools.cmd}" fotacreate2 --single-pac {build.path}/{build.project_name}.pac,{build.core.path}/logicromsdk/lib/rda8910/fota8910.xml "{build.path}/fota_{build.project_name}.bin"
 rda8910.prefix=pac
 ## ASR160x
-asr1601.objcopy.1.pattern="{compiler.path}{compiler.elf2bin.cmd}" {compiler.elf2bin.flags} {compiler.elf2bin.extra_flags} "{build.path}/{build.project_name}.elf" "{build.path}/{build.project_name}.img"
-asr1601.objcopy.2.pattern="{runtime.tools.python3.path}/python3" -I "{tools.asrutils.cmd}" genzip {build.mcu} {build.flashsz} {build.core.path}/logicromsdk/lib/asr160x/pack {build.path}/{build.project_name}.img "{build.path}/{build.project_name}.zip"
-asr1601.objcopy.3.pattern="{runtime.tools.python3.path}/python3" -I "{tools.asrutils.cmd}" genfota {build.path}/{build.project_name}.img "{build.path}/fota_{build.project_name}.bin"
+asr1601.objcopy.1.pattern="{compiler.path}{compiler.elf2bin.cmd}" {compiler.elf2bin.flags} {compiler.elf2bin.extra_flags} "{build.path}/{build.project_name}.elf" "{build.path}/{build.project_name}.bin"
+asr1601.objcopy.2.pattern="{runtime.tools.python3.path}/python3" -I "{tools.asrutils.cmd}" genzip {build.mcu} {build.flashsz} {build.core.path}/logicromsdk/lib/asr160x/pack {build.path}/{build.project_name}.bin "{build.path}/{build.project_name}.zip"
+asr1601.objcopy.3.pattern="{runtime.tools.python3.path}/python3" -I "{tools.asrutils.cmd}" genfota {build.path}/{build.project_name}.bin "{build.path}/fota_{build.project_name}.bin"
 asr1601.prefix=zip
-asr1603.objcopy.1.pattern="{compiler.path}{compiler.elf2bin.cmd}" {compiler.elf2bin.flags} {compiler.elf2bin.extra_flags} "{build.path}/{build.project_name}.elf" "{build.path}/{build.project_name}.img"
-asr1603.objcopy.2.pattern="{runtime.tools.python3.path}/python3" -I "{tools.asrutils.cmd}" genzip {build.mcu} {build.flashsz} {build.core.path}/logicromsdk/lib/asr160x/pack {build.path}/{build.project_name}.img "{build.path}/{build.project_name}.zip"
-asr1603.objcopy.3.pattern="{runtime.tools.python3.path}/python3" -I "{tools.asrutils.cmd}" genfota {build.path}/{build.project_name}.img "{build.path}/fota_{build.project_name}.bin"
+asr1603.objcopy.1.pattern="{compiler.path}{compiler.elf2bin.cmd}" {compiler.elf2bin.flags} {compiler.elf2bin.extra_flags} "{build.path}/{build.project_name}.elf" "{build.path}/{build.project_name}.bin"
+asr1603.objcopy.2.pattern="{runtime.tools.python3.path}/python3" -I "{tools.asrutils.cmd}" genzip {build.mcu} {build.flashsz} {build.core.path}/logicromsdk/lib/asr160x/pack {build.path}/{build.project_name}.bin "{build.path}/{build.project_name}.zip"
+asr1603.objcopy.3.pattern="{runtime.tools.python3.path}/python3" -I "{tools.asrutils.cmd}" genfota {build.path}/{build.project_name}.bin "{build.path}/fota_{build.project_name}.bin"
 asr1603.prefix=zip
+## RDA8955
+rda8955.objcopy.1.pattern="{compiler.path}{compiler.elf2bin.cmd}" {compiler.elf2bin.flags} {compiler.elf2bin.extra_flags} "{build.path}/{build.project_name}.elf" "{build.path}/{build.project_name}.bin"
+rda8955.objcopy.2.pattern="{runtime.tools.python3.path}/python3" -I "{tools.rdautils.cmd}" genlod {build.path}/{build.project_name}.bin "{build.path}/{build.project_name}.lod"
+rda8955.objcopy.3.pattern="{runtime.tools.python3.path}/python3" -I "{tools.rdautils.cmd}" genfota {build.core.path}/logicromsdk/lib/rda8955/empty.lod {tools.rdagenfota.cmd} "{build.path}/{build.project_name}.lod" "{build.path}/fota_{build.project_name}.bin"
+rda8955.prefix=lod
 
 recipe.objcopy.bin.1.pattern={{build.mcu}.objcopy.1.pattern}
 recipe.objcopy.bin.2.pattern={{build.mcu}.objcopy.2.pattern}
@@ -167,6 +195,11 @@ tools.logicromflasher_asr160x.cmd="{runtime.tools.python3.path}/python3" -I "{pa
 tools.logicromflasher_asr160x.upload.params.verbose=
 tools.logicromflasher_asr160x.upload.params.quiet=
 tools.logicromflasher_asr160x.upload.pattern={cmd} -m {build.mcu} "{build.path}/{build.project_name}.zip"
+
+## RDA8955
+tools.logicromflasher_rda8955.upload.params.verbose=
+tools.logicromflasher_rda8955.upload.params.quiet=
+tools.logicromflasher_rda8955.upload.pattern="{runtime.tools.python3.path}/python3" -I -c "print('echo Please use coolwatcher or fw update tool to flash firmware lod file.')"
 
 ## MTK
 tools.logicromflasher.path={runtime.tools.logicromflasher.path}
