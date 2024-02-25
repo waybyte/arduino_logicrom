@@ -11,12 +11,12 @@ ModemInterface::~ModemInterface()
 
 void ModemInterface::enableAirplaneMode(void)
 {
-    md_cfun_set(4, 0);
+    md_set_flightmode(TRUE);
 }
 
 void ModemInterface::disableAirplaneMode(void)
 {
-    md_cfun_set(1, 0);
+    md_set_flightmode(FALSE);
 }
 
 const char *ModemInterface::getIMEI(void)
