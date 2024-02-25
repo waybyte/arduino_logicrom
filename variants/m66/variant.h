@@ -21,6 +21,7 @@ extern "C"
 #endif
 
 #define HAS_SERIAL_UART2
+#define HAS_BT_SERIAL
 
 #define SPI_MAX_SPEED 10000000UL
 
