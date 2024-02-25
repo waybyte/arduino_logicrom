@@ -37,6 +37,7 @@ enum _io_mode {
 };
 
 int io_pinvalid(pin_size_t pin);
+int io_pin2gpio(pin_size_t pin);
 void io_sethandle(pin_size_t pin, int handle);
 int io_gethandle(pin_size_t pin);
 int io_getmode(pin_size_t pin);

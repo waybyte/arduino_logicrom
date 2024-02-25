@@ -12,13 +12,19 @@ static const uint32_t pwm_channel_map[PWM_CHANNEL_MAX][2] = {
     PWM_CHANNEL_MAP
 };
 
+__attribute__((weak)) int io_pin2gpio(pin_size_t pin)
+{
+    return pin;
+}
+
 int io_pinvalid(pin_size_t pin)
 {
-    return pin < GPIO_PIN_MAX;
+    return io_pin2gpio(pin) < GPIO_PIN_MAX;
 }
 
 int io_gethandle(pin_size_t pin)
 {
+    pin = io_pin2gpio(pin);
     if (pin >= GPIO_PIN_MAX)
         return 0;
     
@@ -27,6 +33,7 @@ int io_gethandle(pin_size_t pin)
 
 void io_sethandle(pin_size_t pin, int handle)
 {
+    pin = io_pin2gpio(pin);
     if (pin >= GPIO_PIN_MAX)
         return;
     
@@ -35,6 +42,7 @@ void io_sethandle(pin_size_t pin, int handle)
 
 int io_getmode(pin_size_t pin)
 {
+    pin = io_pin2gpio(pin);
     if (pin >= GPIO_PIN_MAX)
         return 0;
     
@@ -43,6 +51,7 @@ int io_getmode(pin_size_t pin)
 
 void io_setmode(pin_size_t pin, uint32_t mode)
 {
+    pin = io_pin2gpio(pin);
     if (pin < GPIO_PIN_MAX) {
         g_ioModes[pin] = mode;
     }
@@ -50,6 +59,7 @@ void io_setmode(pin_size_t pin, uint32_t mode)
 
 uint8_t io_checkmode(pin_size_t pin, uint32_t mode)
 {
+    pin = io_pin2gpio(pin);
     if (pin < GPIO_PIN_MAX) {
         return ((g_ioModes[pin] & 0xff) == mode);
     }
@@ -68,6 +78,7 @@ int pin2adc_channel(uint32_t pin)
 
 int pin2pwm_channel(uint32_t pin)
 {
+    pin = io_pin2gpio(pin);
 	for (int i = 0; i < PWM_CHANNEL_MAX; i++) {
 		if (pwm_channel_map[i][0] == pin)
 			return pwm_channel_map[i][1];

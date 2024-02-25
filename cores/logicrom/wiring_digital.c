@@ -51,7 +51,7 @@ void pinMode( pin_size_t pin, PinMode mode )
 	handle = io_gethandle(pin);
 	if (!handle) {
 		/* Fresh IO request */
-		handle = gpio_request(pin, flags);
+		handle = gpio_request(io_pin2gpio(pin), flags);
 		io_sethandle(pin, handle);
 	} else {
 		/* Just configure gpio */
@@ -83,7 +83,7 @@ void digitalWrite( pin_size_t pin, PinStatus value )
 	handle = io_gethandle(pin);
 	if (!handle) {
 		/* Fresh IO request */
-		handle = gpio_request(pin, flags);
+		handle = gpio_request(io_pin2gpio(pin), flags);
 		io_sethandle(pin, handle);
 	} else {
 		if (mode == OUTPUT)
@@ -104,7 +104,7 @@ PinStatus digitalRead( pin_size_t pin )
 	handle = io_gethandle(pin);
 	if (!handle) {
 		/* Fresh IO request */
-		handle = gpio_request(pin, GPIO_FLAG_INPUT | GPIO_FLAG_PULLUP);
+		handle = gpio_request(io_pin2gpio(pin), GPIO_FLAG_INPUT | GPIO_FLAG_PULLUP);
 		io_sethandle(pin, handle);
 		io_setmode(pin, (INPUT_PULLUP << 8) | IO_MODE_GPIO);
 	}
