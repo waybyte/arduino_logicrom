@@ -24,6 +24,10 @@
 #include <assert.h>
 #include "SPI.h"
 
+#ifndef SPI_DEFAULT_PORT
+#define SPI_DEFAULT_PORT SPI_PORT_0
+#endif
+
 SPIClass::SPIClass(int port) : settings(SPISettings(10000000, MSBFIRST, SPI_MODE0))
 {
 	this->port = port;
@@ -144,4 +148,4 @@ void SPIClass::CSControl(bool level)
 }
 #endif
 
-SPIClass SPI = SPIClass(SPI_PORT_0);
+SPIClass SPI = SPIClass(SPI_DEFAULT_PORT);
