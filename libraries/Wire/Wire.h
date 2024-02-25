@@ -23,7 +23,7 @@
 #ifndef TwoWire_h
 #define TwoWire_h
 
-#include "Stream.h"
+#include "API/Stream.h"
 #include "variant.h"
 
 #ifdef SOC_RDA8910
@@ -69,7 +69,7 @@ public:
 	void onService(void);
 
 private:
-	bool i2c_init_done = false;
+	bool i2c_init_done;
 	int port;
 
 	// RX Buffer

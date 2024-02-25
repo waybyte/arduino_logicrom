@@ -26,7 +26,7 @@
 #define I2C_DEFAULT_PORT I2C_PORT_0
 #endif
 
-TwoWire::TwoWire(int port) : rxBufferIndex(0), rxBufferLength(0), txAddress(0), txBufferLength(0), twiClock(TWI_CLOCK)
+TwoWire::TwoWire(int port) : i2c_init_done(false), rxBufferIndex(0), rxBufferLength(0), txAddress(0), txBufferLength(0), twiClock(TWI_CLOCK)
 {
 	this->port = port;
 }
@@ -70,7 +70,7 @@ void TwoWire::setClock(uint32_t frequency)
 
 uint8_t TwoWire::requestFrom(uint8_t address, uint8_t quantity, uint8_t sendStop)
 {
-	int read_bytes = 0, ret;
+	int ret;
 
 	if (!i2c_init_done)
 		return 0;
