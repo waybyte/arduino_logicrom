@@ -1,7 +1,7 @@
 {
     "name": "framework-logicromarduino",
-    "version": "0.9.4",
-    "description": "Arduino Wiring-based Framework For Logicrom Wireless IoT Platform",
+    "version": "1.0.0",
+    "description": "Arduino Wiring-based Framework For Logicrom OpenCPU Development Platform",
     "keywords": [
         "framework", "arduino", "logicrom", "4G LTE",
         "quectel", "simcom", "neoway", "fibocom", "aithinker",
