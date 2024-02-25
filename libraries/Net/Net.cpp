@@ -115,23 +115,23 @@ int NetworkClass::getAPN(char *apn_name, char *username, char *password)
 /* GPRS API */
 int NetworkClass::GprsEnable(void)
 {
-	return network_gprsenable(true);
+	return network_dataenable(true);
 }
 
 int NetworkClass::GprsDisable(void)
 {
-	return network_gprsenable(false);
+	return network_dataenable(false);
 }
 
 bool NetworkClass::isGprsEnable(void)
 {
-	return network_isgprsenable() ? true : false;
+	return network_isdataenable() ? true : false;
 }
 
 bool NetworkClass::GprsWaitForActivation(int timeout)
 {
 	while (timeout > 0) {
-		if (network_isready())
+		if (network_isdataready())
 			return true;
 		msleep(100);
 		timeout -= 100;
@@ -142,7 +142,7 @@ bool NetworkClass::GprsWaitForActivation(int timeout)
 
 bool NetworkClass::isGprsActive(void)
 {
-	return network_isready();
+	return network_isdataready();
 }
 
 bool NetworkClass::isDataEnable(void)
@@ -167,7 +167,7 @@ bool NetworkClass::waitDataReady(int timeout)
 
 bool NetworkClass::isDataReady(void)
 {
-	return network_isready();
+	return network_isdataready();
 }
 
 IPAddress NetworkClass::resolve(const char *domain)
