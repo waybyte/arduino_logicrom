@@ -30,7 +30,9 @@ namespace arduino {
 #define UART1		"/dev/ttyS1"
 #define UART2		"/dev/ttyS2"
 #define USBUART		"/dev/ttyUSB0"
+#define USBUART2	"/dev/ttyUSB1"
 #define BTSPPHOST	"/dev/bthost0"
+#define BLEHOST		"/dev/blehost0"
 
 #define SERIAL_PARITY_EVEN	(PARENB)
 #define SERIAL_PARITY_ODD	(PARENB | PARODD)
@@ -102,8 +104,14 @@ extern HardwareSerial Serial2;
 #ifdef HAS_USB_SERIAL
 extern HardwareSerial USBSerial;
 #endif
+#ifdef HAS_USB_SERIAL2
+extern HardwareSerial USBSerial2;
+#endif
 #ifdef HAS_BT_SERIAL
 extern HardwareSerial BTSerial;
+#endif
+#ifdef HAS_BLE_SERIAL
+extern HardwareSerial BLESerial;
 #endif
 #endif
 

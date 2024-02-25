@@ -20,8 +20,14 @@ HardwareSerial Serial2(UART2);
 #ifdef HAS_USB_SERIAL
 HardwareSerial USBSerial(USBUART);
 #endif
+#ifdef HAS_USB_SERIAL2
+HardwareSerial USBSerial2(USBUART2);
+#endif
 #ifdef HAS_BT_SERIAL
 HardwareSerial BTSerial(BTSPPHOST);
+#endif
+#ifdef HAS_BLE_SERIAL
+HardwareSerial BLESerial(BLEHOST);
 #endif
 #endif
 
@@ -33,8 +39,14 @@ void serialEvent2() __attribute__((weak));
 #ifdef HAS_USB_SERIAL
 void usbSerialEvent() __attribute__((weak));
 #endif
+#ifdef HAS_USB_SERIAL2
+void usbSerial2Event() __attribute__((weak));
+#endif
 #ifdef HAS_BT_SERIAL
 void btSerialEvent() __attribute__((weak));
+#endif
+#ifdef HAS_BLE_SERIAL
+void bleSerialEvent() __attribute__((weak));
 #endif
 
 void serialEventRun(void)
@@ -55,9 +67,19 @@ void serialEventRun(void)
 		usbSerialEvent();
 #endif
 
+#ifdef HAS_USB_SERIAL2
+	if (usbSerial2Event && USBSerial2.available())
+		usbSerial2Event();
+#endif
+
 #ifdef HAS_BT_SERIAL
 	if (btSerialEvent && BTSerial.available())
 		btSerialEvent();
+#endif
+
+#ifdef HAS_BLE_SERIAL
+	if (bleSerialEvent && BLESerial.available())
+		bleSerialEvent();
 #endif
 }
 
