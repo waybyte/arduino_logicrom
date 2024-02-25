@@ -1,5 +1,5 @@
 # Logicrom Arduino
-Arduino framework for Logicrom Wireless IoT Platform
+Arduino framework for Logicrom OpenCPU Development Platform
 
 # Installation
 
@@ -63,8 +63,6 @@ User can select standard I/O port for `printf` function from following options
 | M590              | Neoway   | RDA8955     |                                                    | 1 MB / 576 KB   |
 | A9, A9G           | AiThinker| RDA8955     |                                                    | 1 MB / 576 KB   |
 
-> **Note**
-> RDA8955 arduino build is only supported on PlatformIO IDE
 
 [^1]: XX can be CN/AU/EU, YY can be AA/AB/AC
 
