@@ -96,6 +96,9 @@ private:
 };
 
 extern TwoWire Wire;
+#if I2C_INTERFACES_COUNT > 1
+extern TwoWire Wire1;
+#endif
 
 #endif
 

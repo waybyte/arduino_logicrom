@@ -223,3 +223,6 @@ void TwoWire::onService(void)
 }
 
 TwoWire Wire = TwoWire(I2C_DEFAULT_PORT);
+#if I2C_INTERFACES_COUNT > 1
+TwoWire Wire1 = TwoWire(I2C_PORT_1);
+#endif
