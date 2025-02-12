@@ -1063,6 +1063,42 @@ mc65.upload.speed=460800
 mc65.upload.require_upload_port=false
 mc65.upload.wait_for_upload_port=false
 
+# MC25 board definition
+mc25.name=Quectel MC25 GSM Module
+
+# build
+mc25.build.core=logicrom
+mc25.build.cpu=mips
+mc25.build.f_cpu=178000000L
+mc25.build.board=QUECTEL_MC25
+mc25.build.mcu=rda8955
+mc25.build.variant=mc25
+mc25.build.vid=0x1782
+mc25.build.pid=0x4D11
+mc25.build.extra_flags=-DSOC_RDA8955=1 -DPLATFORM_MC25=1
+mc25.build.logicromlib=rda_logicrom
+mc25.build.ldscript=linkerscript_rda.ld
+mc25.menu.debug.Release=Release
+mc25.menu.debug.Release.build.build_type=
+mc25.menu.debug.Debug=Debug
+mc25.menu.debug.Debug.build.build_type=_debug
+mc25.menu.stdio.none=None
+mc25.menu.stdio.none.build.stdio_port=
+mc25.menu.stdio.ttys0=Uart0 (/dev/ttyS0)
+mc25.menu.stdio.ttys0.build.stdio_port=/dev/ttyS0
+mc25.menu.stdio.ttys1=Uart1 (/dev/ttyS1)
+mc25.menu.stdio.ttys1.build.stdio_port=/dev/ttyS1
+
+# upload
+mc25.bootloader.tool=logicromflasher
+mc25.upload.tool=logicromflasher
+mc25.upload.protocol=logicromflasher
+mc25.upload.maximum_size=589824
+mc25.upload.maximum_ram_size=1040384
+mc25.upload.speed=460800
+mc25.upload.require_upload_port=false
+mc25.upload.wait_for_upload_port=false
+
 # m590 board definition
 m590.name=Neoway M590 GSM Module
 
