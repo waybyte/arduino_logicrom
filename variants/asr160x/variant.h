@@ -23,6 +23,7 @@ extern "C"
 #define HAS_SERIAL_UART2
 #define HAS_USB_SERIAL
 #define HAS_USB_SERIAL2
+#define I2C_INTERFACES_COUNT 1
 
 #define SPI_MAX_SPEED 40000000UL
 

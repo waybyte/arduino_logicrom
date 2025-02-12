@@ -20,6 +20,8 @@ extern "C"
 #define DEFAULT_STDIO_PORT "/dev/ttyS0"
 #endif
 
+#define I2C_INTERFACES_COUNT 2
+
 #define SPI_MAX_SPEED 40000000UL
 
 /* Analog Pin definition */
