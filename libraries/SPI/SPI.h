@@ -137,5 +137,8 @@ private:
 };
 
 extern SPIClass SPI;
+#if SPI_INTERFACES_COUNT > 1
+extern SPIClass SPI1;
+#endif
 
 #endif

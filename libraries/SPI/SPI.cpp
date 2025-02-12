@@ -149,3 +149,6 @@ void SPIClass::CSControl(bool level)
 #endif
 
 SPIClass SPI = SPIClass(SPI_DEFAULT_PORT);
+#if SPI_INTERFACES_COUNT > 1
+SPIClass SPI1 = SPIClass(SPI_PORT_1);
+#endif
