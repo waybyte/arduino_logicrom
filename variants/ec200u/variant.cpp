@@ -30,7 +30,7 @@ static int logicrom_spark_iomap[] {
     GPIO_31,
 };
 
-extern "C" int io_pin2gpio(int pin)
+extern "C" int io_pin2gpio(uint32_t pin)
 {
     if (pin >= (sizeof(logicrom_spark_iomap) / sizeof(*logicrom_spark_iomap)))
         return GPIO_PIN_MAX;
